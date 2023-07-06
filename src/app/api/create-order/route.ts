@@ -7,13 +7,18 @@ export async function POST(req: Request) {
   const { subscriptions } = subscriptionValidator.parse(body)
 
   const createdCart = await db.cart.create({
-    data: { quantity: subscriptions.length },
+    data: {},
+  })
+  const createdOrder = await db.order.create({
+    data: {
+      cartId: createdCart.id,
+    },
   })
   subscriptions.map(async (sub) => {
     await db.subscription.create({
       data: {
         name: sub.name,
-        cartId: createdCart.id,
+        orderId: createdOrder.id,
       },
     })
   })

@@ -13,20 +13,29 @@ datasource db {
 }
 
 model Subscription {
-  id     String @id @default(cuid())
-  name   String
-  cart   Cart   @relation(fields: [cartId], references: [id])
-  cartId String
+  id      String  @id @default(cuid())
+  name    String
+  Order   Order?  @relation(fields: [orderId], references: [id])
+  orderId String?
 
-  @@index([cartId])
+  @@index([orderId])
   @@map("subscriptions")
 }
 
+model Order {
+  id            String         @id @default(cuid())
+  subscriptions Subscription[]
+  Cart          Cart?          @relation(fields: [cartId], references: [id])
+  cartId        String?
+
+  @@index([cartId])
+  @@map("orders")
+}
+
 model Cart {
-  id           String         @id @default(cuid())
-  quantity     Int
-  expired      Boolean        @default(false)
-  Subscription Subscription[]
+  id      String  @id @default(cuid())
+  expired Boolean @default(false)
+  orders  Order[]
 
   @@map("carts")
 }

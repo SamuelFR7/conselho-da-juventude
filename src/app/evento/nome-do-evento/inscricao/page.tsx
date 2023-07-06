@@ -13,13 +13,14 @@ import { subscriptionValidator } from '@/lib/validators/subscription'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 type FormData = z.infer<typeof subscriptionValidator>
 
 export default function Inscricao() {
+  const { push } = useRouter()
   const searchParams = useSearchParams()
 
   const quantity = searchParams.get('quantity')
@@ -56,7 +57,7 @@ export default function Inscricao() {
     mutationFn: async ({ subscriptions }: FormData) => {
       const payload: FormData = { subscriptions }
 
-      const { data } = await axios.post('/api/', payload)
+      const { data } = await axios.post('/api/create-order', payload)
 
       return data
     },
@@ -67,6 +68,7 @@ export default function Inscricao() {
 
   const handleConfirm: SubmitHandler<FormData> = async (data) => {
     mutate(data)
+    push('/evento/nome-do-evento/finalizar-pagamento')
   }
 
   return (
