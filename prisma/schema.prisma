@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Subscription {
+  id     String @id @default(cuid())
+  name   String
+  cart   Cart   @relation(fields: [cartId], references: [id])
+  cartId String
+
+  @@index([cartId])
+  @@map("subscriptions")
+}
+
+model Cart {
+  id           String         @id @default(cuid())
+  quantity     Int
+  expired      Boolean        @default(false)
+  Subscription Subscription[]
+
+  @@map("carts")
+}

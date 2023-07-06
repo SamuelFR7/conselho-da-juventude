@@ -8,6 +8,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem } from './ui/form'
+import { useRouter } from 'next/navigation'
 
 const buyCardSchema = z.object({
   quantity: z
@@ -19,6 +20,7 @@ const buyCardSchema = z.object({
 export type BuyCardSchemaType = z.infer<typeof buyCardSchema>
 
 export function BuyCard() {
+  const { push } = useRouter()
   const form = useForm<BuyCardSchemaType>({
     resolver: zodResolver(buyCardSchema),
     defaultValues: {
@@ -26,8 +28,8 @@ export function BuyCard() {
     },
   })
 
-  const onSubmit: SubmitHandler<BuyCardSchemaType> = (data) => {
-    localStorage.setItem('cart_hash')
+  const onSubmit: SubmitHandler<BuyCardSchemaType> = async (data) => {
+    await push(`/evento/nome-do-evento/inscricao?quantity=${data.quantity}`)
   }
 
   return (
