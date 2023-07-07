@@ -1,13 +1,7 @@
 'use client'
-import { Button } from '@/app/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/app/components/ui/card'
-import { Input } from '@/app/components/ui/input'
-import { Separator } from '@/app/components/ui/separator'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
@@ -53,15 +47,7 @@ export default function FinishPayment() {
   })
 
   return (
-    <div className="max-w-[1200px] mx-auto grid grid-cols-2 gap-4 mt-16 ">
-      <Card className="max-h-[200px]">
-        <CardHeader>
-          <CardTitle>Fazer login</CardTitle>
-          <CardContent>
-            <Input />
-          </CardContent>
-        </CardHeader>
-      </Card>
+    <div className="max-w-[600px] mx-auto mt-16 ">
       <Card>
         <CardHeader>
           <CardTitle>Resumo do Pedido</CardTitle>

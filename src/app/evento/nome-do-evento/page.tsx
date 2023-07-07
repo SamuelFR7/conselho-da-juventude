@@ -1,10 +1,5 @@
-import { BuyCard } from '@/app/components/buy-card'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/app/components/ui/card'
+import { BuyCard } from '@/components/buy-card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function Home() {
   return (

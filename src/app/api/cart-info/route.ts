@@ -3,8 +3,6 @@ import { db } from '@/lib/db'
 export async function GET(req: Request) {
   const params = new URLSearchParams(new URL(req.url).search)
 
-  console.log(params.get('id'))
-
   const cart = await db.cart.findUnique({
     where: {
       id: String(params.get('id')),
