@@ -27,6 +27,7 @@ model Order {
   subscriptions Subscription[]
   Cart          Cart?          @relation(fields: [cartId], references: [id])
   cartId        String?
+  userId        String
 
   @@index([cartId])
   @@map("orders")
