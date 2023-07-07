@@ -55,7 +55,10 @@ export default function Inscricao() {
 
   const { mutate } = useMutation({
     mutationFn: async ({ subscriptions }: FormData) => {
-      const payload: FormData = { subscriptions }
+      const payload = {
+        subscriptions,
+        currentCartHash: localStorage.getItem('cart_hash'),
+      }
 
       const { data } = await axios.post('/api/create-order', payload)
 
@@ -63,12 +66,12 @@ export default function Inscricao() {
     },
     onSuccess: (data) => {
       localStorage.setItem('cart_hash', data.cart_hash)
+      push('/evento/nome-do-evento/finalizar-pagamento')
     },
   })
 
   const handleConfirm: SubmitHandler<FormData> = async (data) => {
     mutate(data)
-    push('/evento/nome-do-evento/finalizar-pagamento')
   }
 
   return (

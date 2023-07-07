@@ -1,5 +1,5 @@
 'use client'
-
+import { Button } from '@/app/components/ui/button'
 import {
   Card,
   CardContent,
@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from '@/app/components/ui/card'
 import { Input } from '@/app/components/ui/input'
+import { Separator } from '@/app/components/ui/separator'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
@@ -66,24 +67,25 @@ export default function FinishPayment() {
           <CardTitle>Resumo do Pedido</CardTitle>
         </CardHeader>
         <CardContent>
+          <div className="flex justify-between">
+            <h2 className="text-lg font-medium mb-4">Produto</h2>
+            <h2 className="text-lg font-medium mb-4">Subtotal</h2>
+          </div>
+
           {data.cart.orders.map((order) => (
-            <div className="grid grid-cols-2" key={order.id}>
-              <div>
-                <h2 className="text-lg font-medium mb-4">Produto</h2>
-                <span>Nome do Evento - x{order.subscriptions.length}</span>
-              </div>
-              <div>
-                <h2 className="text-lg font-medium mb-4">Subtotal</h2>
-                <span>
-                  {new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                  }).format(order.subscriptions.length * 100)}
-                </span>
-              </div>
+            <div key={order.id} className="flex justify-between">
+              <span>Nome do Evento - x{order.subscriptions.length}</span>
+              <span>
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(order.subscriptions.length * 100)}
+              </span>
             </div>
           ))}
-          <div className="grid grid-cols-2 mt-8">
+
+          <Separator className="my-4" />
+          <div className="flex justify-between">
             <h2 className="text-lg font-bold">Total</h2>
             <h2 className="text-lg font-bold">
               {new Intl.NumberFormat('pt-BR', {
@@ -92,6 +94,7 @@ export default function FinishPayment() {
               }).format(total)}
             </h2>
           </div>
+          <Button className="w-full mt-2">Finalizar Pagamento</Button>
         </CardContent>
       </Card>
     </div>
