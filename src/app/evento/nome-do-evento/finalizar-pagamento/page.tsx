@@ -58,6 +58,22 @@ export default function FinishPayment() {
     },
   })
 
+  const { mutate: handlePayment } = useMutation({
+    mutationFn: async ({ quantity }: { quantity: number }) => {
+      const payload: { quantity: number } = { quantity }
+
+      const { data } = await axios.post<string>(
+        '/api/checkout_sessions',
+        payload,
+      )
+
+      return data
+    },
+    onSuccess: (data) => {
+      push(data)
+    },
+  })
+
   if (!data || isLoading) {
     return <div>Loading...</div>
   }
@@ -115,7 +131,13 @@ export default function FinishPayment() {
               }).format(total)}
             </h2>
           </div>
-          <Button className="w-full mt-2">Finalizar Pagamento</Button>
+          <Button
+            type="button"
+            onClick={() => handlePayment({ quantity: total / 100 })}
+            className="w-full mt-2"
+          >
+            Finalizar Pagamento
+          </Button>
         </CardContent>
       </Card>
     </div>
