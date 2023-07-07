@@ -55,7 +55,7 @@ export default function Inscricao() {
         currentCartHash: localStorage.getItem('cart_hash'),
       }
 
-      const { data } = await axios.post('/api/create-order', payload)
+      const { data } = await axios.post('/api/order/', payload)
 
       return data
     },

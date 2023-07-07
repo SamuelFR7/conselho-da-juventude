@@ -33,9 +33,9 @@ model Order {
 }
 
 model Cart {
-  id      String  @id @default(cuid())
-  expired Boolean @default(false)
-  orders  Order[]
+  id         String   @id @default(cuid())
+  expireDate DateTime
+  orders     Order[]
 
   @@map("carts")
 }

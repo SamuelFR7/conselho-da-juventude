@@ -5,6 +5,7 @@ import { Separator } from '@/components/ui/separator'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { XIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 type CartInfo = {
   cart: {
@@ -27,6 +28,7 @@ type CartInfo = {
 }
 
 export default function FinishPayment() {
+  const { push } = useRouter()
   const queryClient = useQueryClient()
   const { data, isLoading } = useQuery({
     queryKey: ['cart_info'],
@@ -36,6 +38,10 @@ export default function FinishPayment() {
       )
 
       return data
+    },
+    onError: () => {
+      localStorage.removeItem('cart_hash')
+      push('/evento/nome-do-evento')
     },
   })
 
