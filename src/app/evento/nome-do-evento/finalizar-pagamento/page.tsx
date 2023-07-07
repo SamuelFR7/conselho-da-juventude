@@ -2,8 +2,9 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+import { XIcon } from 'lucide-react'
 
 type CartInfo = {
   cart: {
@@ -26,6 +27,7 @@ type CartInfo = {
 }
 
 export default function FinishPayment() {
+  const queryClient = useQueryClient()
   const { data, isLoading } = useQuery({
     queryKey: ['cart_info'],
     queryFn: async () => {
@@ -34,6 +36,19 @@ export default function FinishPayment() {
       )
 
       return data
+    },
+  })
+
+  const { mutate } = useMutation({
+    mutationFn: async (orderId: string) => {
+      const { data } = await axios.delete(`/api/order?id=${orderId}`)
+
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['cart_info'],
+      })
     },
   })
 
@@ -53,23 +68,37 @@ export default function FinishPayment() {
           <CardTitle>Resumo do Pedido</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex justify-between">
-            <h2 className="text-lg font-medium mb-4">Produto</h2>
-            <h2 className="text-lg font-medium mb-4">Subtotal</h2>
-          </div>
-
-          {data.cart.orders.map((order) => (
-            <div key={order.id} className="flex justify-between">
-              <span>Nome do Evento - x{order.subscriptions.length}</span>
-              <span>
-                {new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                }).format(order.subscriptions.length * 100)}
-              </span>
-            </div>
-          ))}
-
+          <table>
+            <thead>
+              <tr>
+                <th className="w-[400px] text-left">Produto</th>
+                <th>Subtotal</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.cart.orders.map((order) => (
+                <tr key={order.id}>
+                  <td>Nome do Evento - x{order.subscriptions.length}</td>
+                  <td>
+                    {new Intl.NumberFormat('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    }).format(order.subscriptions.length * 100)}
+                  </td>
+                  <td>
+                    <Button
+                      onClick={() => mutate(order.id)}
+                      variant="ghost"
+                      size="icon"
+                    >
+                      <XIcon />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           <Separator className="my-4" />
           <div className="flex justify-between">
             <h2 className="text-lg font-bold">Total</h2>
