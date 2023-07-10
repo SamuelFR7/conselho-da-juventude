@@ -1,5 +1,5 @@
-import { db } from '@/lib/db'
-import { createSubscriptionValidator } from '@/lib/validators/subscription'
+import { db } from '@/db'
+import { createSubscriptionValidator } from '@/lib/validations/subscription'
 import { auth } from '@clerk/nextjs'
 import * as dayjs from 'dayjs'
 

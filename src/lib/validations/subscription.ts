@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const subscriptionValidator = z.object({
+export const addSubscriptionSchema = z.object({
   subscriptions: z.array(
     z.object({
       name: z
