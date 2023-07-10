@@ -1,4 +1,4 @@
-import { BuyCard } from '@/components/buy-card'
+import { AddToCartForm } from '@/components/forms/add-to-cart-form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function Home() {
@@ -24,7 +24,14 @@ export default function Home() {
                   <p>
                     Horario: <span>19:00</span>
                   </p>
-                  <BuyCard />
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Realizar inscrição</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <AddToCartForm />
+                    </CardContent>
+                  </Card>
                 </div>
               </CardContent>
             </Card>

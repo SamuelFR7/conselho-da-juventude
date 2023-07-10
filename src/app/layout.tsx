@@ -5,6 +5,7 @@ import Providers from '@/components/providers'
 import React from 'react'
 import { fontSans } from '@/lib/fonts'
 import { Metadata } from 'next'
+import { Toaster } from '@/components/ui/toaster'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,6 +22,7 @@ export default function RootLayout({
       <html lang="pt-BR" suppressHydrationWarning>
         <body className={fontSans.variable}>
           <Providers>{children}</Providers>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
