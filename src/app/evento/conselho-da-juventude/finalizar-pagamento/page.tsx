@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { formatPrice } from '@/lib/utils'
+import { useAuth } from '@clerk/nextjs'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { XIcon } from 'lucide-react'
@@ -29,7 +30,8 @@ type CartInfo = {
 }
 
 export default function FinishPayment() {
-  const { push } = useRouter()
+  const { userId } = useAuth()
+  const router = useRouter()
   const queryClient = useQueryClient()
   const { data, isLoading } = useQuery({
     queryKey: ['cart_info'],
@@ -39,7 +41,7 @@ export default function FinishPayment() {
       return data
     },
     onError: () => {
-      push('/evento/conselho-da-juventude')
+      router.push('/evento/conselho-da-juventude')
     },
   })
 
@@ -68,7 +70,7 @@ export default function FinishPayment() {
       return data
     },
     onSuccess: (data) => {
-      push(data)
+      router.push(data)
     },
   })
 
@@ -123,7 +125,13 @@ export default function FinishPayment() {
           </div>
           <Button
             type="button"
-            onClick={() => handlePayment({ quantity: total / 100 })}
+            onClick={() =>
+              userId
+                ? handlePayment({ quantity: total / 100 })
+                : router.push(
+                    '/sign-in?redirect_url=/evento/conselho-da-juventude/finalizar-pagamento',
+                  )
+            }
             className="w-full mt-2"
           >
             Finalizar Pagamento
