@@ -6,9 +6,9 @@ export default function Home() {
     <main>
       <div className="mt-8 max-w-[1400px] mx-auto items-center">
         <div className="grid grid-cols-4 gap-4">
-          <Card className="col-span-3">
+          <Card className="col-span-3 max-h-[300px]">
             <CardHeader className="text-3xl font-bold">
-              Evento de Nome...
+              Conselho da Juventude 2023
             </CardHeader>
           </Card>
           <div className="flex flex-col gap-4">

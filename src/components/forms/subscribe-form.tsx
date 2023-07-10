@@ -64,7 +64,7 @@ export function SubscribeForm() {
     },
     onSuccess: (data) => {
       localStorage.setItem('cart_hash', data.cart_hash)
-      router.push('/evento/nome-do-evento/finalizar-pagamento')
+      router.push('/evento/conselho-da-juventude/finalizar-pagamento')
     },
     onError: (error) => {
       error instanceof Error

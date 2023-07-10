@@ -38,7 +38,7 @@ export function AddToCartForm() {
     startTransition(async () => {
       try {
         router.push(
-          `/evento/nome-do-evento/inscricao?quantity=${data.quantity}`,
+          `/evento/conselho-da-juventude/inscricao?quantity=${data.quantity}`,
         )
       } catch (error) {
         error instanceof Error

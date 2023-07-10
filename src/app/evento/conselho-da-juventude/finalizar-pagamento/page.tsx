@@ -42,7 +42,7 @@ export default function FinishPayment() {
     },
     onError: () => {
       localStorage.removeItem('cart_hash')
-      push('/evento/nome-do-evento')
+      push('/evento/conselho-da-juventude')
     },
   })
 
@@ -102,7 +102,9 @@ export default function FinishPayment() {
             <tbody>
               {data.cart.orders.map((order) => (
                 <tr key={order.id}>
-                  <td>Nome do Evento - x{order.subscriptions.length}</td>
+                  <td>
+                    Conselho da Juventude 2023 - x{order.subscriptions.length}
+                  </td>
                   <td>{formatPrice(order.subscriptions.length * 100)}</td>
                   <td>
                     <Button

@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <main>
-      <a href="/evento/nome-do-evento">Evento</a>
+      <a href="/evento/conselho-da-juventude">Evento</a>
     </main>
   )
 }
