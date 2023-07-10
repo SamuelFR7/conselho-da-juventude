@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { formatPrice } from '@/lib/utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { XIcon } from 'lucide-react'
@@ -102,12 +103,7 @@ export default function FinishPayment() {
               {data.cart.orders.map((order) => (
                 <tr key={order.id}>
                   <td>Nome do Evento - x{order.subscriptions.length}</td>
-                  <td>
-                    {new Intl.NumberFormat('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL',
-                    }).format(order.subscriptions.length * 100)}
-                  </td>
+                  <td>{formatPrice(order.subscriptions.length * 100)}</td>
                   <td>
                     <Button
                       onClick={() => mutate(order.id)}
@@ -124,12 +120,7 @@ export default function FinishPayment() {
           <Separator className="my-4" />
           <div className="flex justify-between">
             <h2 className="text-lg font-bold">Total</h2>
-            <h2 className="text-lg font-bold">
-              {new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(total)}
-            </h2>
+            <h2 className="text-lg font-bold">{formatPrice(total)}</h2>
           </div>
           <Button
             type="button"

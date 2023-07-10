@@ -11,6 +11,7 @@ import { Input } from '../ui/input'
 import React from 'react'
 import { Icons } from '../icons'
 import { toast } from 'sonner'
+import { formatPrice } from '@/lib/utils'
 
 const addToCartSchema = z.object({
   quantity: z
@@ -92,12 +93,7 @@ export function AddToCartForm() {
                 </FormItem>
               )}
             ></FormField>
-            <span>
-              {new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              }).format(form.watch('quantity') * 100)}
-            </span>
+            <span>{formatPrice(form.watch('quantity') * 100)}</span>
           </div>
         </div>
         <div>
