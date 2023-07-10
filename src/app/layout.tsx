@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: 'Realize sua isncrição para o Conselho da Juventude 2023',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
