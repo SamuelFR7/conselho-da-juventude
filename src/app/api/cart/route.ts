@@ -1,19 +1,15 @@
 import { db } from '@/db'
-import { auth } from '@clerk/nextjs'
-import * as dayjs from 'dayjs'
+import { cookies } from 'next/headers'
 
 export async function GET(req: Request) {
-  const { userId } = auth()
+  const cookieStore = cookies()
+  const cartId = cookieStore.get('cartId')?.value
 
-  if (!userId) {
-    return new Response('Unauthorized', { status: 401 })
-  }
-
-  const params = new URLSearchParams(new URL(req.url).search)
+  if (!cartId) return []
 
   const cart = await db.cart.findUnique({
     where: {
-      id: String(params.get('id')),
+      id: cartId,
     },
     include: {
       orders: {
@@ -24,7 +20,12 @@ export async function GET(req: Request) {
     },
   })
 
-  if (!cart || cart.expireDate < new Date(dayjs.default().toString())) {
+  if (!cart) {
+    cookieStore.set({
+      name: 'cartId',
+      value: '',
+      expires: new Date(0),
+    })
     return new Response('Cart does not exists', { status: 400 })
   }
 

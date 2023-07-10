@@ -15,6 +15,8 @@ datasource db {
 model Subscription {
   id      String  @id @default(cuid())
   name    String
+  email   String
+  campo   String
   Order   Order?  @relation(fields: [orderId], references: [id])
   orderId String?
 
@@ -27,16 +29,18 @@ model Order {
   subscriptions Subscription[]
   Cart          Cart?          @relation(fields: [cartId], references: [id])
   cartId        String?
-  userId        String
+  userId        String?
 
   @@index([cartId])
   @@map("orders")
 }
 
 model Cart {
-  id         String   @id @default(cuid())
-  expireDate DateTime
-  orders     Order[]
+  id              String   @id @default(cuid())
+  userId          String?  @unique
+  paymentIntentId String?  @unique
+  orders          Order[]
+  createdAt       DateTime @default(now())
 
   @@map("carts")
 }

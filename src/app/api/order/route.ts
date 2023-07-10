@@ -1,15 +1,8 @@
 import { db } from '@/db'
-import { createSubscriptionValidator } from '@/lib/validations/subscription'
-import { auth } from '@clerk/nextjs'
-import * as dayjs from 'dayjs'
+import { createSubscriptionSchema } from '@/lib/validations/subscription'
+import { cookies } from 'next/headers'
 
 export async function DELETE(req: Request) {
-  const { userId } = auth()
-
-  if (!userId) {
-    return new Response('Unauthorized', { status: 401 })
-  }
-
   const params = new URLSearchParams(new URL(req.url).search)
 
   await db.order.delete({
@@ -22,65 +15,40 @@ export async function DELETE(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const { userId } = auth()
-
-  if (!userId) {
-    return new Response('Unauthorized', { status: 401 })
-  }
+  const cookieStore = cookies()
+  const cartId = cookieStore.get('cartId')?.value
 
   const body = await req.json()
+  const { subscriptions } = createSubscriptionSchema.parse(body)
 
-  const { subscriptions, currentCartHash } =
-    createSubscriptionValidator.parse(body)
+  if (!cartId) {
+    console.log('aqui?')
 
-  if (!currentCartHash) {
-    const createdCart = await db.cart.create({
+    const cart = await db.cart.create({
       data: {
-        expireDate: new Date(dayjs.default().add(30, 'minute').toString()),
-      },
-    })
-
-    const createdOrder = await db.order.create({
-      data: {
-        cartId: createdCart.id,
-        userId,
-      },
-    })
-    subscriptions.map(async (sub) => {
-      await db.subscription.create({
-        data: {
-          name: sub.name,
-          orderId: createdOrder.id,
+        orders: {
+          create: {
+            subscriptions: {
+              create: subscriptions,
+            },
+          },
         },
-      })
+      },
     })
 
-    return new Response(
-      JSON.stringify({
-        cart_hash: createdCart.id,
-      }),
-    )
+    cookieStore.set('cartId', cart.id)
+
+    return new Response('Ok')
   }
 
-  const createdOrder = await db.order.create({
+  await db.order.create({
     data: {
-      cartId: currentCartHash,
-      userId,
+      cartId,
+      subscriptions: {
+        create: subscriptions,
+      },
     },
   })
 
-  subscriptions.map(async (sub) => {
-    await db.subscription.create({
-      data: {
-        name: sub.name,
-        orderId: createdOrder.id,
-      },
-    })
-  })
-
-  return new Response(
-    JSON.stringify({
-      cart_hash: currentCartHash,
-    }),
-  )
+  return new Response('Ok')
 }

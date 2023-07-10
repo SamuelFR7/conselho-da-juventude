@@ -34,14 +34,11 @@ export default function FinishPayment() {
   const { data, isLoading } = useQuery({
     queryKey: ['cart_info'],
     queryFn: async () => {
-      const { data } = await axios.get<CartInfo>(
-        `/api/cart-info?id=${localStorage.getItem('cart_hash')}`,
-      )
+      const { data } = await axios.get<CartInfo>(`/api/cart/`)
 
       return data
     },
     onError: () => {
-      localStorage.removeItem('cart_hash')
       push('/evento/conselho-da-juventude')
     },
   })

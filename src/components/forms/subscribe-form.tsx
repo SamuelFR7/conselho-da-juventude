@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
-import { addSubscriptionSchema } from '@/lib/validations/subscription'
+import { createSubscriptionSchema } from '@/lib/validations/subscription'
 import axios from 'axios'
 import { z } from 'zod'
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -14,7 +14,7 @@ import React from 'react'
 import { toast } from 'sonner'
 import { Icons } from '../icons'
 
-type Inputs = z.infer<typeof addSubscriptionSchema>
+type Inputs = z.infer<typeof createSubscriptionSchema>
 
 export function SubscribeForm() {
   const searchParams = useSearchParams()
@@ -37,7 +37,7 @@ export function SubscribeForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({
-    resolver: zodResolver(addSubscriptionSchema),
+    resolver: zodResolver(createSubscriptionSchema),
     defaultValues: {
       subscriptions: arrWithLength(),
     },
@@ -62,8 +62,7 @@ export function SubscribeForm() {
 
       return data
     },
-    onSuccess: (data) => {
-      localStorage.setItem('cart_hash', data.cart_hash)
+    onSuccess: () => {
       router.push('/evento/conselho-da-juventude/finalizar-pagamento')
     },
     onError: (error) => {

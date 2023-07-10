@@ -10,6 +10,7 @@ export default authMiddleware({
     '/evento/conselho-da-juventude/finalizar-pagamento',
     '/sign-in(.*)',
     '/sign-up(.*)',
+    '/api(.*)',
   ],
   async afterAuth(auth, req) {
     if (auth.isPublicRoute) {
