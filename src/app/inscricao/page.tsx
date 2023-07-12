@@ -1,4 +1,4 @@
-import { SubscribeForm } from '@/components/forms/subscribe-form'
+import { AddToCartForm } from '@/components/forms/add-to-cart-form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function Inscricao() {
@@ -11,7 +11,7 @@ export default function Inscricao() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <SubscribeForm />
+          <AddToCartForm />
         </CardContent>
       </Card>
     </div>

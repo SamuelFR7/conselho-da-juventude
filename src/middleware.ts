@@ -5,11 +5,10 @@ export default authMiddleware({
   // Public routes are routes that don't require authentication
   publicRoutes: [
     '/',
-    '/evento/conselho-da-juventude',
-    '/evento/conselho-da-juventude/inscricao',
-    '/evento/conselho-da-juventude/finalizar-pagamento',
     '/sign-in(.*)',
     '/sign-up(.*)',
+    '/api/order',
+    '/api/cart',
   ],
   async afterAuth(auth, req) {
     if (auth.isPublicRoute) {
