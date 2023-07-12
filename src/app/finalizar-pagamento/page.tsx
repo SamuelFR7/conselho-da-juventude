@@ -41,7 +41,7 @@ export default function FinishPayment() {
       return data
     },
     onError: () => {
-      router.push('/evento/conselho-da-juventude')
+      router.push('/')
     },
   })
 
@@ -128,9 +128,7 @@ export default function FinishPayment() {
             onClick={() =>
               userId
                 ? handlePayment({ quantity: total / 100 })
-                : router.push(
-                    '/sign-in?redirect_url=/evento/conselho-da-juventude/finalizar-pagamento',
-                  )
+                : router.push('/sign-in?redirect_url=/finalizar-pagamento')
             }
             className="w-full mt-2"
           >
