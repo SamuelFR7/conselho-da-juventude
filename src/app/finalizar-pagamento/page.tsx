@@ -3,6 +3,7 @@ import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { Skeleton } from '@/components/ui/skeleton'
 import { formatPrice } from '@/lib/utils'
 import { useAuth } from '@clerk/nextjs'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -80,7 +81,46 @@ export default function FinishPayment() {
   })
 
   if (!data || isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div className="max-w-[600px] mx-auto mt-16">
+        <Card>
+          <CardHeader>
+            <CardTitle>Resumo do Pedido</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <table>
+              <thead>
+                <tr>
+                  <th className="w-[400px] text-left">Produto</th>
+                  <th>Subtotal</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <Skeleton className="h-5" />
+                  </td>
+                  <td>
+                    <Skeleton className="h-5" />
+                  </td>
+                  <td>
+                    <Skeleton className="h-5" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <Separator className="my-4" />
+            <div className="flex justify-between">
+              <h2 className="text-lg font-bold">Total</h2>
+              <Skeleton className="h-8 w-[100px]" />
+            </div>
+
+            <Skeleton className="h-10 w-full mt-2" />
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   let total = 0
