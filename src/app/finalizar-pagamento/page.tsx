@@ -1,4 +1,5 @@
 'use client'
+import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
@@ -58,7 +59,11 @@ export default function FinishPayment() {
     },
   })
 
-  const { mutate: handlePayment } = useMutation({
+  const {
+    mutate: handlePayment,
+    isLoading: isMutationLoading,
+    isSuccess: isMutationSuccess,
+  } = useMutation({
     mutationFn: async ({ quantity }: { quantity: number }) => {
       const payload: { quantity: number } = { quantity }
 
@@ -125,6 +130,7 @@ export default function FinishPayment() {
           </div>
           <Button
             type="button"
+            disabled={isMutationLoading || isMutationSuccess}
             onClick={() =>
               userId
                 ? handlePayment({ quantity: total / 100 })
@@ -132,6 +138,12 @@ export default function FinishPayment() {
             }
             className="w-full mt-2"
           >
+            {(isMutationLoading || isMutationSuccess) && (
+              <Icons.spinner
+                className="mr-2 h-4 w-4 animate-spin"
+                aria-hidden="true"
+              />
+            )}
             Finalizar Pagamento
           </Button>
         </CardContent>
