@@ -46,12 +46,13 @@ export async function POST(req: Request, res: Response) {
   if (!cart)
     return new Response('You cannot pay without a cart', { status: 400 })
 
-  let total = 0
+  let totalParticipants = 0
   cart.subscriptions.map((subscription) => {
-    return (total = total + subscription.participants.length * 100)
+    return (totalParticipants =
+      totalParticipants + subscription.participants.length)
   })
 
-  if (total === 0)
+  if (totalParticipants === 0)
     return new Response('You cannot pay with a empty cart', { status: 400 })
 
   try {
@@ -64,7 +65,7 @@ export async function POST(req: Request, res: Response) {
             {
               Name: 'Ingresso Conselho da Juventude - 2023',
               UnitPrice: 10000,
-              Quantity: total,
+              Quantity: totalParticipants,
               Type: 'Digital',
             },
           ],
