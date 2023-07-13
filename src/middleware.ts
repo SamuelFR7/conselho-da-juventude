@@ -9,6 +9,7 @@ export default authMiddleware({
     '/sign-up(.*)',
     '/api/subscription',
     '/api/cart',
+    '/api/webhook(.*)',
   ],
   async afterAuth(auth, req) {
     if (auth.isPublicRoute) {

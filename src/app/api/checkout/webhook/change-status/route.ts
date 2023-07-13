@@ -3,10 +3,8 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
 const changeStatusSchema = z.object({
-  amount: z.string(),
   order_number: z.string(),
   payment_status: z.string(),
-  test_transaction: z.boolean(),
 })
 
 export async function POST(req: Request, res: Response) {

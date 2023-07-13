@@ -29,11 +29,8 @@ model Subscription {
   Cart         Cart?         @relation(fields: [cartId], references: [id])
   cartId       String?
   userId       String?
-  Order        Order?        @relation(fields: [orderId], references: [id])
-  orderId      String?
   status       String
 
-  @@index([orderId])
   @@index([cartId])
   @@map("subscriptions")
 }
@@ -50,12 +47,11 @@ model Cart {
 }
 
 model Order {
-  id            String         @id @default(cuid())
-  orderNumber   String         @unique
+  id            String @id @default(cuid())
+  orderNumber   String @unique
   cart          Cart[]
   paymentStatus String
   userId        String
-  Subscription  Subscription[]
 
   @@map("orders")
 }
