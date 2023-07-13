@@ -12,9 +12,9 @@ export async function GET(req: Request) {
       id: cartId,
     },
     include: {
-      orders: {
+      subscriptions: {
         include: {
-          subscriptions: true,
+          participants: true,
         },
       },
     },

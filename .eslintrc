@@ -3,6 +3,7 @@
         "@rocketseat/eslint-config/react"
     ],
     "rules": {
-        "no-void": "off"
+        "no-void": "off",
+        "camelcase": "off"
     }
 }

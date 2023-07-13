@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
-import { createSubscriptionSchema } from '@/lib/validations/subscription'
+import { createParticipantsSchema } from '@/lib/validations/participant'
 import axios from 'axios'
 import { z } from 'zod'
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -14,7 +14,7 @@ import React from 'react'
 import { toast } from 'sonner'
 import { Icons } from '../icons'
 
-type Inputs = z.infer<typeof createSubscriptionSchema>
+type Inputs = z.infer<typeof createParticipantsSchema>
 
 export function AddToCartForm() {
   const searchParams = useSearchParams()
@@ -37,28 +37,28 @@ export function AddToCartForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({
-    resolver: zodResolver(createSubscriptionSchema),
+    resolver: zodResolver(createParticipantsSchema),
     defaultValues: {
-      subscriptions: arrWithLength(),
+      participants: arrWithLength(),
     },
   })
 
   const { fields } = useFieldArray({
     control,
-    name: 'subscriptions',
+    name: 'participants',
     rules: {
       minLength: quantity,
     },
   })
 
   const { mutate, isSuccess, isLoading } = useMutation({
-    mutationFn: async ({ subscriptions }: Inputs) => {
+    mutationFn: async ({ participants }: Inputs) => {
       const payload = {
-        subscriptions,
+        participants,
         currentCartHash: localStorage.getItem('cart_hash'),
       }
 
-      const { data } = await axios.post('/api/order/', payload)
+      const { data } = await axios.post('/api/subscription/', payload)
 
       return data
     },
@@ -87,23 +87,23 @@ export function AddToCartForm() {
           <div className="flex flex-col gap-2">
             <div className="space-y-2">
               <Label>Nome</Label>
-              <Input {...register(`subscriptions.${index}.name`)} />
+              <Input {...register(`participants.${index}.name`)} />
               <p className="text-sm font-medium text-destructive">
-                {errors.subscriptions?.[index]?.name?.message}
+                {errors.participants?.[index]?.name?.message}
               </p>
             </div>
             <div className="space-y-2">
               <Label>Email</Label>
-              <Input {...register(`subscriptions.${index}.email`)} />
+              <Input {...register(`participants.${index}.email`)} />
               <p className="text-sm font-medium text-destructive">
-                {errors.subscriptions?.[index]?.email?.message}
+                {errors.participants?.[index]?.email?.message}
               </p>
             </div>
             <div className="space-y-2">
               <Label>Campo</Label>
-              <Input {...register(`subscriptions.${index}.campo`)} />
+              <Input {...register(`participants.${index}.campo`)} />
               <p className="text-sm font-medium text-destructive">
-                {errors.subscriptions?.[index]?.campo?.message}
+                {errors.participants?.[index]?.campo?.message}
               </p>
             </div>
           </div>

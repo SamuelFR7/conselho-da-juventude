@@ -7,7 +7,7 @@ export default authMiddleware({
     '/(.*)',
     '/sign-in(.*)',
     '/sign-up(.*)',
-    '/api/order',
+    '/api/subscription',
     '/api/cart',
   ],
   async afterAuth(auth, req) {

@@ -10,19 +10,22 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { XIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { CieloCheckoutResponse } from '../api/checkout/route'
 
 type CartInfo = {
   cart: {
     id: string
-    expired: boolean
-    orders: [
+    createdAt: Date
+    subscriptions: [
       {
         id: string
         cartId: string
-        subscriptions: [
+        status: string
+        participants: [
           {
             id: string
             name: string
+            email: string
             campo: string
           },
         ]
@@ -49,7 +52,7 @@ export default function FinishPayment() {
 
   const { mutate } = useMutation({
     mutationFn: async (orderId: string) => {
-      const { data } = await axios.delete(`/api/order?id=${orderId}`)
+      const { data } = await axios.delete(`/api/subscription?id=${orderId}`)
 
       return data
     },
@@ -68,15 +71,15 @@ export default function FinishPayment() {
     mutationFn: async ({ quantity }: { quantity: number }) => {
       const payload: { quantity: number } = { quantity }
 
-      const { data } = await axios.post<string>(
-        '/api/checkout_sessions',
+      const { data } = await axios.post<CieloCheckoutResponse>(
+        '/api/checkout',
         payload,
       )
 
       return data
     },
     onSuccess: (data) => {
-      router.push(data)
+      router.push(data.settings.checkoutUrl)
     },
   })
 
@@ -124,8 +127,8 @@ export default function FinishPayment() {
   }
 
   let total = 0
-  data.cart.orders.map((order) => {
-    return (total = total + order.subscriptions.length * 100)
+  data.cart.subscriptions.map((subscription) => {
+    return (total = total + subscription.participants.length * 100)
   })
 
   return (
@@ -144,15 +147,16 @@ export default function FinishPayment() {
               </tr>
             </thead>
             <tbody>
-              {data.cart.orders.map((order) => (
-                <tr key={order.id}>
+              {data.cart.subscriptions.map((subscription) => (
+                <tr key={subscription.id}>
                   <td>
-                    Conselho da Juventude 2023 - x{order.subscriptions.length}
+                    Conselho da Juventude 2023 - x
+                    {subscription.participants.length}
                   </td>
-                  <td>{formatPrice(order.subscriptions.length * 100)}</td>
+                  <td>{formatPrice(subscription.participants.length * 100)}</td>
                   <td>
                     <Button
-                      onClick={() => mutate(order.id)}
+                      onClick={() => mutate(subscription.id)}
                       variant="ghost"
                       size="icon"
                     >

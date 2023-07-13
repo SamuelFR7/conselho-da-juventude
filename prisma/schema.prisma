@@ -2,8 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["jsonProtocol"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -12,35 +11,51 @@ datasource db {
   relationMode = "prisma"
 }
 
+model Participant {
+  id             String        @id @default(cuid())
+  name           String
+  email          String
+  campo          String
+  Subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String?
+
+  @@index([subscriptionId])
+  @@map("participants")
+}
+
 model Subscription {
-  id      String  @id @default(cuid())
-  name    String
-  email   String
-  campo   String
-  Order   Order?  @relation(fields: [orderId], references: [id])
-  orderId String?
+  id           String        @id @default(cuid())
+  participants Participant[]
+  Cart         Cart?         @relation(fields: [cartId], references: [id])
+  cartId       String?
+  userId       String?
+  Order        Order?        @relation(fields: [orderId], references: [id])
+  orderId      String?
+  status       String
 
   @@index([orderId])
+  @@index([cartId])
   @@map("subscriptions")
+}
+
+model Cart {
+  id            String         @id @default(cuid())
+  subscriptions Subscription[]
+  createdAt     DateTime       @default(now())
+  Order         Order?         @relation(fields: [orderId], references: [id])
+  orderId       String?
+
+  @@index([orderId])
+  @@map("carts")
 }
 
 model Order {
   id            String         @id @default(cuid())
-  subscriptions Subscription[]
-  Cart          Cart?          @relation(fields: [cartId], references: [id])
-  cartId        String?
-  userId        String?
+  orderNumber   String         @unique
+  cart          Cart[]
+  paymentStatus String
+  userId        String
+  Subscription  Subscription[]
 
-  @@index([cartId])
   @@map("orders")
-}
-
-model Cart {
-  id              String   @id @default(cuid())
-  userId          String?  @unique
-  paymentIntentId String?  @unique
-  orders          Order[]
-  createdAt       DateTime @default(now())
-
-  @@map("carts")
 }

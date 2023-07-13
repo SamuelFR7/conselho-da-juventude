@@ -1,11 +1,11 @@
 import { db } from '@/db'
-import { createSubscriptionSchema } from '@/lib/validations/subscription'
+import { createParticipantsSchema } from '@/lib/validations/participant'
 import { cookies } from 'next/headers'
 
 export async function DELETE(req: Request) {
   const params = new URLSearchParams(new URL(req.url).search)
 
-  await db.order.delete({
+  await db.subscription.delete({
     where: {
       id: String(params.get('id')),
     },
@@ -19,17 +19,16 @@ export async function POST(req: Request) {
   const cartId = cookieStore.get('cartId')?.value
 
   const body = await req.json()
-  const { subscriptions } = createSubscriptionSchema.parse(body)
+  const { participants } = createParticipantsSchema.parse(body)
 
   if (!cartId) {
-    console.log('aqui?')
-
     const cart = await db.cart.create({
       data: {
-        orders: {
+        subscriptions: {
           create: {
-            subscriptions: {
-              create: subscriptions,
+            status: 'PAGAMENTO_PENDENTE',
+            participants: {
+              create: participants,
             },
           },
         },
@@ -41,11 +40,12 @@ export async function POST(req: Request) {
     return new Response('Ok')
   }
 
-  await db.order.create({
+  await db.subscription.create({
     data: {
       cartId,
-      subscriptions: {
-        create: subscriptions,
+      status: 'PAGAMENTO_PENDENTE',
+      participants: {
+        create: participants,
       },
     },
   })
