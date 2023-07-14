@@ -12,28 +12,7 @@ import { XIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { CieloCheckoutResponse } from '@/app/api/checkout/route'
 import Link from 'next/link'
-
-type CartInfo = {
-  cart: {
-    id: string
-    createdAt: Date
-    subscriptions: [
-      {
-        id: string
-        cartId: string
-        status: string
-        participants: [
-          {
-            id: string
-            name: string
-            email: string
-            campo: string
-          },
-        ]
-      },
-    ]
-  }
-}
+import { CartInfo } from '@/components/cart-button'
 
 export default function FinishPayment() {
   const { userId } = useAuth()

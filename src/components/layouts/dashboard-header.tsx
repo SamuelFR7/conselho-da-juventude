@@ -1,8 +1,8 @@
-import { Button, buttonVariants } from '../ui/button'
+import { buttonVariants } from '../ui/button'
 import Link from 'next/link'
 
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
-import { Icons } from '../icons'
+import { CartButton } from '../cart-button'
 
 export function DashboardHeader() {
   return (
@@ -13,11 +13,7 @@ export function DashboardHeader() {
         </Link>
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
-            <Link href="/evento/finalizar-pagamento">
-              <Button variant="ghost" size="icon">
-                <Icons.cart />
-              </Button>
-            </Link>
+            <CartButton />
             <SignedIn>
               <UserButton afterSignOutUrl="/evento/" />
             </SignedIn>
