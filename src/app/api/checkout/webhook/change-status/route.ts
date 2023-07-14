@@ -1,3 +1,4 @@
+import OrderConfirmedEmail from '@/components/emails/order-confirmed-email'
 import { db } from '@/db'
 import { env } from '@/env.mjs'
 import { resend } from '@/lib/resend'
@@ -34,6 +35,17 @@ export async function POST(req: Request, res: Response) {
         data: {
           paymentStatus: 'PAGO',
         },
+        include: {
+          cart: {
+            include: {
+              subscriptions: {
+                include: {
+                  attendees: true,
+                },
+              },
+            },
+          },
+        },
       })
 
       const user = await clerkClient.users.getUser(order.userId)
@@ -49,8 +61,18 @@ export async function POST(req: Request, res: Response) {
       await resend.emails.send({
         from: env.EMAIL_FROM_ADDRESS,
         to: email,
-        subject: 'Inscrições Confirmadas - Conselho da Juventude 2023',
-        html: '<p>Parabéns, sua compra foi aprovada e suas inscrições estão aprovadas para o Conselho da Juventude 2023</p>',
+        subject: 'Compra Efetivada - Conselho da Juventude 2023',
+        react: OrderConfirmedEmail({
+          customerName: user.firstName,
+          subscriptions: order.cart.subscriptions,
+        }),
+      })
+
+      await resend.emails.send({
+        from: env.EMAIL_FROM_ADDRESS,
+        to: email,
+        subject: 'Ingressos do Evento - Conselho da Juventude 2023',
+        html: '<p>Aqui estão seus ingressos para o Conselho da Juventude 2023:</p>',
       })
 
       break
