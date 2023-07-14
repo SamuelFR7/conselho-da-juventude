@@ -65,27 +65,36 @@ export function ChooseQuantityForm() {
               render={({ field, fieldState }) => (
                 <FormItem>
                   <FormControl>
-                    <div className="flex items-center">
-                      <button
+                    <div className="flex items-center space-x-1">
+                      <Button
                         type="button"
-                        className="hover:bg-zinc-300 py-1 rounded-md"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8"
                         onClick={() =>
                           form.watch('quantity') > 1 &&
                           form.setValue('quantity', field.value - 1)
                         }
                       >
                         <Minus />
-                      </button>
-                      <Input min="1" className="text-center" {...field} />
-                      <button
+                      </Button>
+                      <Input
+                        type="number"
+                        min="1"
+                        className="h-8 w-14 text-center"
+                        {...field}
+                      />
+                      <Button
                         type="button"
-                        className="hover:bg-zinc-300 py-1 rounded-md"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8"
                         onClick={() =>
                           form.setValue('quantity', field.value + 1)
                         }
                       >
                         <Plus />
-                      </button>
+                      </Button>
                     </div>
                   </FormControl>
                 </FormItem>
