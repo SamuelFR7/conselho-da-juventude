@@ -2,7 +2,9 @@ import {
   Eye,
   EyeOff,
   Loader2,
+  LogOut,
   LucideProps,
+  Package,
   ShoppingCart,
   User,
 } from 'lucide-react'
@@ -11,6 +13,8 @@ export const Icons = {
   spinner: Loader2,
   user: User,
   cart: ShoppingCart,
+  order: Package,
+  logout: LogOut,
   hide: EyeOff,
   view: Eye,
   google: ({ ...props }: LucideProps) => (

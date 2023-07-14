@@ -1,10 +1,34 @@
-import { buttonVariants } from '../ui/button'
+import { Button, buttonVariants } from '../ui/button'
 import Link from 'next/link'
 
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { CartButton } from '../cart-button'
+import { type User } from '@clerk/nextjs/dist/types/server'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Icons } from '../icons'
+import { SignOutButton } from '@clerk/nextjs'
 
-export function DashboardHeader() {
+interface DashboardHeaderProps {
+  user: User | null
+}
+
+export function DashboardHeader({ user }: DashboardHeaderProps) {
+  const initials = `${user?.firstName?.charAt(0) ?? ''} ${
+    user?.lastName?.charAt(0) ?? ''
+  }`
+
+  const email =
+    user?.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)
+      ?.emailAddress ?? ''
+
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center">
@@ -16,10 +40,69 @@ export function DashboardHeader() {
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
             <CartButton />
-            <SignedIn>
-              <UserButton afterSignOutUrl="/evento/" />
-            </SignedIn>
-            <SignedOut>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    className="relative h-9 w-9 rounded-full"
+                  >
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage
+                        src={user?.imageUrl}
+                        alt={user?.username ?? ''}
+                      />
+                      <AvatarFallback>{initials}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {user.firstName}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                      <Link href="/account/">
+                        <Icons.user
+                          className="mr-2 h-4 w-4"
+                          aria-hidden="true"
+                        />
+                        Minha Conta
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/account/my-orders">
+                        <Icons.order
+                          className="mr-2 h-4 w-4"
+                          aria-hidden="true"
+                        />
+                        Meus Pedidos
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <SignOutButton>
+                      <div>
+                        <Icons.logout
+                          className="mr-2 h-4 w-4"
+                          aria-hidden="true"
+                        />
+                        Sair
+                      </div>
+                    </SignOutButton>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
               <Link href="/sign-in">
                 <div
                   className={buttonVariants({
@@ -30,7 +113,7 @@ export function DashboardHeader() {
                   <span className="sr-only">Entrar</span>
                 </div>
               </Link>
-            </SignedOut>
+            )}
           </nav>
         </div>
       </div>
