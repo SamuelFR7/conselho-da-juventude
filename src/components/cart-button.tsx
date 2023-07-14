@@ -38,7 +38,7 @@ export async function CartButton() {
     <Link href="/evento/finalizar-pagamento">
       <Button
         aria-label="Cart"
-        variant="ghost"
+        variant="outline"
         size="icon"
         className="relative"
       >

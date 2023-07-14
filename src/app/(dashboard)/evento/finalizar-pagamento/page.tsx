@@ -107,7 +107,7 @@ export default function FinishPayment() {
   )
 
   return (
-    <div className="max-w-[600px] mx-auto mt-16 ">
+    <div className="max-w-[600px] mx-auto mt-16 px-4 md:px-0">
       <Card>
         <CardHeader>
           <CardTitle>Carrinho</CardTitle>
@@ -150,6 +150,7 @@ export default function FinishPayment() {
                           onClick={() => mutate(subscription.id)}
                           variant="ghost"
                           size="icon"
+                          className="ml-4"
                         >
                           <XIcon />
                         </Button>

@@ -9,7 +9,9 @@ export function DashboardHeader() {
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center">
         <Link href="/evento/">
-          <h1 className="text-2xl font-bold">Conselho da Juventude - 2023</h1>
+          <h1 className="font-bold md:text-2xl">
+            Conselho da Juventude - 2023
+          </h1>
         </Link>
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
