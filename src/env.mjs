@@ -11,6 +11,7 @@ export const env = createEnv({
     NODE_ENV: z.enum(['development', 'test', 'production']),
     CLERK_SECRET_KEY: z.string(),
     RESEND_API_KEY: z.string(),
+    EMAIL_FROM_ADDRESS: z.string().email(),
   },
 
   /**
@@ -39,6 +40,7 @@ export const env = createEnv({
     NEXT_PUBLIC_CLERK_SIGN_UP_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
+    EMAIL_FROM_ADDRESS: process.env.EMAIL_FROM_ADDRESS,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
 })

@@ -1,4 +1,5 @@
 import { db } from '@/db'
+import { env } from '@/env.mjs'
 import { resend } from '@/lib/resend'
 import { clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
@@ -46,7 +47,7 @@ export async function POST(req: Request, res: Response) {
       }
 
       await resend.emails.send({
-        from: 'onboarding@resend.dev',
+        from: env.EMAIL_FROM_ADDRESS,
         to: email,
         subject: 'Inscrições Confirmadas - Conselho da Juventude 2023',
         html: '<p>Parabéns, sua compra foi aprovada e suas inscrições estão aprovadas para o Conselho da Juventude 2023</p>',
