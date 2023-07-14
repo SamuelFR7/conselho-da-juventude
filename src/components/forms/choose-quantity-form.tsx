@@ -51,7 +51,7 @@ export function ChooseQuantityForm() {
       <h1>Conselho da Juventude</h1>
       <Separator />
       <form onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}>
-        <div className="grid grid-cols-2 mt-4">
+        {/* <div className="grid grid-cols-2 mt-4">
           <div className="flex flex-col gap-4">
             <h2>Preço:</h2>
             <h2>Quantidade:</h2>
@@ -102,7 +102,73 @@ export function ChooseQuantityForm() {
             ></FormField>
             <span>{formatPrice(form.watch('quantity') * 100)}</span>
           </div>
-        </div>
+        </div> */}
+        <table className="w-full">
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="py-2">Preço:</td>
+              <td className="text-right">R$ 100,00</td>
+            </tr>
+            <tr>
+              <td className="py-2">Quantidade:</td>
+              <td>
+                <FormField
+                  control={form.control}
+                  name="quantity"
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="flex items-center justify-end space-x-1">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() =>
+                              form.watch('quantity') > 1 &&
+                              form.setValue('quantity', field.value - 1)
+                            }
+                          >
+                            <Minus />
+                          </Button>
+                          <Input
+                            type="number"
+                            min="1"
+                            className="h-8 w-14 text-center"
+                            {...field}
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() =>
+                              form.setValue('quantity', field.value + 1)
+                            }
+                          >
+                            <Plus />
+                          </Button>
+                        </div>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                ></FormField>
+              </td>
+            </tr>
+            <tr>
+              <td className="py-2">Subtotal: </td>
+              <td className="text-right">
+                {formatPrice(form.watch('quantity') * 100)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <div>
           <Button disabled={isPending} type="submit" className="mt-4 w-full">
             {isPending && (
