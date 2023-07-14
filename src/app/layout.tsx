@@ -19,16 +19,18 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider localization={ptBR}>
-      <html lang="pt-BR" suppressHydrationWarning>
-        <body className={fontSans.variable}>
-          <Providers>
-            <SiteHeader />
-            <main>{children}</main>
-          </Providers>
-          <Toaster />
-        </body>
-      </html>
-    </ClerkProvider>
+    <>
+      <ClerkProvider localization={ptBR}>
+        <html lang="pt-BR" suppressHydrationWarning>
+          <body className={fontSans.variable}>
+            <Providers>
+              <SiteHeader />
+              <main>{children}</main>
+            </Providers>
+            <Toaster />
+          </body>
+        </html>
+      </ClerkProvider>
+    </>
   )
 }

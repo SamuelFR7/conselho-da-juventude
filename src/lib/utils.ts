@@ -1,4 +1,6 @@
+import { isClerkAPIResponseError } from '@clerk/nextjs'
 import { type ClassValue, clsx } from 'clsx'
+import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 
 export function formatPrice(price: number | string) {
@@ -10,4 +12,13 @@ export function formatPrice(price: number | string) {
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export function catchClerkError(err: unknown) {
+  const unknownErr = 'Algo deu errado, por favor tente novamente mais tarde'
+  if (isClerkAPIResponseError(err)) {
+    toast.error(err.errors[0]?.longMessage ?? unknownErr)
+  } else {
+    toast.error(unknownErr)
+  }
 }

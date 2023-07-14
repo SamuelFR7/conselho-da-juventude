@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:push": "npx prisma db push",
+    "db:studio": "npx prisma studio",
+    "db:generate": "npx prisma generate",
+    "shadcn:add": "npx shadcn-ui@latest add",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@clerk/localizations": "^1.22.1",
