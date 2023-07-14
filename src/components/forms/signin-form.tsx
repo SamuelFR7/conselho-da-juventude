@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useSignIn } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -24,9 +24,12 @@ import { PasswordInput } from '@/components/password-input'
 type Inputs = z.infer<typeof authSchema>
 
 export function SignInForm() {
+  const searchParams = useSearchParams()
   const router = useRouter()
   const [isPending, startTransition] = React.useTransition()
   const { isLoaded, signIn, setActive } = useSignIn()
+
+  const redirectUrl = searchParams.get('redirect_url')
 
   // react-hook-form
   const form = useForm<Inputs>({
@@ -50,7 +53,7 @@ export function SignInForm() {
         if (result.status === 'complete') {
           await setActive({ session: result.createdSessionId })
 
-          router.push(`${window.location.origin}/evento/`)
+          router.push(`${window.location.origin}${redirectUrl ?? '/evento/'}`)
         } else {
           /* Investigate why the login hasn't completed */
           console.log(result)
