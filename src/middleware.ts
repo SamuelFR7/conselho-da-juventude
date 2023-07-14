@@ -4,7 +4,8 @@ import { NextResponse } from 'next/server'
 export default authMiddleware({
   // Public routes are routes that don't require authentication
   publicRoutes: [
-    '/(.*)',
+    '/',
+    '/evento(.*)',
     '/sign-in(.*)',
     '/sign-up(.*)',
     '/api/subscription',

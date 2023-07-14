@@ -14,7 +14,7 @@ import {
 } from '../ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Icons } from '../icons'
-import { SignOutButton } from '@clerk/nextjs'
+import { LogOutButton } from '../auth/logout-button'
 
 interface DashboardHeaderProps {
   user: User | null
@@ -90,15 +90,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <SignOutButton>
-                      <div>
-                        <Icons.logout
-                          className="mr-2 h-4 w-4"
-                          aria-hidden="true"
-                        />
-                        Sair
-                      </div>
-                    </SignOutButton>
+                    <LogOutButton />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
