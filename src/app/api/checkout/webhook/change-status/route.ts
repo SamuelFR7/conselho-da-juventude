@@ -1,4 +1,6 @@
 import { db } from '@/db'
+import { resend } from '@/lib/resend'
+import { clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -23,8 +25,8 @@ export async function POST(req: Request, res: Response) {
         },
       })
       break
-    case '2':
-      await db.order.update({
+    case '2': {
+      const order = await db.order.update({
         where: {
           orderNumber: order_number,
         },
@@ -32,7 +34,26 @@ export async function POST(req: Request, res: Response) {
           paymentStatus: 'PAGO',
         },
       })
+
+      const user = await clerkClient.users.getUser(order.userId)
+
+      const email =
+        user?.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)
+          ?.emailAddress ?? null
+
+      if (!email) {
+        break
+      }
+
+      await resend.emails.send({
+        from: 'onboarding@resend.dev',
+        to: email,
+        subject: 'Inscrições Confirmadas - Conselho da Juventude 2023',
+        html: '<p>Parabéns, sua compra foi aprovada e suas inscrições estão aprovadas para o Conselho da Juventude 2023</p>',
+      })
+
       break
+    }
     case '3':
       await db.order.update({
         where: {
