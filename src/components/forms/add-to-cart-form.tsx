@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
-import { createParticipantsSchema } from '@/lib/validations/participant'
+import { createAttendeesSchema } from '@/lib/validations/attendees'
 import axios from 'axios'
 import { z } from 'zod'
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -14,7 +14,7 @@ import React from 'react'
 import { toast } from 'sonner'
 import { Icons } from '../icons'
 
-type Inputs = z.infer<typeof createParticipantsSchema>
+type Inputs = z.infer<typeof createAttendeesSchema>
 
 export function AddToCartForm() {
   const searchParams = useSearchParams()
@@ -37,24 +37,24 @@ export function AddToCartForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({
-    resolver: zodResolver(createParticipantsSchema),
+    resolver: zodResolver(createAttendeesSchema),
     defaultValues: {
-      participants: arrWithLength(),
+      attendees: arrWithLength(),
     },
   })
 
   const { fields } = useFieldArray({
     control,
-    name: 'participants',
+    name: 'attendees',
     rules: {
       minLength: quantity,
     },
   })
 
   const { mutate, isSuccess, isLoading } = useMutation({
-    mutationFn: async ({ participants }: Inputs) => {
+    mutationFn: async ({ attendees }: Inputs) => {
       const payload = {
-        participants,
+        attendees,
         currentCartHash: localStorage.getItem('cart_hash'),
       }
 
@@ -87,23 +87,23 @@ export function AddToCartForm() {
           <div className="flex flex-col gap-2">
             <div className="space-y-2">
               <Label>Nome</Label>
-              <Input {...register(`participants.${index}.name`)} />
+              <Input {...register(`attendees.${index}.name`)} />
               <p className="text-sm font-medium text-destructive">
-                {errors.participants?.[index]?.name?.message}
+                {errors.attendees?.[index]?.name?.message}
               </p>
             </div>
             <div className="space-y-2">
               <Label>Email</Label>
-              <Input {...register(`participants.${index}.email`)} />
+              <Input {...register(`attendees.${index}.email`)} />
               <p className="text-sm font-medium text-destructive">
-                {errors.participants?.[index]?.email?.message}
+                {errors.attendees?.[index]?.email?.message}
               </p>
             </div>
             <div className="space-y-2">
               <Label>Campo</Label>
-              <Input {...register(`participants.${index}.campo`)} />
+              <Input {...register(`attendees.${index}.campo`)} />
               <p className="text-sm font-medium text-destructive">
-                {errors.participants?.[index]?.campo?.message}
+                {errors.attendees?.[index]?.campo?.message}
               </p>
             </div>
           </div>

@@ -15,7 +15,7 @@ export async function getCartSubscriptionsAction() {
     include: {
       subscriptions: {
         include: {
-          participants: true,
+          attendees: true,
         },
       },
     },

@@ -46,12 +46,12 @@ export default async function MyOrders() {
                       <td className="text-right font-medium">
                         {`${order.cart.subscriptions.reduce(
                           (total, item) =>
-                            (total = total + item.participants.length),
+                            (total = total + item.attendees.length),
                           0,
                         )} ${
                           order.cart.subscriptions.reduce(
                             (total, item) =>
-                              (total = total + item.participants.length),
+                              (total = total + item.attendees.length),
                             0,
                           ) > 1
                             ? 'ingressos'
@@ -68,7 +68,7 @@ export default async function MyOrders() {
                         }).format(
                           order.cart.subscriptions.reduce(
                             (total, item) =>
-                              (total = total + item.participants.length),
+                              (total = total + item.attendees.length),
                             0,
                           ) * 100,
                         )}

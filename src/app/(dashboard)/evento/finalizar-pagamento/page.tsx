@@ -102,7 +102,7 @@ export default function FinishPayment() {
   }
 
   const itemCount = data.cart.subscriptions.reduce(
-    (total, item) => (total = total + item.participants.length),
+    (total, item) => (total = total + item.attendees.length),
     0,
   )
 
@@ -140,10 +140,10 @@ export default function FinishPayment() {
                     <tr key={subscription.id}>
                       <td>
                         Conselho da Juventude 2023 - x
-                        {subscription.participants.length}
+                        {subscription.attendees.length}
                       </td>
                       <td>
-                        {formatPrice(subscription.participants.length * 100)}
+                        {formatPrice(subscription.attendees.length * 100)}
                       </td>
                       <td>
                         <Button

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
-export const createParticipantsSchema = z.object({
-  participants: z.array(
+export const createAttendeesSchema = z.object({
+  attendees: z.array(
     z.object({
       name: z
         .string()

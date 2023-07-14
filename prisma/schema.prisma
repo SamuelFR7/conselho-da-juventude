@@ -11,7 +11,7 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Participant {
+model Attendee {
   id             String        @id @default(cuid())
   name           String
   email          String
@@ -20,16 +20,16 @@ model Participant {
   subscriptionId String?
 
   @@index([subscriptionId])
-  @@map("participants")
+  @@map("attendees")
 }
 
 model Subscription {
-  id           String        @id @default(cuid())
-  participants Participant[]
-  Cart         Cart?         @relation(fields: [cartId], references: [id])
-  cartId       String?
-  userId       String?
-  status       String
+  id        String     @id @default(cuid())
+  attendees Attendee[]
+  Cart      Cart?      @relation(fields: [cartId], references: [id])
+  cartId    String?
+  userId    String?
+  status    String
 
   @@index([cartId])
   @@map("subscriptions")

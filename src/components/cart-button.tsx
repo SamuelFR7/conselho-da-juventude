@@ -13,7 +13,7 @@ export type CartInfo = {
         id: string
         cartId: string
         status: string
-        participants: [
+        attendees: [
           {
             id: string
             name: string
@@ -30,7 +30,7 @@ export async function CartButton() {
   const subscriptions = await getCartSubscriptionsAction()
 
   const itemCount = subscriptions.reduce(
-    (total, item) => total + item.participants.length,
+    (total, item) => total + item.attendees.length,
     0,
   )
 

@@ -21,7 +21,7 @@ export async function GET(req: Request) {
     include: {
       subscriptions: {
         include: {
-          participants: true,
+          attendees: true,
         },
       },
     },

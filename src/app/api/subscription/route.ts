@@ -1,5 +1,5 @@
 import { db } from '@/db'
-import { createParticipantsSchema } from '@/lib/validations/participant'
+import { createAttendeesSchema } from '@/lib/validations/attendees'
 import { cookies } from 'next/headers'
 
 export async function DELETE(req: Request) {
@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   const cartId = cookieStore.get('cartId')?.value
 
   const body = await req.json()
-  const { participants } = createParticipantsSchema.parse(body)
+  const { attendees } = createAttendeesSchema.parse(body)
 
   if (!cartId) {
     const cart = await db.cart.create({
@@ -27,8 +27,8 @@ export async function POST(req: Request) {
         subscriptions: {
           create: {
             status: 'PAGAMENTO_PENDENTE',
-            participants: {
-              create: participants,
+            attendees: {
+              create: attendees,
             },
           },
         },
@@ -44,8 +44,8 @@ export async function POST(req: Request) {
     data: {
       cartId,
       status: 'PAGAMENTO_PENDENTE',
-      participants: {
-        create: participants,
+      attendees: {
+        create: attendees,
       },
     },
   })

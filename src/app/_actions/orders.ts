@@ -19,7 +19,7 @@ export async function getMyOrders() {
         include: {
           subscriptions: {
             include: {
-              participants: true,
+              attendees: true,
             },
           },
         },
