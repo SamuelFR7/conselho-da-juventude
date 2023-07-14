@@ -5,7 +5,14 @@ export async function GET(req: Request) {
   const cookieStore = cookies()
   const cartId = cookieStore.get('cartId')?.value
 
-  if (!cartId) return []
+  if (!cartId)
+    return new Response(
+      JSON.stringify({
+        cart: {
+          subscriptions: [],
+        },
+      }),
+    )
 
   const cart = await db.cart.findUnique({
     where: {

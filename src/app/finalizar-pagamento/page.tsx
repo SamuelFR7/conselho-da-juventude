@@ -11,6 +11,7 @@ import axios from 'axios'
 import { XIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { CieloCheckoutResponse } from '../api/checkout/route'
+import Link from 'next/link'
 
 type CartInfo = {
   cart: {
@@ -68,13 +69,8 @@ export default function FinishPayment() {
     isLoading: isMutationLoading,
     isSuccess: isMutationSuccess,
   } = useMutation({
-    mutationFn: async ({ quantity }: { quantity: number }) => {
-      const payload: { quantity: number } = { quantity }
-
-      const { data } = await axios.post<CieloCheckoutResponse>(
-        '/api/checkout',
-        payload,
-      )
+    mutationFn: async () => {
+      const { data } = await axios.post<CieloCheckoutResponse>('/api/checkout')
 
       return data
     },
@@ -126,70 +122,92 @@ export default function FinishPayment() {
     )
   }
 
-  let total = 0
-  data.cart.subscriptions.map((subscription) => {
-    return (total = total + subscription.participants.length * 100)
-  })
+  const itemCount = data.cart.subscriptions.reduce(
+    (total, item) => (total = total + item.participants.length),
+    0,
+  )
 
   return (
     <div className="max-w-[600px] mx-auto mt-16 ">
       <Card>
         <CardHeader>
-          <CardTitle>Resumo do Pedido</CardTitle>
+          <CardTitle>Carrinho</CardTitle>
         </CardHeader>
         <CardContent>
-          <table>
-            <thead>
-              <tr>
-                <th className="w-[400px] text-left">Produto</th>
-                <th>Subtotal</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.cart.subscriptions.map((subscription) => (
-                <tr key={subscription.id}>
-                  <td>
-                    Conselho da Juventude 2023 - x
-                    {subscription.participants.length}
-                  </td>
-                  <td>{formatPrice(subscription.participants.length * 100)}</td>
-                  <td>
-                    <Button
-                      onClick={() => mutate(subscription.id)}
-                      variant="ghost"
-                      size="icon"
-                    >
-                      <XIcon />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Separator className="my-4" />
-          <div className="flex justify-between">
-            <h2 className="text-lg font-bold">Total</h2>
-            <h2 className="text-lg font-bold">{formatPrice(total)}</h2>
-          </div>
-          <Button
-            type="button"
-            disabled={isMutationLoading || isMutationSuccess}
-            onClick={() =>
-              userId
-                ? handlePayment({ quantity: total / 100 })
-                : router.push('/sign-in?redirect_url=/finalizar-pagamento')
-            }
-            className="w-full mt-2"
-          >
-            {(isMutationLoading || isMutationSuccess) && (
-              <Icons.spinner
-                className="mr-2 h-4 w-4 animate-spin"
-                aria-hidden="true"
-              />
-            )}
-            Finalizar Pagamento
-          </Button>
+          {itemCount === 0 ? (
+            <>
+              <div className="flex w-full items-center flex-col justify-center py-10 gap-2">
+                <Icons.cart size={64} />
+                <h2 className="text-center font-medium">
+                  Seu carrinho está vazio
+                </h2>
+              </div>
+              <Link className="w-full" href="/">
+                <Button className="w-full">Voltar para o início</Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <table>
+                <thead>
+                  <tr>
+                    <th className="w-[400px] text-left">Produto</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.cart.subscriptions.map((subscription) => (
+                    <tr key={subscription.id}>
+                      <td>
+                        Conselho da Juventude 2023 - x
+                        {subscription.participants.length}
+                      </td>
+                      <td>
+                        {formatPrice(subscription.participants.length * 100)}
+                      </td>
+                      <td>
+                        <Button
+                          onClick={() => mutate(subscription.id)}
+                          variant="ghost"
+                          size="icon"
+                        >
+                          <XIcon />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <Separator className="my-4" />
+              <div className="flex justify-between">
+                <h2 className="text-lg font-bold">Total</h2>
+                <h2 className="text-lg font-bold">
+                  {formatPrice(itemCount * 100)}
+                </h2>
+              </div>
+              <Button
+                type="button"
+                disabled={
+                  isMutationLoading || isMutationSuccess || itemCount === 0
+                }
+                onClick={() =>
+                  userId
+                    ? handlePayment()
+                    : router.push('/sign-in?redirect_url=/finalizar-pagamento')
+                }
+                className="w-full mt-2"
+              >
+                {(isMutationLoading || isMutationSuccess) && (
+                  <Icons.spinner
+                    className="mr-2 h-4 w-4 animate-spin"
+                    aria-hidden="true"
+                  />
+                )}
+                Finalizar Pagamento
+              </Button>
+            </>
+          )}
         </CardContent>
       </Card>
     </div>
