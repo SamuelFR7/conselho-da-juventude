@@ -63,7 +63,7 @@ export function AddToCartForm() {
       return data
     },
     onSuccess: () => {
-      router.push('/finalizar-pagamento')
+      router.push('/evento/finalizar-pagamento')
     },
     onError: (error) => {
       error instanceof Error

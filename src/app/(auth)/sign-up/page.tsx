@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default async function SignUpPage() {
   const user = await currentUser()
-  if (user) redirect('/')
+  if (user) redirect('/evento/')
 
   return (
     <Shell className="max-w-lg">

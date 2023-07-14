@@ -37,7 +37,7 @@ export function ChooseQuantityForm() {
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        router.push(`/inscricao?quantity=${data.quantity}`)
+        router.push(`/evento/inscricao?quantity=${data.quantity}`)
       } catch (error) {
         error instanceof Error
           ? toast.error(error.message)

@@ -57,7 +57,7 @@ export function ResetPasswordStep2Form() {
           await setActive({
             session: attemptFirstFactor.createdSessionId,
           })
-          router.push(`${window.location.origin}/`)
+          router.push(`${window.location.origin}/evento/`)
           toast.success('Senha alterada com sucesso.')
         } else {
           console.error(attemptFirstFactor)

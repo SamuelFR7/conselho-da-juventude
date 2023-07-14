@@ -4,22 +4,22 @@ import Link from 'next/link'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { Icons } from '../icons'
 
-export function SiteHeader() {
+export function DashboardHeader() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center">
-        <Link href="/">
+        <Link href="/evento/">
           <h1 className="text-2xl font-bold">Conselho da Juventude - 2023</h1>
         </Link>
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
-            <Link href="/finalizar-pagamento">
+            <Link href="/evento/finalizar-pagamento">
               <Button variant="ghost" size="icon">
                 <Icons.cart />
               </Button>
             </Link>
             <SignedIn>
-              <UserButton afterSignOutUrl="/" />
+              <UserButton afterSignOutUrl="/evento/" />
             </SignedIn>
             <SignedOut>
               <Link href="/sign-in">

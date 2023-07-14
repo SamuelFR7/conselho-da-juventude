@@ -10,7 +10,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { XIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { CieloCheckoutResponse } from '../api/checkout/route'
+import { CieloCheckoutResponse } from '@/app/api/checkout/route'
 import Link from 'next/link'
 
 type CartInfo = {
@@ -142,7 +142,7 @@ export default function FinishPayment() {
                   Seu carrinho está vazio
                 </h2>
               </div>
-              <Link className="w-full" href="/">
+              <Link className="w-full" href="/evento/">
                 <Button className="w-full">Voltar para o início</Button>
               </Link>
             </>
@@ -194,7 +194,9 @@ export default function FinishPayment() {
                 onClick={() =>
                   userId
                     ? handlePayment()
-                    : router.push('/sign-in?redirect_url=/finalizar-pagamento')
+                    : router.push(
+                        '/sign-in?redirect_url=/evento/finalizar-pagamento',
+                      )
                 }
                 className="w-full mt-2"
               >

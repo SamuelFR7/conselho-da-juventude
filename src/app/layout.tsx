@@ -6,7 +6,6 @@ import React from 'react'
 import { fontSans } from '@/lib/fonts'
 import { Metadata } from 'next'
 import { Toaster } from '@/components/ui/toaster'
-import { SiteHeader } from '@/components/layouts/site-header'
 
 export const metadata: Metadata = {
   title: 'Conselho da Juventude 2023',
@@ -24,7 +23,6 @@ export default async function RootLayout({
         <html lang="pt-BR" suppressHydrationWarning>
           <body className={fontSans.variable}>
             <Providers>
-              <SiteHeader />
               <main>{children}</main>
             </Providers>
             <Toaster />
