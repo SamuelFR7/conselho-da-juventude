@@ -18,7 +18,14 @@ interface TicketsEmailProps {
   }[]
 }
 
-export default function TicketsEmail({ attendees = [] }: TicketsEmailProps) {
+export default function TicketsEmail({
+  attendees = [
+    {
+      id: 'testID',
+      name: 'Teste',
+    },
+  ],
+}: TicketsEmailProps) {
   return (
     <Html>
       <Head>
@@ -50,6 +57,12 @@ export default function TicketsEmail({ attendees = [] }: TicketsEmailProps) {
                 <Hr />
               </>
             ))}
+            <Section className="mt-4 text-center text-zinc-400">
+              <Text className="my-4">Qualquer dúvida entre em contato.</Text>
+              <Text className="mb-0 mt-4">
+                @Cadesgo {new Date().getFullYear()}
+              </Text>
+            </Section>
           </Container>
         </Body>
       </Tailwind>
