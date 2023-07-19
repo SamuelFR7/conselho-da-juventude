@@ -1,5 +1,6 @@
-import { authMiddleware } from '@clerk/nextjs'
+import { authMiddleware, clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
+import { UserRole } from './types'
 
 export default authMiddleware({
   // Public routes are routes that don't require authentication
@@ -11,6 +12,7 @@ export default authMiddleware({
     '/api/subscription',
     '/api/cart',
     '/api/checkout/webhook(.*)',
+    '/ingresso(.*)',
   ],
   async afterAuth(auth, req) {
     if (auth.isPublicRoute) {
@@ -25,6 +27,20 @@ export default authMiddleware({
       // redirect them to the sign in page
       url.pathname = '/sign-in'
       return NextResponse.redirect(url)
+    }
+
+    const user = await clerkClient.users.getUser(auth.userId)
+
+    if (!user) {
+      throw new Error('User not found')
+    }
+
+    if (!user.privateMetadata.role) {
+      await clerkClient.users.updateUserMetadata(auth.userId, {
+        privateMetadata: {
+          role: 'user' satisfies UserRole,
+        },
+      })
     }
   },
 })

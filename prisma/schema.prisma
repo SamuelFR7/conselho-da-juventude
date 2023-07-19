@@ -12,12 +12,13 @@ datasource db {
 }
 
 model Attendee {
-  id             String        @id @default(cuid())
-  name           String
-  email          String
-  campo          String
-  Subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
-  subscriptionId String?
+  id                String        @id @default(cuid())
+  name              String
+  email             String
+  campo             String
+  confirmedPresence Boolean       @default(false)
+  Subscription      Subscription? @relation(fields: [subscriptionId], references: [id])
+  subscriptionId    String?
 
   @@index([subscriptionId])
   @@map("attendees")

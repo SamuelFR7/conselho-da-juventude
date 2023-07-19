@@ -2,6 +2,7 @@ import {
   Eye,
   EyeOff,
   Loader2,
+  Lock,
   LogOut,
   LucideProps,
   Package,
@@ -17,6 +18,7 @@ export const Icons = {
   logout: LogOut,
   hide: EyeOff,
   view: Eye,
+  admin: Lock,
   google: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

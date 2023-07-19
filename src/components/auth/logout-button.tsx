@@ -25,7 +25,7 @@ export function LogOutButton() {
             aria-label="Sair"
             size="sm"
             variant="ghost"
-            className="w-full justify-start"
+            className="w-full max-h-[20px] px-1 justify-start"
             disabled={isPending}
           >
             {isPending ? (
