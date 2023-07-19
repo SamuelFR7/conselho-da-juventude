@@ -31,6 +31,46 @@ export async function getAttendeeById(id: string) {
   return attendee
 }
 
+export async function confirmAttendeePresenceAction(id: string) {
+  const attendeeToConfirm = await db.attendee.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      Subscription: {
+        select: {
+          Cart: {
+            select: {
+              Order: {
+                select: {
+                  paymentStatus: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+
+  if (!attendeeToConfirm) {
+    throw new Error('Attendee not found')
+  }
+
+  if (attendeeToConfirm.Subscription?.Cart?.Order?.paymentStatus !== 'PAGO') {
+    throw new Error('Não é possível confirmar uma inscrição não paga')
+  }
+
+  await db.attendee.update({
+    where: {
+      id,
+    },
+    data: {
+      confirmedPresence: true,
+    },
+  })
+}
+
 export async function getAllAttendees(page: number) {
   const attendees = await db.attendee.findMany({
     include: {

@@ -1,16 +1,16 @@
+import { getAttendeeById } from '@/app/_actions/attendees'
+import { ConfirmPresenceButton } from '@/components/confirm-presence-button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { toTitleCase } from '@/lib/utils'
-import { env } from '@/env.mjs'
-import { getAttendeeById } from '@/app/_actions/attendees'
-import { PrintPageButton } from '@/components/print-page-button'
-import QRCode from 'react-qr-code'
+import { cn, toTitleCase } from '@/lib/utils'
 
 interface IngressoIdPageProps {
   params: { id: string }
 }
 
-export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
+export default async function AdminConfirmPage({
+  params,
+}: IngressoIdPageProps) {
   const attendee = await getAttendeeById(params.id)
 
   return (
@@ -26,22 +26,6 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
               ID: <span className="font-normal">{params.id}</span>
             </h2>
             <h2 className="font-semibold">
-              Valor:{' '}
-              <span className="font-normal">
-                {new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                }).format(100)}
-              </span>
-            </h2>
-            <h2 className="font-semibold">
-              Local do Evento:{' '}
-              <span className="font-normal">Rio Verde - GO</span>
-            </h2>
-            <h2 className="font-semibold">
-              Data: <span className="font-normal">23 e 24 de setembro</span>
-            </h2>
-            <h2 className="font-semibold">
               Participante:{' '}
               <span className="font-normal">{toTitleCase(attendee.name)}</span>
             </h2>
@@ -54,26 +38,41 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
             </h2>
             <h2 className="font-semibold">
               Status do Pagamento:{' '}
-              <span className="font-normal">
+              <span
+                className={cn(
+                  'font-normal',
+                  attendee.Subscription?.Cart?.Order?.paymentStatus ===
+                    'PENDENTE'
+                    ? 'text-yellow-500'
+                    : attendee.Subscription?.Cart?.Order?.paymentStatus ===
+                      'PAGO'
+                    ? 'text-green-500'
+                    : '',
+                )}
+              >
                 {toTitleCase(
                   attendee.Subscription?.Cart?.Order?.paymentStatus ??
                     'Não foi possível carregar o status',
                 )}
               </span>
             </h2>
-          </div>
-          <div className="flex flex-col items-center w-full justfiy-center mt-10 gap-2">
-            <h2 className="font-semibold">Digitalizar o QRCode:</h2>
-            <QRCode
-              size={200}
-              bgColor="white"
-              fgColor="black"
-              value={`${env.NEXT_PUBLIC_APP_URL}/admin/confirm/${attendee.id}`}
-            />
+            <h2 className="font-semibold">
+              Presença confirmada:{' '}
+              <span
+                className={cn(
+                  'font-normal',
+                  attendee.confirmedPresence
+                    ? 'text-green-500'
+                    : 'text-red-500',
+                )}
+              >
+                {attendee.confirmedPresence ? 'SIM' : 'NÃO'}
+              </span>
+            </h2>
           </div>
         </CardContent>
       </Card>
-      <PrintPageButton />
+      <ConfirmPresenceButton attendee={attendee} />
     </div>
   )
 }

@@ -2,6 +2,7 @@ import { isClerkAPIResponseError } from '@clerk/nextjs'
 import { type ClassValue, clsx } from 'clsx'
 import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
+import { z } from 'zod'
 
 export function formatPrice(price: number | string) {
   return new Intl.NumberFormat('pt-BR', {
@@ -28,4 +29,17 @@ export function toTitleCase(str: string) {
     /\w\S*/g,
     (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase(),
   )
+}
+
+export function catchError(err: unknown) {
+  if (err instanceof z.ZodError) {
+    const errors = err.issues.map((issues) => {
+      return issues.message
+    })
+    return toast(errors.join('\n'))
+  } else if (err instanceof Error) {
+    return toast(err.message)
+  } else {
+    return toast('Algo deu errado tente novamente mais tarde')
+  }
 }

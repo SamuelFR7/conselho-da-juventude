@@ -1,3 +1,4 @@
+import { env } from '@/env.mjs'
 import {
   Body,
   Container,
@@ -49,7 +50,7 @@ export default function TicketsEmail({
                     Participante: {attendee.name}
                   </Text>
                   <Link
-                    href={`https://juventude.cadesgo.com.br/ingresso/${attendee.id}`}
+                    href={`${env.NEXT_PUBLIC_APP_URL}/ingresso/${attendee.id}`}
                   >
                     Download Ingresso
                   </Link>

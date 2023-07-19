@@ -7,6 +7,7 @@ import {
 import { Icons } from '@/components/icons'
 import { Shell } from '@/components/shells/shell'
 import { TablePagination } from '@/components/table-pagination'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -23,6 +24,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { cn, toTitleCase } from '@/lib/utils'
+import Link from 'next/link'
 
 interface AdminPageProps {
   searchParams: {
@@ -94,6 +96,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <TableHead>Email</TableHead>
                 <TableHead>Status de Pagamento</TableHead>
                 <TableHead>Confirmada</TableHead>
+                <TableHead>Gerenciar</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -125,6 +128,13 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     )}
                   >
                     {attendee.confirmedPresence ? 'SIM' : 'NÃO'}
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`/admin/confirm/${attendee.id}`}>
+                      <Button size="icon" variant="ghost">
+                        <Icons.settings />
+                      </Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}

@@ -6,6 +6,7 @@ import {
   LogOut,
   LucideProps,
   Package,
+  Settings,
   ShoppingCart,
   User,
 } from 'lucide-react'
@@ -19,6 +20,7 @@ export const Icons = {
   hide: EyeOff,
   view: Eye,
   admin: Lock,
+  settings: Settings,
   google: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
