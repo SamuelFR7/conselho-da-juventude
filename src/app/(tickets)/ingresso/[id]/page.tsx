@@ -17,11 +17,7 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
     <div className="flex flex-col items-center gap-4 w-full">
       <Card className="mt-2 max-w-[650px] p-4 w-full">
         <CardHeader>
-          <CardTitle>
-            <h1 className="text-2xl text-center font-semibold">
-              Conselho da Juventude
-            </h1>
-          </CardTitle>
+          <CardTitle className="text-center">Conselho da Juventude</CardTitle>
         </CardHeader>
         <Separator />
         <CardContent>
@@ -39,9 +35,12 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
               </span>
             </h2>
             <h2 className="font-semibold">
-              Local do Evento: <span className="font-normal">À decidir</span>
+              Local do Evento:{' '}
+              <span className="font-normal">Rio Verde - GO</span>
             </h2>
-            <div />
+            <h2 className="font-semibold">
+              Data: <span className="font-normal">23 e 24 de setembro</span>
+            </h2>
             <h2 className="font-semibold">
               Participante:{' '}
               <span className="font-normal">{toTitleCase(attendee.name)}</span>
@@ -55,10 +54,15 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
             </h2>
             <h2 className="font-semibold">
               Status do Pagamento:{' '}
-              <span className="font-normal">{toTitleCase(attendee.campo)}</span>
+              <span className="font-normal">
+                {toTitleCase(
+                  attendee.Subscription?.Cart?.Order?.paymentStatus ??
+                    'Não foi possível carregar o status',
+                )}
+              </span>
             </h2>
           </div>
-          <div className="flex flex-col items-center w-full justfiy-center mt-6 gap-2">
+          <div className="flex flex-col items-center w-full justfiy-center mt-10 gap-2">
             <h2 className="font-semibold">Digitalizar o QRCode:</h2>
             <QRCode
               size={200}

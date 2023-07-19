@@ -7,6 +7,21 @@ export async function getAttendeeById(id: string) {
     where: {
       id,
     },
+    include: {
+      Subscription: {
+        select: {
+          Cart: {
+            select: {
+              Order: {
+                select: {
+                  paymentStatus: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   })
 
   if (!attendee) {
