@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { toTitleCase } from '@/lib/utils'
+import { cn, toTitleCase } from '@/lib/utils'
 
 interface AdminPageProps {
   searchParams: {
@@ -101,12 +101,29 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <TableRow key={attendee.id}>
                   <TableCell>{toTitleCase(attendee.name)}</TableCell>
                   <TableCell>{attendee.email}</TableCell>
-                  <TableCell>
+                  <TableCell
+                    className={cn(
+                      attendee.Subscription?.Cart?.Order?.paymentStatus ===
+                        'PENDENTE'
+                        ? 'text-yellow-500'
+                        : attendee.Subscription?.Cart?.Order?.paymentStatus ===
+                          'PAGO'
+                        ? 'text-green-500'
+                        : '',
+                    )}
+                  >
                     {toTitleCase(
-                      attendee.Subscription?.Cart?.Order?.paymentStatus ?? '',
+                      attendee.Subscription?.Cart?.Order?.paymentStatus ??
+                        'Não foi possível carregar',
                     )}
                   </TableCell>
-                  <TableCell>
+                  <TableCell
+                    className={cn(
+                      attendee.confirmedPresence
+                        ? 'text-green-500'
+                        : 'text-red-500',
+                    )}
+                  >
                     {attendee.confirmedPresence ? 'SIM' : 'NÃO'}
                   </TableCell>
                 </TableRow>
