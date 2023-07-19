@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import { formatPrice } from '@/lib/utils'
+import { catchError, formatPrice } from '@/lib/utils'
 import { useAuth } from '@clerk/nextjs'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
@@ -56,14 +56,17 @@ export default function FinishPayment() {
     onSuccess: (data) => {
       router.push(data.settings.checkoutUrl)
     },
+    onError: (error) => {
+      catchError(error)
+    },
   })
 
   if (!data || isLoading) {
     return (
-      <div className="max-w-[600px] mx-auto mt-16">
+      <div className="max-w-[600px] mx-auto px-4 md:px-0 mt-16">
         <Card>
           <CardHeader>
-            <CardTitle>Resumo do Pedido</CardTitle>
+            <CardTitle>Carrinho</CardTitle>
           </CardHeader>
           <CardContent>
             <table>

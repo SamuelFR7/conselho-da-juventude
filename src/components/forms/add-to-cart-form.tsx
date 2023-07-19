@@ -11,8 +11,8 @@ import axios from 'axios'
 import { z } from 'zod'
 import { useSearchParams, useRouter } from 'next/navigation'
 import React from 'react'
-import { toast } from 'sonner'
 import { Icons } from '../icons'
+import { catchError } from '@/lib/utils'
 
 type Inputs = z.infer<typeof createAttendeesSchema>
 
@@ -66,9 +66,7 @@ export function AddToCartForm() {
       router.push('/evento/finalizar-pagamento')
     },
     onError: (error) => {
-      error instanceof Error
-        ? toast.error(error.message)
-        : toast.error('Algo deu errado, tente novamente')
+      catchError(error)
     },
   })
 
@@ -77,10 +75,7 @@ export function AddToCartForm() {
   }
 
   return (
-    <form
-      className="flex flex-col gap-4"
-      onSubmit={handleSubmit(handleConfirm)}
-    >
+    <form className="flex flex-col " onSubmit={handleSubmit(handleConfirm)}>
       {fields.map((field, index) => (
         <div key={field.id}>
           <h2 className="text-lg font-medium">Participante - {index + 1}</h2>
@@ -107,10 +102,10 @@ export function AddToCartForm() {
               </p>
             </div>
           </div>
-          {index < quantity - 1 && <Separator />}
+          {index < quantity - 1 && <Separator className="my-8" />}
         </div>
       ))}
-      <Button disabled={isLoading || isSuccess} type="submit">
+      <Button className="mt-4" disabled={isLoading || isSuccess} type="submit">
         {(isLoading || isSuccess) && (
           <Icons.spinner
             className="mr-2 h-4 w-4 animate-spin"

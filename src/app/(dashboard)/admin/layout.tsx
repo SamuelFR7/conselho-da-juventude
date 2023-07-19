@@ -10,17 +10,17 @@ export default async function AdminLayout({
   const { userId } = auth()
 
   if (!userId) {
-    redirect('/')
+    redirect('/evento')
   }
 
   const user = await clerkClient.users.getUser(userId)
 
   if (!user) {
-    redirect('/')
+    redirect('/evento')
   }
 
   if (user.privateMetadata.role !== 'admin') {
-    redirect('/')
+    redirect('/evento')
   }
 
   return <main>{children}</main>

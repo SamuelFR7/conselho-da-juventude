@@ -84,64 +84,57 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           </CardContent>
         </Card>
       </div>
-      <Card>
-        <CardContent>
-          <CardHeader>
-            <CardTitle>Inscritos</CardTitle>
-          </CardHeader>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Nome</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Status de Pagamento</TableHead>
-                <TableHead>Confirmada</TableHead>
-                <TableHead>Gerenciar</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {allAttendees.map((attendee) => (
-                <TableRow key={attendee.id}>
-                  <TableCell>{toTitleCase(attendee.name)}</TableCell>
-                  <TableCell>{attendee.email}</TableCell>
-                  <TableCell
-                    className={cn(
-                      attendee.Subscription?.Cart?.Order?.paymentStatus ===
-                        'PENDENTE'
-                        ? 'text-yellow-500'
-                        : attendee.Subscription?.Cart?.Order?.paymentStatus ===
-                          'PAGO'
-                        ? 'text-green-500'
-                        : '',
-                    )}
-                  >
-                    {toTitleCase(
-                      attendee.Subscription?.Cart?.Order?.paymentStatus ??
-                        'Não foi possível carregar',
-                    )}
-                  </TableCell>
-                  <TableCell
-                    className={cn(
-                      attendee.confirmedPresence
-                        ? 'text-green-500'
-                        : 'text-red-500',
-                    )}
-                  >
-                    {attendee.confirmedPresence ? 'SIM' : 'NÃO'}
-                  </TableCell>
-                  <TableCell>
-                    <Link href={`/admin/confirm/${attendee.id}`}>
-                      <Button size="icon" variant="ghost">
-                        <Icons.settings />
-                      </Button>
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Nome</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Status de Pagamento</TableHead>
+            <TableHead>Confirmada</TableHead>
+            <TableHead>Gerenciar</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {allAttendees.map((attendee) => (
+            <TableRow key={attendee.id}>
+              <TableCell>{toTitleCase(attendee.name)}</TableCell>
+              <TableCell>{attendee.email}</TableCell>
+              <TableCell
+                className={cn(
+                  attendee.Subscription?.Cart?.Order?.paymentStatus ===
+                    'PENDENTE'
+                    ? 'text-yellow-500'
+                    : attendee.Subscription?.Cart?.Order?.paymentStatus ===
+                      'PAGO'
+                    ? 'text-green-500'
+                    : '',
+                )}
+              >
+                {toTitleCase(
+                  attendee.Subscription?.Cart?.Order?.paymentStatus ??
+                    'Não foi possível carregar',
+                )}
+              </TableCell>
+              <TableCell
+                className={cn(
+                  attendee.confirmedPresence
+                    ? 'text-green-500'
+                    : 'text-red-500',
+                )}
+              >
+                {attendee.confirmedPresence ? 'SIM' : 'NÃO'}
+              </TableCell>
+              <TableCell>
+                <Link href={`/admin/confirm/${attendee.id}`}>
+                  <Button size="icon" variant="ghost">
+                    <Icons.settings />
+                  </Button>
+                </Link>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
       <TablePagination
         currentPage={searchParams.page ? parseInt(searchParams.page) : 1}
         dataCount={count}
