@@ -16,7 +16,7 @@ const finishSchema = z.object({
 })
 
 export async function POST(req: Request, res: Response) {
-  const body = await req.json()
+  const body = await req.text()
 
   const data = finishSchema.parse(body)
 
