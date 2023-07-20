@@ -8,7 +8,7 @@ export default function AuthLayout({
 }) {
   return (
     <div>
-      <DashboardHeader />
+      <DashboardHeader user={null} />
       <main>{children}</main>
     </div>
   )
