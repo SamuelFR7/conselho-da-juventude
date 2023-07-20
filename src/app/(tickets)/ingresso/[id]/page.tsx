@@ -47,7 +47,9 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
             </h2>
             <h2 className="font-semibold">
               Campo:{' '}
-              <span className="font-normal">{toTitleCase(attendee.campo)}</span>
+              <span className="font-normal">
+                {toTitleCase(attendee.field.name)}
+              </span>
             </h2>
             <h2 className="font-semibold">
               Email: <span className="font-normal">{attendee.email}</span>

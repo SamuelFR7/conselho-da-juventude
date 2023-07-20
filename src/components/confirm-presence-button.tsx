@@ -12,7 +12,10 @@ interface ConfirmPresenceButtonProps {
     id: string
     name: string
     email: string
-    campo: string
+    field: {
+      id: number
+      name: string
+    }
     confirmedPresence: boolean
     Subscription: {
       Cart: {

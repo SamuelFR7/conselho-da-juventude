@@ -18,7 +18,10 @@ export type CartInfo = {
             id: string
             name: string
             email: string
-            campo: string
+            field: {
+              id: number
+              name: string
+            }
           },
         ]
       },

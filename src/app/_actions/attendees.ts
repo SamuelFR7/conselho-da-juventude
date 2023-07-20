@@ -8,6 +8,7 @@ export async function getAttendeeById(id: string) {
       id,
     },
     include: {
+      field: true,
       Subscription: {
         select: {
           Cart: {
@@ -37,6 +38,7 @@ export async function confirmAttendeePresenceAction(id: string) {
       id,
     },
     include: {
+      field: true,
       Subscription: {
         select: {
           Cart: {
@@ -74,6 +76,7 @@ export async function confirmAttendeePresenceAction(id: string) {
 export async function getAllAttendees(page: number) {
   const attendees = await db.attendee.findMany({
     include: {
+      field: true,
       Subscription: {
         select: {
           Cart: {
