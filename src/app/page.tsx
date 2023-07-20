@@ -4,12 +4,18 @@ import { Separator } from '@/components/ui/separator'
 import Image from 'next/image'
 import Link from 'next/link'
 import arte from '../../public/assets/arte.png'
+import logo from '../../public/assets/logo.png'
 
 export default function Home() {
   return (
     <div className="bg-zinc-50">
       <header className="flex items-center justify-between px-8 shadow-lg fixed top-0 left-0 bg-white w-full">
-        <h1>Conselho da Juventude - 2023</h1>
+        <div className="flex items-center gap-2">
+          <Image src={logo} alt="Logo da Cadesgo" height={45} />
+          <h2 className="text-lg font-bold hidden md:block">
+            Conselho da Juventude
+          </h2>
+        </div>
         <nav>
           <ul className="flex gap-8 py-4">
             <li>
@@ -24,7 +30,7 @@ export default function Home() {
             </li>
           </ul>
         </nav>
-        <div>
+        <div className="hidden md:block">
           <Link href="/sign-in">
             <Button className="text-black" variant="link">
               Log in
