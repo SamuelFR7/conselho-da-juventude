@@ -11,15 +11,23 @@ datasource db {
   relationMode = "prisma"
 }
 
+model Field {
+  id       Int        @id
+  name     String
+  Attendee Attendee[]
+}
+
 model Attendee {
   id                String        @id @default(cuid())
   name              String
   email             String
-  campo             String
+  field             Field         @relation(fields: [fieldId], references: [id])
+  fieldId           Int
   confirmedPresence Boolean       @default(false)
   Subscription      Subscription? @relation(fields: [subscriptionId], references: [id])
   subscriptionId    String?
 
+  @@index([fieldId])
   @@index([subscriptionId])
   @@map("attendees")
 }
@@ -46,14 +54,20 @@ model Cart {
 }
 
 model Order {
-  id            String   @id @default(cuid())
-  orderNumber   String   @unique
-  cart          Cart     @relation(fields: [cartId], references: [id])
-  cartId        String   @unique
-  paymentStatus String
-  userId        String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt()
+  id                  String   @id @default(cuid())
+  orderNumber         String   @unique
+  cart                Cart     @relation(fields: [cartId], references: [id])
+  cartId              String   @unique
+  paymentStatus       String
+  amount              Int
+  payment_method_type Int?
+  customer_email      String?
+  customer_identity   String?
+  customer_name       String?
+  customer_phone      String?
+  userId              String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt()
 
   @@index([cartId])
   @@map("orders")

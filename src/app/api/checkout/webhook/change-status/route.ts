@@ -41,7 +41,11 @@ export async function POST(req: Request, res: Response) {
             include: {
               subscriptions: {
                 include: {
-                  attendees: true,
+                  attendees: {
+                    include: {
+                      field: true,
+                    },
+                  },
                 },
               },
             },

@@ -16,7 +16,10 @@ type Subscription = {
     id: string
     name: string
     email: string
-    campo: string
+    field: {
+      id: number
+      name: string
+    }
   }[]
   status: string
 }
