@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import Image from 'next/image'
 import Link from 'next/link'
+import arte from '../../public/assets/arte.png'
 
 export default function Home() {
   return (
@@ -33,11 +35,7 @@ export default function Home() {
           </Link>
         </div>
       </header>
-      <img
-        src="/assets/arte.png"
-        alt="Arte de divulgação evento"
-        className="w-full"
-      />
+      <Image src={arte} className="w-full" alt="Arte de divulgação evento" />
       <section className="py-16 px-2 md:px-0">
         <Card className="max-w-[600px] mx-auto border-primary-gradient px-4 bg-zinc-50">
           <CardHeader>
