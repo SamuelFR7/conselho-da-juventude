@@ -1,4 +1,8 @@
 {
-  "order_number": "f9c6bd4f5447499a99faec78a2a12993",
-  "payment_status": "2"
+  "order_number": "61abe76c26d24939bb8971f7e26474d8",
+  "payment_status": "2",
+  "customer_name": "Samuel Ferreira",
+  "customer_email": "samuelferreirarezende@gmail.com",
+  "payment_method_type": 1,
+  "test_transaction": true
 }

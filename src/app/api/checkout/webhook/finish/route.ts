@@ -6,7 +6,6 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
 const finishSchema = z.object({
-  amount: z.string(),
   order_number: z.string(),
   customer_name: z.string(),
   customer_identity: z.string(),
@@ -32,7 +31,7 @@ export async function POST(req: Request, res: Response) {
           customerEmail: data.customer_email,
           customerIdentity: data.customer_identity,
           customerName: data.customer_name,
-          payment_method_type: data.payment_method_type,
+          paymentMethodType: data.payment_method_type,
         },
       })
       break
@@ -43,7 +42,7 @@ export async function POST(req: Request, res: Response) {
           customerEmail: data.customer_email,
           customerIdentity: data.customer_identity,
           customerName: data.customer_name,
-          payment_method_type: data.payment_method_type,
+          paymentMethodType: data.payment_method_type,
         },
         data: {
           paymentStatus: 'PAGO',
@@ -79,7 +78,7 @@ export async function POST(req: Request, res: Response) {
           customerEmail: data.customer_email,
           customerIdentity: data.customer_identity,
           customerName: data.customer_name,
-          payment_method_type: data.payment_method_type,
+          paymentMethodType: data.payment_method_type,
         },
       })
       break
@@ -93,7 +92,7 @@ export async function POST(req: Request, res: Response) {
           customerEmail: data.customer_email,
           customerIdentity: data.customer_identity,
           customerName: data.customer_name,
-          payment_method_type: data.payment_method_type,
+          paymentMethodType: data.payment_method_type,
         },
       })
       break
@@ -107,7 +106,7 @@ export async function POST(req: Request, res: Response) {
           customerEmail: data.customer_email,
           customerIdentity: data.customer_identity,
           customerName: data.customer_name,
-          payment_method_type: data.payment_method_type,
+          paymentMethodType: data.payment_method_type,
         },
       })
       break
@@ -121,7 +120,7 @@ export async function POST(req: Request, res: Response) {
           customerEmail: data.customer_email,
           customerIdentity: data.customer_identity,
           customerName: data.customer_name,
-          payment_method_type: data.payment_method_type,
+          paymentMethodType: data.payment_method_type,
         },
       })
       break
@@ -135,7 +134,7 @@ export async function POST(req: Request, res: Response) {
           customerEmail: data.customer_email,
           customerIdentity: data.customer_identity,
           customerName: data.customer_name,
-          payment_method_type: data.payment_method_type,
+          paymentMethodType: data.payment_method_type,
         },
       })
       break
@@ -149,7 +148,7 @@ export async function POST(req: Request, res: Response) {
           customerEmail: data.customer_email,
           customerIdentity: data.customer_identity,
           customerName: data.customer_name,
-          payment_method_type: data.payment_method_type,
+          paymentMethodType: data.payment_method_type,
         },
       })
       break
