@@ -90,6 +90,7 @@ export async function POST(req: Request, res: Response) {
     await db.order.create({
       data: {
         orderNumber: data.orderNumber,
+        amount: totalAttendees * 10000,
         paymentStatus: 'PENDENTE',
         userId,
         cart: {

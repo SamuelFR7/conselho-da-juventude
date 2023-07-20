@@ -61,10 +61,9 @@ model Order {
   paymentStatus       String
   amount              Int
   payment_method_type Int?
-  customer_email      String?
-  customer_identity   String?
-  customer_name       String?
-  customer_phone      String?
+  customerEmail       String?
+  customerIdentity    String?
+  customerName        String?
   userId              String
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt()
