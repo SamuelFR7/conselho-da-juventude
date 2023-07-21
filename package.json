@@ -14,7 +14,6 @@
     "shadcn:add": "npx shadcn-ui@latest add",
     "email:dev": "email dev --dir src/components/emails -p 3001",
     "typecheck": "tsc --noEmit",
-    "thing": "npx webhookthing@latest",
     "db:insertfields": "npx tsx src/db/scripts/fieldsToDb.ts"
   },
   "dependencies": {

@@ -1,6 +1,7 @@
 'use server'
 
 import { db } from '@/db'
+import { revalidatePath } from 'next/cache'
 
 export async function getAttendeeById(id: string) {
   const attendee = await db.attendee.findUnique({
@@ -71,6 +72,7 @@ export async function confirmAttendeePresenceAction(id: string) {
       confirmedPresence: true,
     },
   })
+  revalidatePath('/admin/')
 }
 
 export async function getAllAttendees(page: number) {
