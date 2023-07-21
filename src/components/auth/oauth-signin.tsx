@@ -31,7 +31,7 @@ export function OAuthSignIn() {
       await signIn.authenticateWithRedirect({
         strategy: provider,
         redirectUrl: '/sso-callback',
-        redirectUrlComplete: redirectUrl ?? '/evento/',
+        redirectUrlComplete: redirectUrl ? '/' : '/evento/',
       })
     } catch (error) {
       setIsLoading(null)
