@@ -3,7 +3,7 @@
 import { db } from '@/db'
 import { revalidatePath } from 'next/cache'
 
-export async function getAttendeeById(id: string) {
+export async function getAttendeeByIdAction(id: string) {
   const attendee = await db.attendee.findUnique({
     where: {
       id,
@@ -75,7 +75,7 @@ export async function confirmAttendeePresenceAction(id: string) {
   revalidatePath('/admin/')
 }
 
-export async function getAllAttendees(page: number) {
+export async function getAllAttendeesAction(page: number) {
   const attendees = await db.attendee.findMany({
     include: {
       field: true,
@@ -93,16 +93,35 @@ export async function getAllAttendees(page: number) {
         },
       },
     },
+    where: {
+      Subscription: {
+        Cart: {
+          Order: {
+            isNot: null,
+          },
+        },
+      },
+    },
     skip: (page - 1) * 10,
     take: 10,
   })
 
-  const count = await db.attendee.count()
+  const count = await db.attendee.count({
+    where: {
+      Subscription: {
+        Cart: {
+          Order: {
+            isNot: null,
+          },
+        },
+      },
+    },
+  })
 
   return { attendees, count }
 }
 
-export async function getPayedAndConfirmedAttendees() {
+export async function getPayedAndConfirmedAttendeesAction() {
   const attendees = await db.attendee.count({
     where: {
       Subscription: {
@@ -123,7 +142,7 @@ export async function getPayedAndConfirmedAttendees() {
   return attendees
 }
 
-export async function getPayedAttendees() {
+export async function getPayedAttendeesAction() {
   const attendees = await db.attendee.count({
     where: {
       Subscription: {
@@ -144,7 +163,7 @@ export async function getPayedAttendees() {
   return attendees
 }
 
-export async function getToPayAttendees() {
+export async function getToPayAttendeesAction() {
   const attendees = await db.attendee.count({
     where: {
       Subscription: {

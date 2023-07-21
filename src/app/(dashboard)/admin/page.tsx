@@ -1,8 +1,8 @@
 import {
-  getAllAttendees,
-  getPayedAndConfirmedAttendees,
-  getPayedAttendees,
-  getToPayAttendees,
+  getAllAttendeesAction,
+  getPayedAndConfirmedAttendeesAction,
+  getPayedAttendeesAction,
+  getToPayAttendeesAction,
 } from '@/app/_actions/attendees'
 import { Icons } from '@/components/icons'
 import { Shell } from '@/components/shells/shell'
@@ -33,12 +33,12 @@ interface AdminPageProps {
 }
 
 export default async function AdminPage({ searchParams }: AdminPageProps) {
-  const { attendees: allAttendees, count } = await getAllAttendees(
+  const { attendees: allAttendees, count } = await getAllAttendeesAction(
     searchParams.page ? parseInt(searchParams.page) : 1,
   )
-  const payedAndConfirmedAttendees = await getPayedAndConfirmedAttendees()
-  const payedAttendees = await getPayedAttendees()
-  const toPayAttendees = await getToPayAttendees()
+  const payedAndConfirmedAttendees = await getPayedAndConfirmedAttendeesAction()
+  const payedAttendees = await getPayedAttendeesAction()
+  const toPayAttendees = await getToPayAttendeesAction()
 
   return (
     <Shell>
