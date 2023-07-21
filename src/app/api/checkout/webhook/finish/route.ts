@@ -11,12 +11,11 @@ const finishSchema = z.object({
   customer_identity: z.string(),
   customer_email: z.string(),
   payment_status: z.string(),
-  payment_method_type: z.number(),
-  test_transaction: z.boolean(),
+  payment_method_type: z.string().transform((arg) => Number(arg)),
 })
 
 export async function POST(req: Request, res: Response) {
-  const body = await req.text()
+  const body = await req.json()
 
   const data = finishSchema.parse(body)
 

@@ -1,0 +1,10 @@
+{
+    "checkout_cielo_order_number": "b918afea483d4c6c8615d8a8e19803c1",
+    "amount": "134",
+    "order_number": "61abe76c26d24939bb8971f7e26474d8",
+    "payment_status": "3",
+    "test_transaction": "False",
+    "brand": "Visa",
+    "nsu": "000001",
+    "authorization_code": "01234567"
+}

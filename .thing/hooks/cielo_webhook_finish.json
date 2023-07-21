@@ -1,0 +1,20 @@
+{
+    "order_number": "61abe76c26d24939bb8971f7e26474d8",
+    "amount": "5000",
+    "checkout_cielo_order_number": "b9ab1956738d45cc88edf51d7d03b13e",
+    "created_date": "02/02/2023 17:01:35", 
+    "customer_name": "nome do cliente", 
+    "customer_phone": "2222222222", 
+    "customer_identity": "12312312344", 
+    "customer_email": "nome@email.com.br", 
+    "shipping_type": "5", 
+    "shipping_price": "0", 
+    "payment_method_type": "6", 
+    "payment_installments": "1", 
+    "payment_status": "1", 
+    "test_transaction": "False", 
+    "product_id": "0f48e580-d0a2-4e3b-a748-6704927f1725", 
+    "product_type": "3", 
+    "product_description": "123", 
+    "nsu": "00339922"
+}
