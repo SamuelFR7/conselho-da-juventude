@@ -15,9 +15,9 @@ const finishSchema = z.object({
 })
 
 export async function POST(req: Request, res: Response) {
-  const body = await req.json()
+  const body = await req.text()
 
-  const data = finishSchema.parse(body)
+  const data = finishSchema.parse(JSON.parse(body))
 
   switch (data.payment_status) {
     case '1':
