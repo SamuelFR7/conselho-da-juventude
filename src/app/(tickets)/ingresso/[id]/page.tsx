@@ -58,7 +58,7 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
               Status do Pagamento:{' '}
               <span className="font-normal">
                 {toTitleCase(
-                  attendee.Subscription?.Cart?.Order?.paymentStatus ??
+                  attendee.Subscription.Cart.Order?.paymentStatus ??
                     'Não foi possível carregar o status',
                 )}
               </span>

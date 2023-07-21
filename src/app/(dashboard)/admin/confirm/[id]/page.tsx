@@ -44,17 +44,15 @@ export default async function AdminConfirmPage({
               <span
                 className={cn(
                   'font-normal',
-                  attendee.Subscription?.Cart?.Order?.paymentStatus ===
-                    'PENDENTE'
+                  attendee.Subscription.Cart.Order?.paymentStatus === 'PENDENTE'
                     ? 'text-yellow-500'
-                    : attendee.Subscription?.Cart?.Order?.paymentStatus ===
-                      'PAGO'
+                    : attendee.Subscription.Cart.Order?.paymentStatus === 'PAGO'
                     ? 'text-green-500'
                     : '',
                 )}
               >
                 {toTitleCase(
-                  attendee.Subscription?.Cart?.Order?.paymentStatus ??
+                  attendee.Subscription.Cart.Order?.paymentStatus ??
                     'Não foi possível carregar o status',
                 )}
               </span>

@@ -22,8 +22,8 @@ interface ConfirmPresenceButtonProps {
         Order: {
           paymentStatus: string
         } | null
-      } | null
-    } | null
+      }
+    }
   }
 }
 
@@ -51,7 +51,7 @@ export function ConfirmPresenceButton({
       disabled={
         isPending ||
         attendee.confirmedPresence ||
-        attendee.Subscription?.Cart?.Order?.paymentStatus !== 'PAGO'
+        attendee.Subscription.Cart.Order?.paymentStatus !== 'PAGO'
       }
       onClick={confirmPresenceSubmit}
     >

@@ -14,7 +14,8 @@
     "shadcn:add": "npx shadcn-ui@latest add",
     "email:dev": "email dev --dir src/components/emails -p 3001",
     "typecheck": "tsc --noEmit",
-    "db:insertfields": "npx tsx src/db/scripts/fieldsToDb.ts"
+    "db:insertfields": "npx tsx src/db/scripts/fieldsToDb.ts",
+    "db:clear": "npx tsx src/db/scripts/clearDb.ts"
   },
   "dependencies": {
     "@clerk/localizations": "^1.22.1",

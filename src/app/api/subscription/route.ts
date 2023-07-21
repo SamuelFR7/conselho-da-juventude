@@ -26,7 +26,6 @@ export async function POST(req: Request) {
       data: {
         subscriptions: {
           create: {
-            status: 'PAGAMENTO_PENDENTE',
             attendees: {
               create: attendees,
             },
@@ -43,7 +42,6 @@ export async function POST(req: Request) {
   await db.subscription.create({
     data: {
       cartId,
-      status: 'PAGAMENTO_PENDENTE',
       attendees: {
         create: attendees,
       },

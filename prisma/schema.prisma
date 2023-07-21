@@ -18,14 +18,14 @@ model Field {
 }
 
 model Attendee {
-  id                String        @id @default(cuid())
+  id                String       @id @default(cuid())
   name              String
   email             String
-  field             Field         @relation(fields: [fieldId], references: [id])
+  field             Field        @relation(fields: [fieldId], references: [id])
   fieldId           Int
-  confirmedPresence Boolean       @default(false)
-  Subscription      Subscription? @relation(fields: [subscriptionId], references: [id])
-  subscriptionId    String?
+  confirmedPresence Boolean      @default(false)
+  Subscription      Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId    String
 
   @@index([fieldId])
   @@index([subscriptionId])
@@ -35,10 +35,9 @@ model Attendee {
 model Subscription {
   id        String     @id @default(cuid())
   attendees Attendee[]
-  Cart      Cart?      @relation(fields: [cartId], references: [id])
-  cartId    String?
+  Cart      Cart       @relation(fields: [cartId], references: [id])
+  cartId    String
   userId    String?
-  status    String
 
   @@index([cartId])
   @@map("subscriptions")

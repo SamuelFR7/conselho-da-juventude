@@ -66,7 +66,6 @@ export function AddToCartForm() {
     mutationFn: async ({ attendees }: Inputs) => {
       const payload = {
         attendees,
-        currentCartHash: localStorage.getItem('cart_hash'),
       }
 
       const { data } = await axios.post('/api/subscription/', payload)

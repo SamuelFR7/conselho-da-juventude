@@ -60,7 +60,7 @@ export async function confirmAttendeePresenceAction(id: string) {
     throw new Error('Attendee not found')
   }
 
-  if (attendeeToConfirm.Subscription?.Cart?.Order?.paymentStatus !== 'PAGO') {
+  if (attendeeToConfirm.Subscription.Cart.Order?.paymentStatus !== 'PAGO') {
     throw new Error('Não é possível confirmar uma inscrição não paga')
   }
 
