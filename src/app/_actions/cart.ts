@@ -22,7 +22,8 @@ export async function getCartSubscriptionsAction() {
   })
 
   if (!cart) {
-    throw new Error('Cart not found')
+    cookies().delete('cartId')
+    return []
   }
 
   return cart.subscriptions

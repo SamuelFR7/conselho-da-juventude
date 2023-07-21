@@ -28,12 +28,14 @@ export async function GET(req: Request) {
   })
 
   if (!cart) {
-    cookieStore.set({
-      name: 'cartId',
-      value: '',
-      expires: new Date(0),
-    })
-    return new Response('Cart does not exists', { status: 400 })
+    cookieStore.delete('cartId')
+    return new Response(
+      JSON.stringify({
+        cart: {
+          subscriptions: [],
+        },
+      }),
+    )
   }
 
   return new Response(
