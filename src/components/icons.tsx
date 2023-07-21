@@ -9,6 +9,7 @@ import {
   Settings,
   ShoppingCart,
   User,
+  UserPlus,
 } from 'lucide-react'
 
 export const Icons = {
@@ -21,6 +22,7 @@ export const Icons = {
   view: Eye,
   admin: Lock,
   settings: Settings,
+  manualSub: UserPlus,
   google: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

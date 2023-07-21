@@ -37,7 +37,6 @@ model Subscription {
   attendees Attendee[]
   Cart      Cart       @relation(fields: [cartId], references: [id])
   cartId    String
-  userId    String?
 
   @@index([cartId])
   @@map("subscriptions")

@@ -22,7 +22,11 @@ const chooseQuantitySchema = z.object({
 
 export type Inputs = z.infer<typeof chooseQuantitySchema>
 
-export function ChooseQuantityForm() {
+interface ChooseQuantityFormProps {
+  redirectUrl?: string
+}
+
+export function ChooseQuantityForm({ redirectUrl }: ChooseQuantityFormProps) {
   const router = useRouter()
   const [isPending, startTransition] = React.useTransition()
 
@@ -37,7 +41,9 @@ export function ChooseQuantityForm() {
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        router.push(`/evento/inscricao?quantity=${data.quantity}`)
+        router.push(
+          `${redirectUrl ?? '/evento/inscricao'}?quantity=${data.quantity}`,
+        )
       } catch (error) {
         error instanceof Error
           ? toast.error(error.message)

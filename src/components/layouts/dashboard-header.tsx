@@ -87,16 +87,28 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                         Meus Pedidos
                       </Link>
                     </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     {user.privateMetadata.role === 'admin' && (
-                      <DropdownMenuItem asChild>
-                        <Link href="/admin/">
-                          <Icons.admin
-                            className="mr-2 h-4 w-4"
-                            aria-hidden="true"
-                          />
-                          Área do Administrador
-                        </Link>
-                      </DropdownMenuItem>
+                      <>
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin/">
+                            <Icons.admin
+                              className="mr-2 h-4 w-4"
+                              aria-hidden="true"
+                            />
+                            Área do Administrador
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin/manual">
+                            <Icons.manualSub
+                              className="mr-2 h-4 w-4"
+                              aria-hidden="true"
+                            />
+                            Inscrições manuais
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
                     )}
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />

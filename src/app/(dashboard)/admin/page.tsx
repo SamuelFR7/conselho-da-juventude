@@ -60,7 +60,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Icons.user className="text-red-500 font-semibold" />
+              <Icons.user className="text-yellow-500 font-semibold" />
               Inscrições Pagas
             </CardTitle>
             <CardDescription>
@@ -74,7 +74,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Icons.user className="text-green-500 font-semibold" />
+              <Icons.user className="text-red-500 font-semibold" />
               Inscrições À Pagar
             </CardTitle>
             <CardDescription>
