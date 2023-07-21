@@ -1,6 +1,5 @@
 'use client'
 import { catchError } from '@/lib/utils'
-import { formAttendeesSchema } from '@/lib/validations/attendees'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearchParams, useRouter } from 'next/navigation'
 import React from 'react'
@@ -9,6 +8,7 @@ import { z } from 'zod'
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,8 +27,9 @@ import { Separator } from '../ui/separator'
 import { Button } from '../ui/button'
 import { Icons } from '../icons'
 import { createManualSubscriptionsAction } from '@/app/_actions/subscriptions'
+import { formManualSubscriptionSchema } from '@/lib/validations/subscriptions'
 
-type Inputs = z.infer<typeof formAttendeesSchema>
+type Inputs = z.infer<typeof formManualSubscriptionSchema>
 
 export function CreateManualSubscriptionsForm() {
   const searchParams = useSearchParams()
@@ -47,7 +48,7 @@ export function CreateManualSubscriptionsForm() {
   }
 
   const form = useForm<Inputs>({
-    resolver: zodResolver(formAttendeesSchema),
+    resolver: zodResolver(formManualSubscriptionSchema),
     defaultValues: {
       attendees: arrWithLength(),
     },
@@ -150,6 +151,23 @@ export function CreateManualSubscriptionsForm() {
             {index < quantity - 1 && <Separator className="my-8" />}
           </div>
         ))}
+        <Separator className="my-8" />
+        <FormField
+          control={form.control}
+          name="emailToSend"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormDescription>
+                Email para o envio dos QRCode de ingressos
+              </FormDescription>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button className="mt-4" disabled={isPending} type="submit">
           {isPending && (
             <Icons.spinner
