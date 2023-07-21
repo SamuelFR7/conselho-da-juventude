@@ -1,4 +1,3 @@
-import OrderConfirmedEmail from '@/components/emails/order-confirmed-email'
 import TicketsEmail from '@/components/emails/tickets-email'
 import { db } from '@/db'
 import { env } from '@/env.mjs'
@@ -67,16 +66,6 @@ export async function POST(req: Request, res: Response) {
       if (!email) {
         break
       }
-
-      await resend.emails.send({
-        from: env.EMAIL_FROM_ADDRESS,
-        to: email,
-        subject: 'Compra Efetivada - Conselho da Juventude 2023',
-        react: OrderConfirmedEmail({
-          customerName: user.firstName,
-          subscriptions: order.cart.subscriptions,
-        }),
-      })
 
       const attendees = order.cart.subscriptions.flatMap((sub) => sub.attendees)
 

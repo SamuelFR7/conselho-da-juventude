@@ -1,3 +1,4 @@
+import TicketsEmail from '@/components/emails/tickets-email'
 import { db } from '@/db'
 import { env } from '@/env.mjs'
 import { resend } from '@/lib/resend'
@@ -48,6 +49,18 @@ export async function POST(req: Request, res: Response) {
         where: {
           orderNumber: data.order_number,
         },
+        select: {
+          cart: {
+            select: {
+              subscriptions: {
+                select: {
+                  attendees: true,
+                },
+              },
+            },
+          },
+          userId: true,
+        },
         data: {
           paymentStatus: 'PAGO',
           customerEmail: data.customer_email,
@@ -67,11 +80,15 @@ export async function POST(req: Request, res: Response) {
         break
       }
 
+      const attendees = order.cart.subscriptions.flatMap((sub) => sub.attendees)
+
       await resend.emails.send({
         from: env.EMAIL_FROM_ADDRESS,
         to: email,
-        subject: 'Inscrições Confirmadas - Conselho da Juventude 2023',
-        html: '<p>Parabéns, sua compra foi aprovada e suas inscrições estão aprovadas para o Conselho da Juventude 2023</p>',
+        subject: 'Ingressos do Evento - Conselho da Juventude 2023',
+        react: TicketsEmail({
+          attendees,
+        }),
       })
 
       break
