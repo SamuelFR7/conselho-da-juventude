@@ -1,20 +1,23 @@
 'use server'
 
 import { db } from '@/db'
-import {
-  createAttendeesSchema,
-  formAttendeesSchema,
-} from '@/lib/validations/attendees'
 import { auth } from '@clerk/nextjs'
 import { z } from 'zod'
 import { createId } from '@paralleldrive/cuid2'
 import { revalidatePath } from 'next/cache'
 import { catchError } from '@/lib/utils'
+import {
+  createManualSubscriptionSchema,
+  formManualSubscriptionSchema,
+} from '@/lib/validations/subscriptions'
+import { resend } from '@/lib/resend'
+import { env } from '@/env.mjs'
+import TicketsEmail from '@/components/emails/tickets-email'
 
 export async function createManualSubscriptionsAction(
-  input: z.infer<typeof formAttendeesSchema>,
+  input: z.infer<typeof formManualSubscriptionSchema>,
 ) {
-  const data = createAttendeesSchema.parse(input)
+  const data = createManualSubscriptionSchema.parse(input)
 
   const { userId } = auth()
 
@@ -23,7 +26,18 @@ export async function createManualSubscriptionsAction(
   }
 
   try {
-    await db.order.create({
+    const order = await db.order.create({
+      select: {
+        cart: {
+          select: {
+            subscriptions: {
+              select: {
+                attendees: true,
+              },
+            },
+          },
+        },
+      },
       data: {
         cart: {
           create: {
@@ -36,6 +50,7 @@ export async function createManualSubscriptionsAction(
             },
           },
         },
+
         orderNumber: createId(),
         paymentStatus: 'PAGO',
         amount: data.attendees.length * 10000,
@@ -43,6 +58,18 @@ export async function createManualSubscriptionsAction(
         userId,
       },
     })
+
+    const attendees = order.cart.subscriptions.flatMap((sub) => sub.attendees)
+
+    await resend.sendEmail({
+      from: env.EMAIL_FROM_ADDRESS,
+      to: data.emailToSend,
+      subject: 'Ingressos do Evento - Conselho da Juventude 2023',
+      react: TicketsEmail({
+        attendees,
+      }),
+    })
+
     revalidatePath('/admin/')
   } catch (error) {
     catchError(error)
