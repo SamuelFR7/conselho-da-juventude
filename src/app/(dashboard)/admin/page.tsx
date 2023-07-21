@@ -33,7 +33,9 @@ interface AdminPageProps {
 }
 
 export default async function AdminPage({ searchParams }: AdminPageProps) {
-  const { attendees: allAttendees, count } = await getAllAttendees(1)
+  const { attendees: allAttendees, count } = await getAllAttendees(
+    searchParams.page ? parseInt(searchParams.page) : 1,
+  )
   const payedAndConfirmedAttendees = await getPayedAndConfirmedAttendees()
   const payedAttendees = await getPayedAttendees()
   const toPayAttendees = await getToPayAttendees()
