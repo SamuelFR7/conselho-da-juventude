@@ -5,7 +5,7 @@ on:
     branches: ["*"]
 
 env:
-  NEXT_PUBLIC_APP_URL: "fake"
+  NEXT_PUBLIC_APP_URL: "https://fake.com"
   DATABASE_URL: 'fake'
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "fake"
   CLERK_SECRET_KEY: "fake"
