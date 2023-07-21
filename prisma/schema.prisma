@@ -24,7 +24,7 @@ model Attendee {
   field             Field        @relation(fields: [fieldId], references: [id])
   fieldId           Int
   confirmedPresence Boolean      @default(false)
-  Subscription      Subscription @relation(fields: [subscriptionId], references: [id])
+  Subscription      Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
   subscriptionId    String
 
   @@index([fieldId])
