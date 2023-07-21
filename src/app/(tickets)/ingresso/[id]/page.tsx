@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { toTitleCase } from '@/lib/utils'
 import { env } from '@/env.mjs'
-import { getAttendeeById } from '@/app/_actions/attendees'
+import { getAttendeeByIdAction } from '@/app/_actions/attendees'
 import { PrintPageButton } from '@/components/print-page-button'
 import QRCode from 'react-qr-code'
 
@@ -11,7 +11,7 @@ interface IngressoIdPageProps {
 }
 
 export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
-  const attendee = await getAttendeeById(params.id)
+  const attendee = await getAttendeeByIdAction(params.id)
 
   return (
     <div className="flex flex-col items-center gap-4 w-full px-4 md:px-0">

@@ -1,4 +1,4 @@
-import { getAttendeeById } from '@/app/_actions/attendees'
+import { getAttendeeByIdAction } from '@/app/_actions/attendees'
 import { ConfirmPresenceButton } from '@/components/confirm-presence-button'
 import { Shell } from '@/components/shells/shell'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -12,7 +12,7 @@ interface IngressoIdPageProps {
 export default async function AdminConfirmPage({
   params,
 }: IngressoIdPageProps) {
-  const attendee = await getAttendeeById(params.id)
+  const attendee = await getAttendeeByIdAction(params.id)
 
   return (
     <Shell>
