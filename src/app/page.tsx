@@ -3,15 +3,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import Image from 'next/image'
 import Link from 'next/link'
-import arte from '../../public/assets/arte.png'
-import logo from '../../public/assets/logo.png'
 
 export default function Home() {
   return (
     <div className="bg-zinc-50">
       <header className="flex items-center justify-between px-8 shadow-lg fixed top-0 left-0 bg-white w-full">
         <div className="flex items-center gap-2">
-          <Image src={logo} alt="Logo da Cadesgo" height={45} />
+          <Image
+            src="/images/logo.png"
+            alt="Logo da Cadesgo"
+            width={45}
+            height={45}
+          />
           <h2 className="text-lg font-bold hidden md:block">
             Conselho da Juventude
           </h2>
@@ -41,7 +44,13 @@ export default function Home() {
           </Link>
         </div>
       </header>
-      <Image src={arte} className="w-full" alt="Arte de divulgação evento" />
+      <Image
+        src="/images/arte.png"
+        width={1920}
+        height={1080}
+        className="w-full"
+        alt="Arte de divulgação evento"
+      />
       <section className="py-16 px-2 md:px-0">
         <Card className="max-w-[600px] mx-auto border-primary-gradient px-4 bg-zinc-50">
           <CardHeader>
