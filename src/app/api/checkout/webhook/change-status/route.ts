@@ -13,9 +13,14 @@ const changeStatusSchema = z.object({
 })
 
 export async function POST(req: Request, res: Response) {
-  const body = await req.json()
+  const body = await req.formData()
 
-  const { order_number, payment_status } = changeStatusSchema.parse(body)
+  const bodyJson = {
+    order_number: body.get('order_number'),
+    payment_status: body.get('payment_status'),
+  }
+
+  const { order_number, payment_status } = changeStatusSchema.parse(bodyJson)
 
   switch (payment_status) {
     case '1':

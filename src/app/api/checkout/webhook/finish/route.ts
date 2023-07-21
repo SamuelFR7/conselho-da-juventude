@@ -17,9 +17,16 @@ const finishSchema = z.object({
 export async function POST(req: Request, res: Response) {
   const body = await req.formData()
 
-  console.log(body)
+  const bodyJson = {
+    order_number: body.get('order_number'),
+    customer_name: body.get('customer_name'),
+    customer_identity: body.get('customer_identity'),
+    customer_email: body.get('customer_email'),
+    payment_status: body.get('payment_status'),
+    payment_method_type: body.get('payment_method_type'),
+  }
 
-  const data = finishSchema.parse(body)
+  const data = finishSchema.parse(bodyJson)
 
   switch (data.payment_status) {
     case '1':
@@ -40,13 +47,13 @@ export async function POST(req: Request, res: Response) {
       const order = await db.order.update({
         where: {
           orderNumber: data.order_number,
+        },
+        data: {
+          paymentStatus: 'PAGO',
           customerEmail: data.customer_email,
           customerIdentity: data.customer_identity,
           customerName: data.customer_name,
           paymentMethodType: data.payment_method_type,
-        },
-        data: {
-          paymentStatus: 'PAGO',
         },
       })
 
