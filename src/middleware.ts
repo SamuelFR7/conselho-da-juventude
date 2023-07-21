@@ -9,6 +9,7 @@ export default authMiddleware({
     '/evento(.*)',
     '/sign-in(.*)',
     '/sign-up(.*)',
+    '/sso-callback(.*)',
     '/api/subscription',
     '/api/cart',
     '/api/checkout/webhook(.*)',
