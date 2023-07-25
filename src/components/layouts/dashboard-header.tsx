@@ -99,7 +99,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href="/evento/admin/">
+                          <Link href="/evento/admin/manual/">
                             <Icons.manualSub
                               className="mr-2 h-4 w-4"
                               aria-hidden="true"
