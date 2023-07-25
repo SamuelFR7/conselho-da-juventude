@@ -1,4 +1,5 @@
 import { env } from '@/env.mjs'
+import { attendeeSchema } from '@/lib/validations/attendees'
 import {
   Body,
   Container,
@@ -11,12 +12,14 @@ import {
   Tailwind,
   Text,
 } from '@react-email/components'
+import { z } from 'zod'
 
 interface TicketsEmailProps {
-  attendees: {
-    name: string
-    id: string
-  }[]
+  attendees: Array<
+    z.infer<typeof attendeeSchema> & {
+      id: string
+    }
+  >
 }
 
 export default function TicketsEmail({
@@ -24,6 +27,10 @@ export default function TicketsEmail({
     {
       id: 'testID',
       name: 'Teste',
+      document: 'Teste',
+      email: 'email@teste.com',
+      fieldId: 'campoTeste',
+      shirtSize: 'T',
     },
   ],
 }: TicketsEmailProps) {

@@ -7,7 +7,6 @@ function insertFields() {
   fields.map(async (field) => {
     await prisma.field.create({
       data: {
-        id: field.id,
         name: field.name,
       },
     })

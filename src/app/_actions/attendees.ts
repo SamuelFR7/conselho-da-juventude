@@ -64,7 +64,7 @@ export async function confirmAttendeePresenceAction(id: string) {
       confirmedPresence: true,
     },
   })
-  revalidatePath('/admin/')
+  revalidatePath('/evento/admin/')
 }
 
 export async function getAllAttendeesAction(page: number) {

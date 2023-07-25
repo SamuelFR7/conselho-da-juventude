@@ -28,6 +28,7 @@ import { Button } from '../ui/button'
 import { Icons } from '../icons'
 import { createManualSubscriptionsAction } from '@/app/_actions/subscriptions'
 import { formManualSubscriptionSchema } from '@/lib/validations/subscriptions'
+import { shirtSizes } from '@/lib/shirtSizes'
 
 type Inputs = z.infer<typeof formManualSubscriptionSchema>
 
@@ -66,7 +67,7 @@ export function CreateManualSubscriptionsForm() {
     startTransition(async () => {
       try {
         await createManualSubscriptionsAction(data)
-        router.push('/admin/')
+        router.push('/evento/admin/')
       } catch (error) {
         catchError(error)
       }
@@ -80,73 +81,106 @@ export function CreateManualSubscriptionsForm() {
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
       >
         {fields.map((field, index) => (
-          <div key={index}>
+          <div key={field.id}>
             <h2 className="text-lg font-medium">Participante - {index + 1}</h2>
             <div className="flex flex-col gap-2">
-              <div className="space-y-2">
-                <FormField
-                  control={form.control}
-                  name={`attendees.${index}.name`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nome</FormLabel>
+              <FormField
+                control={form.control}
+                name={`attendees.${index}.name`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nome</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`attendees.${index}.email`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`attendees.${index}.document`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>CPF</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`attendees.${index}.fieldId`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Campo</FormLabel>
+                    <Select
+                      value={field.value}
+                      onValueChange={(value: typeof field.value) =>
+                        field.onChange(value)
+                      }
+                    >
                       <FormControl>
-                        <Input {...field} />
+                        <SelectTrigger>
+                          <SelectValue placeholder={field.value} />
+                        </SelectTrigger>
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="space-y-2">
-                <FormField
-                  control={form.control}
-                  name={`attendees.${index}.email`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <SelectContent>
+                        {dataFields.map((option) => (
+                          <SelectItem key={option.id} value={String(option.id)}>
+                            {option.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`attendees.${index}.shirtSize`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tamanho da Camiseta</FormLabel>
+                    <Select
+                      value={field.value}
+                      onValueChange={(value: typeof field.value) =>
+                        field.onChange(value)
+                      }
+                    >
                       <FormControl>
-                        <Input {...field} />
+                        <SelectTrigger>
+                          <SelectValue placeholder={field.value} />
+                        </SelectTrigger>
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="space-y-2">
-                <FormField
-                  control={form.control}
-                  name={`attendees.${index}.fieldId`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Campo</FormLabel>
-                      <Select
-                        value={field.value}
-                        onValueChange={(value: typeof field.value) =>
-                          field.onChange(value)
-                        }
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder={field.value} />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {dataFields.map((option) => (
-                            <SelectItem
-                              key={option.id}
-                              value={String(option.id)}
-                            >
-                              {option.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+                      <SelectContent>
+                        {shirtSizes.map((option, index) => (
+                          <SelectItem key={index} value={option.value}>
+                            {option.value}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             {index < quantity - 1 && <Separator className="my-8" />}
           </div>

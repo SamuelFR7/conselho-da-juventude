@@ -31,7 +31,7 @@ export function ConfirmPresenceButton({
         await confirmAttendeePresenceAction(attendee.id)
 
         toast.success('Presença confirmada com sucesso')
-        router.push('/admin/')
+        router.push('/evento/admin/')
       } catch (error) {
         catchError(error)
       }

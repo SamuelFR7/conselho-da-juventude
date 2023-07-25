@@ -110,10 +110,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     : '',
                 )}
               >
-                {toTitleCase(
-                  attendee.Subscription.payment.paymentStatus ??
-                    'Não foi possível carregar',
-                )}
+                {toTitleCase(attendee.Subscription.payment.paymentStatus)}
               </TableCell>
               <TableCell
                 className={cn(
@@ -125,7 +122,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 {attendee.confirmedPresence ? 'SIM' : 'NÃO'}
               </TableCell>
               <TableCell>
-                <Link href={`/admin/confirm/${attendee.id}`}>
+                <Link href={`/evento/admin/confirm/${attendee.id}`}>
                   <Button size="icon" variant="ghost">
                     <Icons.settings />
                   </Button>

@@ -69,7 +69,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                      <Link href="/account/">
+                      <Link href="/conta/">
                         <Icons.user
                           className="mr-2 h-4 w-4"
                           aria-hidden="true"
@@ -78,19 +78,19 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/account/my-orders">
+                      <Link href="/conta/minhas-inscricoes">
                         <Icons.order
                           className="mr-2 h-4 w-4"
                           aria-hidden="true"
                         />
-                        Meus Pedidos
+                        Minhas Inscrições
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     {user?.privateMetadata.role === 'admin' && (
                       <>
                         <DropdownMenuItem asChild>
-                          <Link href="/admin/">
+                          <Link href="/evento/admin/">
                             <Icons.admin
                               className="mr-2 h-4 w-4"
                               aria-hidden="true"
@@ -99,7 +99,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href="/admin/manual">
+                          <Link href="/evento/admin/">
                             <Icons.manualSub
                               className="mr-2 h-4 w-4"
                               aria-hidden="true"
