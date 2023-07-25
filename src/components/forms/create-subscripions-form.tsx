@@ -149,7 +149,7 @@ export function CreateSubscriptionsForm({
                       </FormControl>
                       <SelectContent>
                         {dataFields.map((option) => (
-                          <SelectItem key={option.id} value={String(option.id)}>
+                          <SelectItem key={option.id} value={option.id}>
                             {option.name}
                           </SelectItem>
                         ))}

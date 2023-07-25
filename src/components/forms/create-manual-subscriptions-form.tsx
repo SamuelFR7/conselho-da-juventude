@@ -22,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select'
-import { fields as dataFields } from '@/lib/fields'
 import { Separator } from '../ui/separator'
 import { Button } from '../ui/button'
 import { Icons } from '../icons'
@@ -32,7 +31,16 @@ import { shirtSizes } from '@/lib/shirtSizes'
 
 type Inputs = z.infer<typeof formManualSubscriptionSchema>
 
-export function CreateManualSubscriptionsForm() {
+interface CreateManualSubscriptionsFormProps {
+  dataFields: {
+    id: string
+    name: string
+  }[]
+}
+
+export function CreateManualSubscriptionsForm({
+  dataFields,
+}: CreateManualSubscriptionsFormProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [isPending, startTransition] = React.useTransition()
@@ -142,7 +150,7 @@ export function CreateManualSubscriptionsForm() {
                       </FormControl>
                       <SelectContent>
                         {dataFields.map((option) => (
-                          <SelectItem key={option.id} value={String(option.id)}>
+                          <SelectItem key={option.id} value={option.id}>
                             {option.name}
                           </SelectItem>
                         ))}

@@ -4,6 +4,7 @@
     ],
     "rules": {
         "no-void": "off",
-        "camelcase": "off"
+        "camelcase": "off",
+        "prefer-regex-literals": "off"
     }
 }

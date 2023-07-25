@@ -1,13 +1,9 @@
+import { getFields } from '@/app/_actions/fields'
 import { CreateSubscriptionsForm } from '@/components/forms/create-subscripions-form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { db } from '@/db'
 
 export default async function Inscricao() {
-  const fields = await db.field.findMany({
-    orderBy: {
-      name: 'asc',
-    },
-  })
+  const fields = await getFields()
 
   return (
     <div className="w-full flex items-center justify-center py-4 px-4 md:px-0">

@@ -1,8 +1,11 @@
+import { getFields } from '@/app/_actions/fields'
 import { CreateManualSubscriptionsForm } from '@/components/forms/create-manual-subscriptions-form'
 import { Shell } from '@/components/shells/shell'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-export default function ManualSubscriptionsPage() {
+export default async function ManualSubscriptionsPage() {
+  const fields = await getFields()
+
   return (
     <Shell>
       <Card>
@@ -10,7 +13,7 @@ export default function ManualSubscriptionsPage() {
           <CardTitle>Inscrições</CardTitle>
         </CardHeader>
         <CardContent>
-          <CreateManualSubscriptionsForm />
+          <CreateManualSubscriptionsForm dataFields={fields} />
         </CardContent>
       </Card>
     </Shell>
