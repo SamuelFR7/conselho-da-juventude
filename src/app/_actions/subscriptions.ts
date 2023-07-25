@@ -13,6 +13,20 @@ import {
 import { resend } from '@/lib/resend'
 import { env } from '@/env.mjs'
 import TicketsEmail from '@/components/emails/tickets-email'
+import { attendeeSchema } from '@/lib/validations/attendees'
+import axios from 'axios'
+
+interface CieloCheckoutResponse {
+  merchantId: string
+  orderNumber: string
+  softDescriptor: string
+  settings: {
+    checkoutUrl: string
+    profile: string
+    integrationType: string
+    version: number
+  }
+}
 
 export async function createManualSubscriptionsAction(
   input: z.infer<typeof formManualSubscriptionSchema>,
@@ -74,4 +88,58 @@ export async function createManualSubscriptionsAction(
   } catch (error) {
     catchError(error)
   }
+}
+
+export async function createSubscriptionAction(
+  inputs: z.infer<typeof attendeeSchema>[],
+) {
+  const { userId } = auth()
+
+  if (!userId) {
+    throw new Error('Unauthorized')
+  }
+
+  const { data } = await axios.post<CieloCheckoutResponse>(
+    'https://cieloecommerce.cielo.com.br/api/public/v1/orders/',
+    {
+      SoftDescriptor: 'Cadesgo',
+      Cart: {
+        Items: [
+          {
+            Name: 'Ingresso Conselho da Juventude - 2023',
+            UnitPrice: 10000,
+            Quantity: inputs.length,
+            Type: 'Digital',
+          },
+        ],
+      },
+      Shipping: {
+        Type: 'WithoutShipping',
+      },
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        MerchantId: '41ab610a-e320-4d81-bb3b-0368023cd97b',
+      },
+    },
+  )
+
+  await db.subscription.create({
+    data: {
+      attendees: {
+        create: inputs,
+      },
+      payment: {
+        create: {
+          amount: inputs.length * 10000,
+          orderNumber: data.orderNumber,
+          paymentStatus: 'PENDENTE',
+          userId,
+        },
+      },
+    },
+  })
+
+  return data
 }

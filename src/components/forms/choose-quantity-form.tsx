@@ -74,7 +74,7 @@ export function ChooseQuantityForm({ redirectUrl }: ChooseQuantityFormProps) {
                 <FormField
                   control={form.control}
                   name="quantity"
-                  render={({ field, fieldState }) => (
+                  render={({ field }) => (
                     <FormItem>
                       <FormControl>
                         <div className="flex items-center justify-end space-x-1">

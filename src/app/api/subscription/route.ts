@@ -1,5 +1,5 @@
 import { db } from '@/db'
-import { createAttendeesSchema } from '@/lib/validations/attendees'
+import { attendeeSchema } from '@/lib/validations/attendees'
 import { cookies } from 'next/headers'
 
 export async function DELETE(req: Request) {
@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   const cartId = cookieStore.get('cartId')?.value
 
   const body = await req.json()
-  const { attendees } = createAttendeesSchema.parse(body)
+  const { attendees } = attendeeSchema.parse(body)
 
   if (!cartId) {
     const cart = await db.cart.create({

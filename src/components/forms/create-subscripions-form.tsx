@@ -1,15 +1,13 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { formAttendeesSchema } from '@/lib/validations/attendees'
-import axios from 'axios'
 import { z } from 'zod'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import { Icons } from '../icons'
 import { catchError } from '@/lib/utils'
@@ -20,7 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select'
-import { fields as dataFields } from '@/lib/fields'
 import {
   Form,
   FormControl,
@@ -29,13 +26,23 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form'
+import { createSubscriptionAction } from '@/app/_actions/subscriptions'
 
 type Inputs = z.infer<typeof formAttendeesSchema>
 
-export function AddToCartForm() {
+interface CreateSubscriptionsFormProps {
+  dataFields: {
+    id: string
+    name: string
+  }[]
+}
+
+export function CreateSubscriptionsForm({
+  dataFields,
+}: CreateSubscriptionsFormProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
-
+  const [isPending, startTransition] = React.useTransition()
   const quantity = Number(searchParams.get('quantity'))
 
   function arrWithLength() {
@@ -62,33 +69,23 @@ export function AddToCartForm() {
     },
   })
 
-  const { mutate, isSuccess, isLoading } = useMutation({
-    mutationFn: async ({ attendees }: Inputs) => {
-      const payload = {
-        attendees,
+  function onSubmit(data: Inputs) {
+    startTransition(async () => {
+      try {
+        const response = await createSubscriptionAction(data.attendees)
+
+        router.push(response.settings.checkoutUrl)
+      } catch (error) {
+        catchError(error)
       }
-
-      const { data } = await axios.post('/api/subscription/', payload)
-
-      return data
-    },
-    onSuccess: () => {
-      router.push('/evento/finalizar-pagamento')
-    },
-    onError: (error) => {
-      catchError(error)
-    },
-  })
-
-  const handleConfirm: SubmitHandler<Inputs> = async (data) => {
-    mutate(data)
+    })
   }
 
   return (
     <Form {...form}>
       <form
         className="flex flex-col "
-        onSubmit={(...args) => void form.handleSubmit(handleConfirm)(...args)}
+        onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
       >
         {fields.map((field, index) => (
           <div key={field.id}>
@@ -146,12 +143,8 @@ export function AddToCartForm() {
             {index < quantity - 1 && <Separator className="my-8" />}
           </div>
         ))}
-        <Button
-          className="mt-4"
-          disabled={isLoading || isSuccess}
-          type="submit"
-        >
-          {(isLoading || isSuccess) && (
+        <Button className="mt-4" disabled={isPending} type="submit">
+          {isPending && (
             <Icons.spinner
               className="mr-2 h-4 w-4 animate-spin"
               aria-hidden="true"
