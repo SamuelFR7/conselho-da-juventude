@@ -6,12 +6,9 @@ export default authMiddleware({
   // Public routes are routes that don't require authentication
   publicRoutes: [
     '/',
-    '/evento(.*)',
     '/sign-in(.*)',
     '/sign-up(.*)',
     '/sso-callback(.*)',
-    '/api/subscription',
-    '/api/cart',
     '/api/checkout/webhook(.*)',
     '/ingresso(.*)',
   ],

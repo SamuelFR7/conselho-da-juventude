@@ -7,7 +7,6 @@ import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Icons } from '@/components/icons'
-import { useSearchParams } from 'next/navigation'
 
 const oauthProviders = [
   { name: 'Google', strategy: 'oauth_google', icon: 'google' },
@@ -18,11 +17,8 @@ const oauthProviders = [
 }[]
 
 export function OAuthSignIn() {
-  const searchParams = useSearchParams()
   const [isLoading, setIsLoading] = React.useState<OAuthStrategy | null>(null)
   const { signIn, isLoaded: signInLoaded } = useSignIn()
-
-  const redirectUrl = searchParams.get('redirect_url')
 
   async function oauthSignIn(provider: OAuthStrategy) {
     if (!signInLoaded) return null
@@ -31,7 +27,7 @@ export function OAuthSignIn() {
       await signIn.authenticateWithRedirect({
         strategy: provider,
         redirectUrl: '/sso-callback',
-        redirectUrlComplete: redirectUrl ?? '/evento',
+        redirectUrlComplete: '/evento',
       })
     } catch (error) {
       setIsLoading(null)

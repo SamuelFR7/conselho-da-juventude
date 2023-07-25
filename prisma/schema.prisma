@@ -12,17 +12,21 @@ datasource db {
 }
 
 model Field {
-  id       Int        @id
+  id       String     @id @default(cuid())
   name     String
   Attendee Attendee[]
+
+  @@map("fields")
 }
 
 model Attendee {
   id                String       @id @default(cuid())
   name              String
   email             String
+  document          String
+  shirtSize         String
   field             Field        @relation(fields: [fieldId], references: [id])
-  fieldId           Int
+  fieldId           String
   confirmedPresence Boolean      @default(false)
   Subscription      Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
   subscriptionId    String
@@ -35,37 +39,27 @@ model Attendee {
 model Subscription {
   id        String     @id @default(cuid())
   attendees Attendee[]
-  Cart      Cart       @relation(fields: [cartId], references: [id])
-  cartId    String
+  userId    String
+  createdAt DateTime   @default(now())
+  payment   Payment    @relation(fields: [paymentId], references: [id])
+  paymentId String     @unique
 
-  @@index([cartId])
+  @@index([paymentId])
   @@map("subscriptions")
 }
 
-model Cart {
-  id            String         @id @default(cuid())
-  subscriptions Subscription[]
-  createdAt     DateTime       @default(now())
-  Order         Order?
-
-  @@map("carts")
-}
-
-model Order {
-  id                String   @id @default(cuid())
-  orderNumber       String   @unique
-  cart              Cart     @relation(fields: [cartId], references: [id])
-  cartId            String   @unique
+model Payment {
+  id                String        @id @default(cuid())
+  orderNumber       String        @unique
   paymentStatus     String
   amount            Int
   paymentMethodType Int?
   customerEmail     String?
   customerIdentity  String?
   customerName      String?
-  userId            String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt()
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt()
+  Subscription      Subscription?
 
-  @@index([cartId])
-  @@map("orders")
+  @@map("payments")
 }

@@ -10,7 +10,7 @@ export default function ManualSubscriptionsChooseQuantityPage() {
           <CardTitle>Inscrições manuais</CardTitle>
         </CardHeader>
         <CardContent>
-          <ChooseQuantityForm redirectUrl="/admin/manual/subscriptions" />
+          <ChooseQuantityForm redirectUrl="/evento/admin/manual/subscriptions" />
         </CardContent>
       </Card>
     </Shell>

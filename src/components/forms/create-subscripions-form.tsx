@@ -1,20 +1,15 @@
 'use client'
-import { catchError } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSearchParams, useRouter } from 'next/navigation'
-import React from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
+import { formAttendeesSchema } from '@/lib/validations/attendees'
 import { z } from 'zod'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form'
-import { Input } from '../ui/input'
+import { useRouter, useSearchParams } from 'next/navigation'
+import React from 'react'
+import { Icons } from '../icons'
+import { catchError } from '@/lib/utils'
 import {
   Select,
   SelectContent,
@@ -22,21 +17,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select'
-import { fields as dataFields } from '@/lib/fields'
-import { Separator } from '../ui/separator'
-import { Button } from '../ui/button'
-import { Icons } from '../icons'
-import { createManualSubscriptionsAction } from '@/app/_actions/subscriptions'
-import { formManualSubscriptionSchema } from '@/lib/validations/subscriptions'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../ui/form'
+import { createSubscriptionAction } from '@/app/_actions/subscriptions'
 import { shirtSizes } from '@/lib/shirtSizes'
 
-type Inputs = z.infer<typeof formManualSubscriptionSchema>
+type Inputs = z.infer<typeof formAttendeesSchema>
 
-export function CreateManualSubscriptionsForm() {
+interface CreateSubscriptionsFormProps {
+  dataFields: {
+    id: string
+    name: string
+  }[]
+}
+
+export function CreateSubscriptionsForm({
+  dataFields,
+}: CreateSubscriptionsFormProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [isPending, startTransition] = React.useTransition()
-
   const quantity = Number(searchParams.get('quantity'))
 
   function arrWithLength() {
@@ -49,7 +55,7 @@ export function CreateManualSubscriptionsForm() {
   }
 
   const form = useForm<Inputs>({
-    resolver: zodResolver(formManualSubscriptionSchema),
+    resolver: zodResolver(formAttendeesSchema),
     defaultValues: {
       attendees: arrWithLength(),
     },
@@ -66,8 +72,9 @@ export function CreateManualSubscriptionsForm() {
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        await createManualSubscriptionsAction(data)
-        router.push('/evento/admin/')
+        const response = await createSubscriptionAction(data.attendees)
+
+        router.push(response.settings.checkoutUrl)
       } catch (error) {
         catchError(error)
       }
@@ -77,7 +84,7 @@ export function CreateManualSubscriptionsForm() {
   return (
     <Form {...form}>
       <form
-        className="flex flex-col"
+        className="flex flex-col "
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
       >
         {fields.map((field, index) => (
@@ -185,23 +192,6 @@ export function CreateManualSubscriptionsForm() {
             {index < quantity - 1 && <Separator className="my-8" />}
           </div>
         ))}
-        <Separator className="my-8" />
-        <FormField
-          control={form.control}
-          name="emailToSend"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormDescription>
-                Email para o envio dos QRCode de ingressos
-              </FormDescription>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <Button className="mt-4" disabled={isPending} type="submit">
           {isPending && (
             <Icons.spinner
@@ -210,7 +200,6 @@ export function CreateManualSubscriptionsForm() {
             />
           )}
           Confirmar
-          <span className="sr-only">Confirmar</span>
         </Button>
       </form>
     </Form>

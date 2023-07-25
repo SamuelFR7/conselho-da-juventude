@@ -31,7 +31,7 @@ export async function POST(req: Request, res: Response) {
 
   switch (data.payment_status) {
     case '1':
-      await db.order.update({
+      await db.payment.update({
         where: {
           orderNumber: data.order_number,
         },
@@ -45,21 +45,17 @@ export async function POST(req: Request, res: Response) {
       })
       break
     case '2': {
-      const order = await db.order.update({
+      const payment = await db.payment.update({
         where: {
           orderNumber: data.order_number,
         },
         select: {
-          cart: {
+          Subscription: {
             select: {
-              subscriptions: {
-                select: {
-                  attendees: true,
-                },
-              },
+              attendees: true,
+              userId: true,
             },
           },
-          userId: true,
         },
         data: {
           paymentStatus: 'PAGO',
@@ -70,7 +66,9 @@ export async function POST(req: Request, res: Response) {
         },
       })
 
-      const user = await clerkClient.users.getUser(order.userId)
+      if (!payment.Subscription) break
+
+      const user = await clerkClient.users.getUser(payment.Subscription.userId)
 
       const email =
         user?.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)
@@ -80,21 +78,19 @@ export async function POST(req: Request, res: Response) {
         break
       }
 
-      const attendees = order.cart.subscriptions.flatMap((sub) => sub.attendees)
-
       await resend.emails.send({
         from: env.EMAIL_FROM_ADDRESS,
         to: email,
         subject: 'Ingressos do Evento - Conselho da Juventude 2023',
         react: TicketsEmail({
-          attendees,
+          attendees: payment.Subscription.attendees,
         }),
       })
 
       break
     }
     case '3':
-      await db.order.update({
+      await db.payment.update({
         where: {
           orderNumber: data.order_number,
         },
@@ -108,7 +104,7 @@ export async function POST(req: Request, res: Response) {
       })
       break
     case '4':
-      await db.order.update({
+      await db.payment.update({
         where: {
           orderNumber: data.order_number,
         },
@@ -122,7 +118,7 @@ export async function POST(req: Request, res: Response) {
       })
       break
     case '5':
-      await db.order.update({
+      await db.payment.update({
         where: {
           orderNumber: data.order_number,
         },
@@ -136,7 +132,7 @@ export async function POST(req: Request, res: Response) {
       })
       break
     case '6':
-      await db.order.update({
+      await db.payment.update({
         where: {
           orderNumber: data.order_number,
         },
@@ -150,7 +146,7 @@ export async function POST(req: Request, res: Response) {
       })
       break
     case '7':
-      await db.order.update({
+      await db.payment.update({
         where: {
           orderNumber: data.order_number,
         },
@@ -164,7 +160,7 @@ export async function POST(req: Request, res: Response) {
       })
       break
     case '8':
-      await db.order.update({
+      await db.payment.update({
         where: {
           orderNumber: data.order_number,
         },

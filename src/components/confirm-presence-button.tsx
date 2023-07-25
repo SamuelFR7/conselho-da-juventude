@@ -6,30 +6,22 @@ import { confirmAttendeePresenceAction } from '@/app/_actions/attendees'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { catchError } from '@/lib/utils'
-
-interface ConfirmPresenceButtonProps {
-  attendee: {
-    id: string
-    name: string
-    email: string
-    field: {
-      id: number
-      name: string
-    }
-    confirmedPresence: boolean
-    Subscription: {
-      Cart: {
-        Order: {
-          paymentStatus: string
-        } | null
-      }
-    }
-  }
-}
+import { z } from 'zod'
+import { attendeeSchema } from '@/lib/validations/attendees'
 
 export function ConfirmPresenceButton({
   attendee,
-}: ConfirmPresenceButtonProps) {
+}: {
+  attendee: z.infer<typeof attendeeSchema> & {
+    id: string
+    confirmedPresence: boolean
+    Subscription: {
+      payment: {
+        paymentStatus: string
+      }
+    }
+  }
+}) {
   const router = useRouter()
   const [isPending, startTransition] = React.useTransition()
 
@@ -39,7 +31,7 @@ export function ConfirmPresenceButton({
         await confirmAttendeePresenceAction(attendee.id)
 
         toast.success('Presença confirmada com sucesso')
-        router.push('/admin/')
+        router.push('/evento/admin/')
       } catch (error) {
         catchError(error)
       }
@@ -51,7 +43,7 @@ export function ConfirmPresenceButton({
       disabled={
         isPending ||
         attendee.confirmedPresence ||
-        attendee.Subscription.Cart.Order?.paymentStatus !== 'PAGO'
+        attendee.Subscription.payment.paymentStatus !== 'PAGO'
       }
       onClick={confirmPresenceSubmit}
     >

@@ -57,10 +57,7 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
             <h2 className="font-semibold">
               Status do Pagamento:{' '}
               <span className="font-normal">
-                {toTitleCase(
-                  attendee.Subscription.Cart.Order?.paymentStatus ??
-                    'Não foi possível carregar o status',
-                )}
+                {toTitleCase(attendee.Subscription.payment.paymentStatus)}
               </span>
             </h2>
           </div>
@@ -70,7 +67,7 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
               size={200}
               bgColor="white"
               fgColor="black"
-              value={`${env.NEXT_PUBLIC_APP_URL}/admin/confirm/${attendee.id}`}
+              value={`${env.NEXT_PUBLIC_APP_URL}/evento/admin/confirm/${attendee.id}`}
             />
           </div>
         </CardContent>

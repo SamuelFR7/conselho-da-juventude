@@ -103,17 +103,14 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <TableCell>{attendee.email}</TableCell>
               <TableCell
                 className={cn(
-                  attendee.Subscription.Cart.Order?.paymentStatus === 'PENDENTE'
+                  attendee.Subscription.payment.paymentStatus === 'PENDENTE'
                     ? 'text-yellow-500'
-                    : attendee.Subscription.Cart.Order?.paymentStatus === 'PAGO'
+                    : attendee.Subscription.payment.paymentStatus === 'PAGO'
                     ? 'text-green-500'
                     : '',
                 )}
               >
-                {toTitleCase(
-                  attendee.Subscription.Cart.Order?.paymentStatus ??
-                    'Não foi possível carregar',
-                )}
+                {toTitleCase(attendee.Subscription.payment.paymentStatus)}
               </TableCell>
               <TableCell
                 className={cn(
@@ -125,7 +122,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 {attendee.confirmedPresence ? 'SIM' : 'NÃO'}
               </TableCell>
               <TableCell>
-                <Link href={`/admin/confirm/${attendee.id}`}>
+                <Link href={`/evento/admin/confirm/${attendee.id}`}>
                   <Button size="icon" variant="ghost">
                     <Icons.settings />
                   </Button>
