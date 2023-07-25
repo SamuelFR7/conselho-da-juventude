@@ -12,13 +12,9 @@ export async function getAttendeeByIdAction(id: string) {
       field: true,
       Subscription: {
         select: {
-          Cart: {
+          payment: {
             select: {
-              Order: {
-                select: {
-                  paymentStatus: true,
-                },
-              },
+              paymentStatus: true,
             },
           },
         },
@@ -42,13 +38,9 @@ export async function confirmAttendeePresenceAction(id: string) {
       field: true,
       Subscription: {
         select: {
-          Cart: {
+          payment: {
             select: {
-              Order: {
-                select: {
-                  paymentStatus: true,
-                },
-              },
+              paymentStatus: true,
             },
           },
         },
@@ -60,7 +52,7 @@ export async function confirmAttendeePresenceAction(id: string) {
     throw new Error('Attendee not found')
   }
 
-  if (attendeeToConfirm.Subscription.Cart.Order?.paymentStatus !== 'PAGO') {
+  if (attendeeToConfirm.Subscription.payment.paymentStatus !== 'PAGO') {
     throw new Error('Não é possível confirmar uma inscrição não paga')
   }
 
@@ -81,23 +73,10 @@ export async function getAllAttendeesAction(page: number) {
       field: true,
       Subscription: {
         select: {
-          Cart: {
+          payment: {
             select: {
-              Order: {
-                select: {
-                  paymentStatus: true,
-                },
-              },
+              paymentStatus: true,
             },
-          },
-        },
-      },
-    },
-    where: {
-      Subscription: {
-        Cart: {
-          Order: {
-            isNot: null,
           },
         },
       },
@@ -106,17 +85,7 @@ export async function getAllAttendeesAction(page: number) {
     take: 10,
   })
 
-  const count = await db.attendee.count({
-    where: {
-      Subscription: {
-        Cart: {
-          Order: {
-            isNot: null,
-          },
-        },
-      },
-    },
-  })
+  const count = await db.attendee.count()
 
   return { attendees, count }
 }
@@ -125,11 +94,9 @@ export async function getPayedAndConfirmedAttendeesAction() {
   const attendees = await db.attendee.count({
     where: {
       Subscription: {
-        Cart: {
-          Order: {
-            paymentStatus: {
-              equals: 'PAGO',
-            },
+        payment: {
+          paymentStatus: {
+            equals: 'PAGO',
           },
         },
       },
@@ -146,11 +113,9 @@ export async function getPayedAttendeesAction() {
   const attendees = await db.attendee.count({
     where: {
       Subscription: {
-        Cart: {
-          Order: {
-            paymentStatus: {
-              equals: 'PAGO',
-            },
+        payment: {
+          paymentStatus: {
+            equals: 'PAGO',
           },
         },
       },
@@ -167,11 +132,9 @@ export async function getToPayAttendeesAction() {
   const attendees = await db.attendee.count({
     where: {
       Subscription: {
-        Cart: {
-          Order: {
-            paymentStatus: {
-              equals: 'PENDENTE',
-            },
+        payment: {
+          paymentStatus: {
+            equals: 'PENDENTE',
           },
         },
       },

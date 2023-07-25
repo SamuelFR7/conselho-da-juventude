@@ -1,22 +1,22 @@
-import { getMyOrders } from '@/app/_actions/orders'
+import { getMySubscriptions } from '@/app/_actions/subscriptions'
 import { Shell } from '@/components/shells/shell'
 import { TitleHeader } from '@/components/title-header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
-export default async function MyOrders() {
-  const orders = await getMyOrders()
+export default async function MySubscriptions() {
+  const subscriptions = await getMySubscriptions()
 
   return (
     <Shell>
       <TitleHeader
-        title="Suas Compras"
-        description="Acompanhe o status das suas compras"
+        title="Suas Inscrições"
+        description="Acompanhe o status das suas inscrições"
       />
-      {orders.length > 0 ? (
+      {subscriptions.length > 0 ? (
         <div className="flex gap-4 flex-wrap">
-          {orders.map((order) => (
-            <Card className="max-w-[430px] w-full" key={order.id}>
+          {subscriptions.map((subscription) => (
+            <Card className="max-w-[430px] w-full" key={subscription.id}>
               <CardHeader>
                 <CardTitle>Conselho da Juventude - 2023</CardTitle>
               </CardHeader>
@@ -34,26 +34,18 @@ export default async function MyOrders() {
                       <td className="text-right font-medium">
                         {new Intl.DateTimeFormat('pt-BR', {
                           dateStyle: 'medium',
-                        }).format(order.createdAt)}{' '}
+                        }).format(subscription.createdAt)}{' '}
                         as{' '}
                         {new Intl.DateTimeFormat('pt-BR', {
                           timeStyle: 'short',
-                        }).format(order.createdAt)}
+                        }).format(subscription.createdAt)}
                       </td>
                     </tr>
                     <tr>
                       <td>Qtd de Ingressos:</td>
                       <td className="text-right font-medium">
-                        {`${order.cart.subscriptions.reduce(
-                          (total, item) =>
-                            (total = total + item.attendees.length),
-                          0,
-                        )} ${
-                          order.cart.subscriptions.reduce(
-                            (total, item) =>
-                              (total = total + item.attendees.length),
-                            0,
-                          ) > 1
+                        {`${subscription.attendees.length} ${
+                          subscription.attendees.length > 1
                             ? 'ingressos'
                             : 'ingresso'
                         }`}
@@ -65,13 +57,7 @@ export default async function MyOrders() {
                         {new Intl.NumberFormat('pt-BR', {
                           style: 'currency',
                           currency: 'BRL',
-                        }).format(
-                          order.cart.subscriptions.reduce(
-                            (total, item) =>
-                              (total = total + item.attendees.length),
-                            0,
-                          ) * 100,
-                        )}
+                        }).format(subscription.attendees.length * 100)}
                       </td>
                     </tr>
                     <tr>
@@ -79,15 +65,15 @@ export default async function MyOrders() {
                       <td
                         className={cn(
                           'text-right font-medium',
-                          order.paymentStatus === 'PAGO'
+                          subscription.payment.paymentStatus === 'PAGO'
                             ? 'text-green-500'
                             : '',
-                          order.paymentStatus === 'NEGADO'
+                          subscription.payment.paymentStatus === 'NEGADO'
                             ? 'text-red-500'
                             : '',
                         )}
                       >
-                        {order.paymentStatus}
+                        {subscription.payment.paymentStatus}
                       </td>
                     </tr>
                   </tbody>

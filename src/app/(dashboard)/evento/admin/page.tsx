@@ -103,15 +103,15 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <TableCell>{attendee.email}</TableCell>
               <TableCell
                 className={cn(
-                  attendee.Subscription.Cart.Order?.paymentStatus === 'PENDENTE'
+                  attendee.Subscription.payment.paymentStatus === 'PENDENTE'
                     ? 'text-yellow-500'
-                    : attendee.Subscription.Cart.Order?.paymentStatus === 'PAGO'
+                    : attendee.Subscription.payment.paymentStatus === 'PAGO'
                     ? 'text-green-500'
                     : '',
                 )}
               >
                 {toTitleCase(
-                  attendee.Subscription.Cart.Order?.paymentStatus ??
+                  attendee.Subscription.payment.paymentStatus ??
                     'Não foi possível carregar',
                 )}
               </TableCell>

@@ -130,16 +130,36 @@ export async function createSubscriptionAction(
       attendees: {
         create: inputs,
       },
+      userId,
       payment: {
         create: {
           amount: inputs.length * 10000,
           orderNumber: data.orderNumber,
           paymentStatus: 'PENDENTE',
-          userId,
         },
       },
     },
   })
 
   return data
+}
+
+export async function getMySubscriptions() {
+  const { userId } = auth()
+
+  if (!userId) {
+    throw new Error('Unauthorized')
+  }
+
+  const subscriptions = await db.subscription.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      attendees: true,
+      payment: true,
+    },
+  })
+
+  return subscriptions
 }
