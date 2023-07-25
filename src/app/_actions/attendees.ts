@@ -70,7 +70,6 @@ export async function confirmAttendeePresenceAction(id: string) {
 export async function getAllAttendeesAction(page: number) {
   const attendees = await db.attendee.findMany({
     include: {
-      field: true,
       Subscription: {
         select: {
           payment: {
