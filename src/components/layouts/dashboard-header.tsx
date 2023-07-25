@@ -15,6 +15,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Icons } from '../icons'
 import { LogOutButton } from '../auth/logout-button'
+import { SignedIn, SignedOut } from '@clerk/nextjs'
 
 interface DashboardHeaderProps {
   user: User | null
@@ -40,7 +41,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
             <CartButton />
-            {user ? (
+            <SignedIn>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -60,7 +61,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                   <DropdownMenuLabel>
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">
-                        {user.firstName}
+                        {user?.firstName}
                       </p>
                       <p className="text-xs leading-none text-muted-foreground">
                         {email}
@@ -88,7 +89,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    {user.privateMetadata.role === 'admin' && (
+                    {user?.privateMetadata.role === 'admin' && (
                       <>
                         <DropdownMenuItem asChild>
                           <Link href="/admin/">
@@ -117,7 +118,8 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            ) : (
+            </SignedIn>
+            <SignedOut>
               <Link href="/sign-in">
                 <div
                   className={buttonVariants({
@@ -128,7 +130,7 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
                   <span className="sr-only">Entrar</span>
                 </div>
               </Link>
-            )}
+            </SignedOut>
           </nav>
         </div>
       </div>
