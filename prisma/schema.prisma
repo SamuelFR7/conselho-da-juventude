@@ -15,6 +15,8 @@ model Field {
   id       String     @id @default(cuid())
   name     String
   Attendee Attendee[]
+
+  @@map("fields")
 }
 
 model Attendee {
