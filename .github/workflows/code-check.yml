@@ -2,17 +2,17 @@ name: 'Code check'
 
 on:
   pull_request:
-    branches: ["*"]
+    branches: ['*']
 
 env:
-  NEXT_PUBLIC_APP_URL: "https://fake.com"
+  NEXT_PUBLIC_APP_URL: 'https://fake.com'
   DATABASE_URL: 'fake'
-  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "fake"
-  CLERK_SECRET_KEY: "fake"
-  NEXT_PUBLIC_CLERK_SIGN_IN_URL: "fake"
-  NEXT_PUBLIC_CLERK_SIGN_UP_URL: "fake"
-  RESEND_API_KEY: "fake"
-  EMAIL_FROM_ADDRESS: "fake"
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: 'fake'
+  CLERK_SECRET_KEY: 'fake'
+  NEXT_PUBLIC_CLERK_SIGN_IN_URL: 'fake'
+  NEXT_PUBLIC_CLERK_SIGN_UP_URL: 'fake'
+  RESEND_API_KEY: 'fake'
+  EMAIL_FROM_ADDRESS: 'fake'
 
 jobs:
   typecheck-lint:
@@ -27,9 +27,12 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-      
+
       - name: Install deps
         run: npm install
+
+      - name: Run lint
+        run: npm run lint
 
       - name: Run typecheck
         run: npm run typecheck
