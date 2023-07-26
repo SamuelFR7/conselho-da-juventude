@@ -40,7 +40,7 @@ export async function createManualSubscriptionsAction(
         create: {
           orderNumber: createId(),
           paymentStatus: 'PAGO',
-          amount: data.attendees.length * 10000,
+          amount: data.attendees.length * 11000,
           paymentMethodType: 6,
         },
       },
@@ -76,7 +76,7 @@ export async function createSubscriptionAction(
         Items: [
           {
             Name: 'Ingresso Conselho da Juventude - 2023',
-            UnitPrice: 10000,
+            UnitPrice: 11000,
             Quantity: inputs.length,
             Type: 'Digital',
           },
@@ -102,7 +102,7 @@ export async function createSubscriptionAction(
       userId,
       payment: {
         create: {
-          amount: inputs.length * 10000,
+          amount: inputs.length * 11000,
           orderNumber: data.orderNumber,
           paymentStatus: 'PENDENTE',
         },

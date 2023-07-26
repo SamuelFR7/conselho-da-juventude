@@ -68,10 +68,10 @@ export default function Home() {
               <h2 className="text-2xl font-bold">HORÁRIOS</h2>
               <div className="flex flex-col">
                 <span className="font-medium">23/09 - 08H AS 22H</span>
-                <span className=" font-medium">24/09 - 08H AS 22H</span>
+                <span className=" font-medium">24/09 - 08H AS 12H</span>
               </div>
             </div>
-            <h2 className="text-5xl font-bold">R$ 100,00</h2>
+            <h2 className="text-5xl font-bold">R$ 110,00</h2>
             <Link href="/evento/" className="w-full">
               <Button className="w-full">COMPRAR INGRESSO</Button>
             </Link>
