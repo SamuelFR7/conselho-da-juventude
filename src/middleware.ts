@@ -1,6 +1,7 @@
-import { authMiddleware, clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
-import { UserRole } from './types'
+import { authMiddleware, clerkClient } from '@clerk/nextjs'
+
+import { type UserRole } from './types'
 
 export default authMiddleware({
   // Public routes are routes that don't require authentication

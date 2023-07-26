@@ -1,23 +1,24 @@
 'use server'
 
-import { db } from '@/db'
-import { auth } from '@clerk/nextjs'
-import { z } from 'zod'
-import { createId } from '@paralleldrive/cuid2'
 import { revalidatePath } from 'next/cache'
+import { db } from '@/db'
+import { env } from '@/env.mjs'
+import { type CieloCheckoutResponse } from '@/types'
+import { auth } from '@clerk/nextjs'
+import { createId } from '@paralleldrive/cuid2'
+import axios from 'axios'
+import { type z } from 'zod'
+
+import { resend } from '@/lib/resend'
+import { type attendeeSchema } from '@/lib/validations/attendees'
 import {
   createManualSubscriptionSchema,
-  formManualSubscriptionSchema,
+  type formManualSubscriptionSchema,
 } from '@/lib/validations/subscriptions'
-import { resend } from '@/lib/resend'
-import { env } from '@/env.mjs'
 import TicketsEmail from '@/components/emails/tickets-email'
-import { attendeeSchema } from '@/lib/validations/attendees'
-import axios from 'axios'
-import { CieloCheckoutResponse } from '@/types'
 
 export async function createManualSubscriptionsAction(
-  input: z.infer<typeof formManualSubscriptionSchema>,
+  input: z.infer<typeof formManualSubscriptionSchema>
 ) {
   const data = createManualSubscriptionSchema.parse(input)
 
@@ -60,7 +61,7 @@ export async function createManualSubscriptionsAction(
 }
 
 export async function createSubscriptionAction(
-  inputs: z.infer<typeof attendeeSchema>[],
+  inputs: z.infer<typeof attendeeSchema>[]
 ) {
   const { userId } = auth()
 
@@ -91,7 +92,7 @@ export async function createSubscriptionAction(
         'Content-Type': 'application/json',
         MerchantId: '41ab610a-e320-4d81-bb3b-0368023cd97b',
       },
-    },
+    }
   )
 
   await db.subscription.create({

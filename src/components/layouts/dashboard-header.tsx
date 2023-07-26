@@ -1,7 +1,11 @@
-import { Button, buttonVariants } from '../ui/button'
 import Link from 'next/link'
-
+import { SignedIn, SignedOut } from '@clerk/nextjs'
 import { type User } from '@clerk/nextjs/dist/types/server'
+
+import { LogOutButton } from '../auth/logout-button'
+import { Icons } from '../icons'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Button, buttonVariants } from '../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,10 +15,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { Icons } from '../icons'
-import { LogOutButton } from '../auth/logout-button'
-import { SignedIn, SignedOut } from '@clerk/nextjs'
 
 interface DashboardHeaderProps {
   user: User | null

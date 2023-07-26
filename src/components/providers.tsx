@@ -1,6 +1,7 @@
 'use client'
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
-import { FC, ReactNode } from 'react'
+
+import { type FC, type ReactNode } from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 interface LayoutProps {
   children: ReactNode

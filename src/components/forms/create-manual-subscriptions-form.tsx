@@ -1,10 +1,18 @@
 'use client'
-import { catchError } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useSearchParams, useRouter } from 'next/navigation'
+
 import React from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { type z } from 'zod'
+
+import { shirtSizes } from '@/lib/shirt-sizes'
+import { catchError } from '@/lib/utils'
+import { formManualSubscriptionSchema } from '@/lib/validations/subscriptions'
+import { createManualSubscriptionsAction } from '@/app/_actions/subscriptions'
+
+import { Icons } from '../icons'
+import { Button } from '../ui/button'
 import {
   Form,
   FormControl,
@@ -23,11 +31,6 @@ import {
   SelectValue,
 } from '../ui/select'
 import { Separator } from '../ui/separator'
-import { Button } from '../ui/button'
-import { Icons } from '../icons'
-import { createManualSubscriptionsAction } from '@/app/_actions/subscriptions'
-import { formManualSubscriptionSchema } from '@/lib/validations/subscriptions'
-import { shirtSizes } from '@/lib/shirt-sizes'
 
 type Inputs = z.infer<typeof formManualSubscriptionSchema>
 

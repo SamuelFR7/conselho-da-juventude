@@ -1,7 +1,7 @@
 'use server'
 
-import { db } from '@/db'
 import { revalidatePath } from 'next/cache'
+import { db } from '@/db'
 
 export async function getAttendeeByIdAction(id: string) {
   const attendee = await db.attendee.findUnique({

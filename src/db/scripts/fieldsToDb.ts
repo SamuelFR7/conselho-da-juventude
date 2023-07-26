@@ -1,5 +1,6 @@
-import { fields } from '@/lib/fields'
 import { PrismaClient } from '@prisma/client'
+
+import { fields } from '@/lib/fields'
 
 function insertFields() {
   const prisma = new PrismaClient()

@@ -1,6 +1,7 @@
-import { DashboardHeader } from '@/components/layouts/dashboard-header'
-import { currentUser } from '@clerk/nextjs'
 import React from 'react'
+import { currentUser } from '@clerk/nextjs'
+
+import { DashboardHeader } from '@/components/layouts/dashboard-header'
 
 export default async function DashboardLayout({
   children,

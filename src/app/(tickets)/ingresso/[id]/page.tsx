@@ -1,10 +1,11 @@
+import { env } from '@/env.mjs'
+import QRCode from 'react-qr-code'
+
+import { toTitleCase } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { toTitleCase } from '@/lib/utils'
-import { env } from '@/env.mjs'
-import { getAttendeeByIdAction } from '@/app/_actions/attendees'
 import { PrintPageButton } from '@/components/print-page-button'
-import QRCode from 'react-qr-code'
+import { getAttendeeByIdAction } from '@/app/_actions/attendees'
 
 interface IngressoIdPageProps {
   params: { id: string }
@@ -14,14 +15,14 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
   const attendee = await getAttendeeByIdAction(params.id)
 
   return (
-    <div className="flex flex-col items-center gap-4 w-full px-4 md:px-0">
-      <Card className="mt-2 max-w-[650px] p-4 w-full">
+    <div className="flex w-full flex-col items-center gap-4 px-4 md:px-0">
+      <Card className="mt-2 w-full max-w-[650px] p-4">
         <CardHeader>
           <CardTitle className="text-center">Conselho da Juventude</CardTitle>
         </CardHeader>
         <Separator />
         <CardContent>
-          <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
             <h2 className="font-semibold">
               ID: <span className="font-normal">{params.id}</span>
             </h2>
@@ -61,7 +62,7 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
               </span>
             </h2>
           </div>
-          <div className="flex flex-col items-center w-full justfiy-center mt-10 gap-2">
+          <div className="mt-10 flex w-full flex-col items-center gap-2">
             <h2 className="font-semibold">Digitalizar o QRCode:</h2>
             <QRCode
               size={200}

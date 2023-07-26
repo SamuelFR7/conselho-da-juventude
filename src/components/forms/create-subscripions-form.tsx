@@ -1,22 +1,20 @@
 'use client'
+
+import React from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { type z } from 'zod'
+
+import { shirtSizes } from '@/lib/shirt-sizes'
+import { catchError } from '@/lib/utils'
+import { formAttendeesSchema } from '@/lib/validations/attendees'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-import { Button } from '@/components/ui/button'
-import { formAttendeesSchema } from '@/lib/validations/attendees'
-import { z } from 'zod'
-import { useRouter, useSearchParams } from 'next/navigation'
-import React from 'react'
+import { createSubscriptionAction } from '@/app/_actions/subscriptions'
+
 import { Icons } from '../icons'
-import { catchError } from '@/lib/utils'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select'
 import {
   Form,
   FormControl,
@@ -25,8 +23,13 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form'
-import { createSubscriptionAction } from '@/app/_actions/subscriptions'
-import { shirtSizes } from '@/lib/shirt-sizes'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select'
 
 type Inputs = z.infer<typeof formAttendeesSchema>
 

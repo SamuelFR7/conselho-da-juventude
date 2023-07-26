@@ -1,3 +1,7 @@
 {
-    "git.ignoreLimitWarning": true
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["tw=\"([^\"]*)\""]
+  ]
 }

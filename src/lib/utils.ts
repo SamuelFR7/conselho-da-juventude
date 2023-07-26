@@ -1,5 +1,5 @@
 import { isClerkAPIResponseError } from '@clerk/nextjs'
-import { type ClassValue, clsx } from 'clsx'
+import { clsx, type ClassValue } from 'clsx'
 import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
@@ -27,7 +27,7 @@ export function catchClerkError(err: unknown) {
 export function toTitleCase(str: string) {
   return str.replace(
     /\w\S*/g,
-    (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase(),
+    (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
   )
 }
 

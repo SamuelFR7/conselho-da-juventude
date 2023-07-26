@@ -1,8 +1,8 @@
-import { getMySubscriptions } from '@/app/_actions/subscriptions'
+import { cn } from '@/lib/utils'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Shell } from '@/components/shells/shell'
 import { TitleHeader } from '@/components/title-header'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { cn } from '@/lib/utils'
+import { getMySubscriptions } from '@/app/_actions/subscriptions'
 
 export default async function MySubscriptions() {
   const subscriptions = await getMySubscriptions()
@@ -14,9 +14,9 @@ export default async function MySubscriptions() {
         description="Acompanhe o status das suas inscrições"
       />
       {subscriptions.length > 0 ? (
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex flex-wrap gap-4">
           {subscriptions.map((subscription) => (
-            <Card className="max-w-[430px] w-full" key={subscription.id}>
+            <Card className="w-full max-w-[430px]" key={subscription.id}>
               <CardHeader>
                 <CardTitle>Conselho da Juventude - 2023</CardTitle>
               </CardHeader>
@@ -70,7 +70,7 @@ export default async function MySubscriptions() {
                             : '',
                           subscription.payment.paymentStatus === 'NEGADO'
                             ? 'text-red-500'
-                            : '',
+                            : ''
                         )}
                       >
                         {subscription.payment.paymentStatus}

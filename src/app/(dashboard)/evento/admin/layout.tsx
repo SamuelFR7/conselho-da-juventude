@@ -1,6 +1,6 @@
-import { auth, clerkClient } from '@clerk/nextjs'
-import { redirect } from 'next/navigation'
 import React from 'react'
+import { redirect } from 'next/navigation'
+import { auth, clerkClient } from '@clerk/nextjs'
 
 export default async function AdminLayout({
   children,
