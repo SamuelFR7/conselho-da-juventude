@@ -8,7 +8,6 @@ import { ClerkProvider } from '@clerk/nextjs'
 
 import { fontSans } from '@/lib/fonts'
 import { Toaster } from '@/components/ui/toaster'
-import Providers from '@/components/providers'
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -49,9 +48,7 @@ export default function RootLayout({
       <ClerkProvider localization={ptBR}>
         <html lang="pt-BR" suppressHydrationWarning>
           <body className={fontSans.variable}>
-            <Providers>
-              <main>{children}</main>
-            </Providers>
+            <main>{children}</main>
             <Toaster />
           </body>
         </html>
