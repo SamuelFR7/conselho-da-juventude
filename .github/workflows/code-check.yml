@@ -9,10 +9,8 @@ env:
   DATABASE_URL: 'fake'
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: 'fake'
   CLERK_SECRET_KEY: 'fake'
-  NEXT_PUBLIC_CLERK_SIGN_IN_URL: 'fake'
-  NEXT_PUBLIC_CLERK_SIGN_UP_URL: 'fake'
   RESEND_API_KEY: 'fake'
-  EMAIL_FROM_ADDRESS: 'fake'
+  EMAIL_FROM_ADDRESS: 'fake@email.com'
 
 jobs:
   typecheck-lint:
