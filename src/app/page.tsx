@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { SignedOut } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -34,11 +35,13 @@ export default function Home() {
           </ul>
         </nav>
         <div className="hidden md:block">
-          <Link href="/sign-in">
-            <Button className="text-black" variant="link">
-              Log in
-            </Button>
-          </Link>
+          <SignedOut>
+            <Link href="/sign-in">
+              <Button className="text-black" variant="link">
+                Log in
+              </Button>
+            </Link>
+          </SignedOut>
           <Link href="/evento/">
             <Button>Comprar Ingressos</Button>
           </Link>
