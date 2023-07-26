@@ -1,10 +1,11 @@
-import TicketsEmail from '@/components/emails/tickets-email'
+import { NextResponse } from 'next/server'
 import { db } from '@/db'
 import { env } from '@/env.mjs'
-import { resend } from '@/lib/resend'
 import { clerkClient } from '@clerk/nextjs'
-import { NextResponse } from 'next/server'
 import { z } from 'zod'
+
+import { resend } from '@/lib/resend'
+import TicketsEmail from '@/components/emails/tickets-email'
 
 const finishSchema = z.object({
   order_number: z.string(),

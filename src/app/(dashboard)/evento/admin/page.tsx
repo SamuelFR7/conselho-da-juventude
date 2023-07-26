@@ -1,12 +1,6 @@
-import {
-  getAllAttendeesAction,
-  getPayedAndConfirmedAttendeesAction,
-  getPayedAttendeesAction,
-  getToPayAttendeesAction,
-} from '@/app/_actions/attendees'
-import { Icons } from '@/components/icons'
-import { Shell } from '@/components/shells/shell'
-import { TablePagination } from '@/components/table-pagination'
+import Link from 'next/link'
+
+import { cn, toTitleCase } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -23,8 +17,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { cn, toTitleCase } from '@/lib/utils'
-import Link from 'next/link'
+import { Icons } from '@/components/icons'
+import { Shell } from '@/components/shells/shell'
+import { TablePagination } from '@/components/table-pagination'
+import {
+  getAllAttendeesAction,
+  getPayedAndConfirmedAttendeesAction,
+  getPayedAttendeesAction,
+  getToPayAttendeesAction,
+} from '@/app/_actions/attendees'
 
 interface AdminPageProps {
   searchParams: {
@@ -34,7 +35,7 @@ interface AdminPageProps {
 
 export default async function AdminPage({ searchParams }: AdminPageProps) {
   const { attendees: allAttendees, count } = await getAllAttendeesAction(
-    searchParams.page ? parseInt(searchParams.page) : 1,
+    searchParams.page ? parseInt(searchParams.page) : 1
   )
   const payedAndConfirmedAttendees = await getPayedAndConfirmedAttendeesAction()
   const payedAttendees = await getPayedAttendeesAction()
@@ -42,46 +43,46 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
 
   return (
     <Shell>
-      <div className="grid lg:grid-cols-3 gap-4 grid-cols-1">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Icons.user className="text-green-500 font-semibold" />
+              <Icons.user className="font-semibold text-green-500" />
               Inscrições Confirmadas
             </CardTitle>
             <CardDescription>
               Inscrições que foram pagas, e que o QRCode já foi lido
             </CardDescription>
           </CardHeader>
-          <CardContent className="text-2xl text-right font-semibold">
+          <CardContent className="text-right text-2xl font-semibold">
             {payedAndConfirmedAttendees}
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Icons.user className="text-yellow-500 font-semibold" />
+              <Icons.user className="font-semibold text-yellow-500" />
               Inscrições Pagas
             </CardTitle>
             <CardDescription>
               Inscrições pagas mas sem a presença confirmada
             </CardDescription>
           </CardHeader>
-          <CardContent className="text-2xl text-right font-semibold">
+          <CardContent className="text-right text-2xl font-semibold">
             {payedAttendees}
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Icons.user className="text-red-500 font-semibold" />
+              <Icons.user className="font-semibold text-red-500" />
               Inscrições À Pagar
             </CardTitle>
             <CardDescription>
               Inscrições feitas porém ainda não foram pagas
             </CardDescription>
           </CardHeader>
-          <CardContent className="text-2xl text-right font-semibold">
+          <CardContent className="text-right text-2xl font-semibold">
             {toPayAttendees}
           </CardContent>
         </Card>
@@ -107,16 +108,14 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     ? 'text-yellow-500'
                     : attendee.Subscription.payment.paymentStatus === 'PAGO'
                     ? 'text-green-500'
-                    : '',
+                    : ''
                 )}
               >
                 {toTitleCase(attendee.Subscription.payment.paymentStatus)}
               </TableCell>
               <TableCell
                 className={cn(
-                  attendee.confirmedPresence
-                    ? 'text-green-500'
-                    : 'text-red-500',
+                  attendee.confirmedPresence ? 'text-green-500' : 'text-red-500'
                 )}
               >
                 {attendee.confirmedPresence ? 'SIM' : 'NÃO'}

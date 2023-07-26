@@ -1,5 +1,6 @@
-import { DashboardHeader } from '@/components/layouts/dashboard-header'
 import React from 'react'
+
+import { DashboardHeader } from '@/components/layouts/dashboard-header'
 
 export default function AuthLayout({
   children,

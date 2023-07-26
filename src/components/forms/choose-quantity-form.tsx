@@ -1,17 +1,20 @@
 'use client'
-import { Minus, Plus } from 'lucide-react'
-import { Button } from '../ui/button'
-import { Separator } from '../ui/separator'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Form, FormControl, FormField, FormItem } from '../ui/form'
-import { useRouter } from 'next/navigation'
-import { Input } from '../ui/input'
+
 import React from 'react'
-import { Icons } from '../icons'
+import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Minus, Plus } from 'lucide-react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { z } from 'zod'
+
 import { formatPrice } from '@/lib/utils'
+
+import { Icons } from '../icons'
+import { Button } from '../ui/button'
+import { Form, FormControl, FormField, FormItem } from '../ui/form'
+import { Input } from '../ui/input'
+import { Separator } from '../ui/separator'
 
 const chooseQuantitySchema = z.object({
   quantity: z
@@ -39,10 +42,10 @@ export function ChooseQuantityForm({ redirectUrl }: ChooseQuantityFormProps) {
   })
 
   function onSubmit(data: Inputs) {
-    startTransition(async () => {
+    startTransition(() => {
       try {
         router.push(
-          `${redirectUrl ?? '/evento/inscricao'}?quantity=${data.quantity}`,
+          `${redirectUrl ?? '/evento/inscricao'}?quantity=${data.quantity}`
         )
       } catch (error) {
         error instanceof Error

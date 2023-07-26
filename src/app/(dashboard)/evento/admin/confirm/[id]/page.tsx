@@ -1,9 +1,9 @@
-import { getAttendeeByIdAction } from '@/app/_actions/attendees'
-import { ConfirmPresenceButton } from '@/components/confirm-presence-button'
-import { Shell } from '@/components/shells/shell'
+import { cn, toTitleCase } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { cn, toTitleCase } from '@/lib/utils'
+import { ConfirmPresenceButton } from '@/components/confirm-presence-button'
+import { Shell } from '@/components/shells/shell'
+import { getAttendeeByIdAction } from '@/app/_actions/attendees'
 
 interface IngressoIdPageProps {
   params: { id: string }
@@ -22,7 +22,7 @@ export default async function AdminConfirmPage({
         </CardHeader>
         <Separator />
         <CardContent>
-          <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
             <h2 className="font-semibold">
               ID: <span className="font-normal">{params.id}</span>
             </h2>
@@ -48,7 +48,7 @@ export default async function AdminConfirmPage({
                     ? 'text-yellow-500'
                     : attendee.Subscription.payment.paymentStatus === 'PAGO'
                     ? 'text-green-500'
-                    : '',
+                    : ''
                 )}
               >
                 {toTitleCase(attendee.Subscription.payment.paymentStatus)}
@@ -59,9 +59,7 @@ export default async function AdminConfirmPage({
               <span
                 className={cn(
                   'font-normal',
-                  attendee.confirmedPresence
-                    ? 'text-green-500'
-                    : 'text-red-500',
+                  attendee.confirmedPresence ? 'text-green-500' : 'text-red-500'
                 )}
               >
                 {attendee.confirmedPresence ? 'SIM' : 'NÃO'}

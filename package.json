@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "postinstall": "npx prisma generate",
     "db:push": "npx prisma db push",
     "db:studio": "npx prisma studio",
@@ -14,8 +15,10 @@
     "shadcn:add": "npx shadcn-ui@latest add",
     "email:dev": "email dev --dir src/components/emails -p 3001",
     "typecheck": "tsc --noEmit",
-    "db:insertfields": "npx tsx src/db/scripts/fieldsToDb.ts",
-    "db:clear": "npx tsx src/db/scripts/clearDb.ts"
+    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "script:clear": "npx tsx src/db/scripts/clearDb.ts",
+    "script:insert": "npx tsx src/db/scripts/fieldsToDb.ts"
   },
   "dependencies": {
     "@clerk/localizations": "^1.24.0",
@@ -60,8 +63,17 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@rocketseat/eslint-config": "^1.2.0",
-    "eslint": "^8.44.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
+    "@types/eslint": "^8.44.1",
+    "@types/prettier": "^2.7.3",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "eslint": "^8.45.0",
+    "eslint-config-next": "^13.4.12",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-tailwindcss": "^3.13.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.4.1",
     "prisma": "^5.0.0",
     "tsx": "^3.12.7"
   }

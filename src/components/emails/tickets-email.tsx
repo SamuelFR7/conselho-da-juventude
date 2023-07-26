@@ -1,5 +1,4 @@
 import { env } from '@/env.mjs'
-import { attendeeSchema } from '@/lib/validations/attendees'
 import {
   Body,
   Container,
@@ -12,7 +11,9 @@ import {
   Tailwind,
   Text,
 } from '@react-email/components'
-import { z } from 'zod'
+import { type z } from 'zod'
+
+import { type attendeeSchema } from '@/lib/validations/attendees'
 
 interface TicketsEmailProps {
   attendees: Array<

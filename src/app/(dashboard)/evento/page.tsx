@@ -1,6 +1,6 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChooseQuantityForm } from '@/components/forms/choose-quantity-form'
 import { Shell } from '@/components/shells/shell'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function Home() {
   return (

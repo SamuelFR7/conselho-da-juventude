@@ -1,13 +1,16 @@
 'use client'
+
 import React from 'react'
-import { Button } from './ui/button'
-import { Icons } from './icons'
-import { confirmAttendeePresenceAction } from '@/app/_actions/attendees'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { type z } from 'zod'
+
 import { catchError } from '@/lib/utils'
-import { z } from 'zod'
-import { attendeeSchema } from '@/lib/validations/attendees'
+import { type attendeeSchema } from '@/lib/validations/attendees'
+import { confirmAttendeePresenceAction } from '@/app/_actions/attendees'
+
+import { Icons } from './icons'
+import { Button } from './ui/button'
 
 export function ConfirmPresenceButton({
   attendee,

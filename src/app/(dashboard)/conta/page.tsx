@@ -1,6 +1,7 @@
+import { UserProfile } from '@clerk/nextjs'
+
 import { Shell } from '@/components/shells/shell'
 import { TitleHeader } from '@/components/title-header'
-import { UserProfile } from '@clerk/nextjs'
 
 export default function AccountPage() {
   return (

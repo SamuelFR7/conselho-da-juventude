@@ -4,12 +4,12 @@ import {
   Loader2,
   Lock,
   LogOut,
-  LucideProps,
   Package,
   Settings,
   ShoppingCart,
   User,
   UserPlus,
+  type LucideProps,
 } from 'lucide-react'
 
 export const Icons = {

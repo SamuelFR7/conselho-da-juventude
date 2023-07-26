@@ -9,4 +9,5 @@ async function clearDb() {
   await prisma.payment.deleteMany()
 }
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 clearDb()

@@ -1,4 +1,5 @@
 import { z } from 'zod'
+
 import { attendeeSchema } from './attendees'
 
 export const formManualSubscriptionSchema = z.object({
@@ -22,7 +23,7 @@ export const createManualSubscriptionSchema = z.object({
           required_error: 'É preciso fornecer um campo',
         })
         .transform((arg) => Number(arg)),
-    }),
+    })
   ),
   emailToSend: z.string().email(),
 })

@@ -1,12 +1,14 @@
 import '@/styles/globals.css'
-import { ClerkProvider } from '@clerk/nextjs'
-import { ptBR } from '@clerk/localizations'
-import Providers from '@/components/providers'
+
 import React from 'react'
-import { fontSans } from '@/lib/fonts'
-import { Metadata } from 'next'
-import { Toaster } from '@/components/ui/toaster'
+import { type Metadata } from 'next'
 import { env } from '@/env.mjs'
+import { ptBR } from '@clerk/localizations'
+import { ClerkProvider } from '@clerk/nextjs'
+
+import { fontSans } from '@/lib/fonts'
+import { Toaster } from '@/components/ui/toaster'
+import Providers from '@/components/providers'
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -37,7 +39,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode

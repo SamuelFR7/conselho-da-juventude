@@ -1,8 +1,11 @@
 'use client'
-import { useMounted } from '@/hooks/use-mounted'
-import { SignOutButton } from '@clerk/nextjs'
-import { useRouter } from 'next/navigation'
+
 import React from 'react'
+import { useRouter } from 'next/navigation'
+import { SignOutButton } from '@clerk/nextjs'
+
+import { useMounted } from '@/hooks/use-mounted'
+
 import { Icons } from '../icons'
 import { Button } from '../ui/button'
 
@@ -25,7 +28,7 @@ export function LogOutButton() {
             aria-label="Sair"
             size="sm"
             variant="ghost"
-            className="w-full max-h-[20px] px-1 justify-start"
+            className="max-h-[20px] w-full justify-start px-1"
             disabled={isPending}
           >
             {isPending ? (

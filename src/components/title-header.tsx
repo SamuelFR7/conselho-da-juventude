@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { cn } from '@/lib/utils'
 
 interface HeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -19,7 +20,7 @@ export function TitleHeader({
       <h1
         className={cn(
           'line-clamp-1 text-3xl font-bold tracking-tight',
-          size === 'default' && 'md:text-4xl',
+          size === 'default' && 'md:text-4xl'
         )}
       >
         {title}
@@ -28,7 +29,7 @@ export function TitleHeader({
         <p
           className={cn(
             'line-clamp-2 text-muted-foreground',
-            size === 'default' && 'text-lg',
+            size === 'default' && 'text-lg'
           )}
         >
           {description}
