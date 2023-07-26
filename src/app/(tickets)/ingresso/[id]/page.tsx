@@ -31,7 +31,7 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
                 {new Intl.NumberFormat('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',
-                }).format(100)}
+                }).format(110)}
               </span>
             </h2>
             <h2 className="font-semibold">

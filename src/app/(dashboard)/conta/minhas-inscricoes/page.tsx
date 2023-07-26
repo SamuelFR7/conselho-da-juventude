@@ -57,7 +57,7 @@ export default async function MySubscriptions() {
                         {new Intl.NumberFormat('pt-BR', {
                           style: 'currency',
                           currency: 'BRL',
-                        }).format(subscription.attendees.length * 100)}
+                        }).format(subscription.attendees.length * 110)}
                       </td>
                     </tr>
                     <tr>

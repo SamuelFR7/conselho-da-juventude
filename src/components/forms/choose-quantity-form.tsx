@@ -66,7 +66,7 @@ export function ChooseQuantityForm({ redirectUrl }: ChooseQuantityFormProps) {
           <tbody>
             <tr>
               <td className="py-2">Preço:</td>
-              <td className="text-right">R$ 100,00</td>
+              <td className="text-right">R$ 110,00</td>
             </tr>
             <tr>
               <td className="py-2">Quantidade:</td>
@@ -117,7 +117,7 @@ export function ChooseQuantityForm({ redirectUrl }: ChooseQuantityFormProps) {
             <tr>
               <td className="py-2">Subtotal: </td>
               <td className="text-right">
-                {formatPrice(form.watch('quantity') * 100)}
+                {formatPrice(form.watch('quantity') * 110)}
               </td>
             </tr>
           </tbody>
