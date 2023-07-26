@@ -26,7 +26,7 @@ import {
   FormMessage,
 } from '../ui/form'
 import { createSubscriptionAction } from '@/app/_actions/subscriptions'
-import { shirtSizes } from '@/lib/shirtSizes'
+import { shirtSizes } from '@/lib/shirt-sizes'
 
 type Inputs = z.infer<typeof formAttendeesSchema>
 

@@ -27,7 +27,7 @@ import { Button } from '../ui/button'
 import { Icons } from '../icons'
 import { createManualSubscriptionsAction } from '@/app/_actions/subscriptions'
 import { formManualSubscriptionSchema } from '@/lib/validations/subscriptions'
-import { shirtSizes } from '@/lib/shirtSizes'
+import { shirtSizes } from '@/lib/shirt-sizes'
 
 type Inputs = z.infer<typeof formManualSubscriptionSchema>
 
