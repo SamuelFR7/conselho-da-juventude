@@ -15,7 +15,7 @@ export default function Home() {
               Data: <span>23 e 24 de setembro</span>
             </p>
             <p>
-              Horario: <span>19:00</span>
+              Horario: <span>08:00 às 22:00</span>
             </p>
             <ChooseQuantityForm />
           </div>
