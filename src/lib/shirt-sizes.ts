@@ -1,5 +1,14 @@
 export const shirtSizes = [
   {
+    value: 'P Babylook'
+  },
+  {
+    value: 'M Babylook'
+  },
+  {
+    value: 'G Babylook'
+  },
+  {
     value: 'P',
   },
   {
