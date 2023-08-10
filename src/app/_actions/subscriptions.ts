@@ -3,8 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { db } from '@/db'
 import { env } from '@/env.mjs'
-import { auth, clerkClient } from '@clerk/nextjs'
-import { createId } from '@paralleldrive/cuid2'
+import { auth } from '@clerk/nextjs'
 import { type z } from 'zod'
 
 import { resend } from '@/lib/resend'
@@ -39,10 +38,9 @@ export async function createManualSubscriptionsAction(
       },
       payment: {
         create: {
-          orderNumber: createId(),
           paymentStatus: 'PAGO',
           amount: data.attendees.length * 11000,
-          paymentMethodType: 6,
+          paymentMethodType: 'pix',
         },
       },
     },
@@ -69,16 +67,6 @@ export async function createSubscriptionAction(
     throw new Error('Unauthorized')
   }
 
-  const user = await clerkClient.users.getUser(userId)
-
-  const email =
-    user?.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)
-      ?.emailAddress ?? null
-
-  if (!email) {
-    throw new Error('User has no email')
-  }
-
   const subscription = await db.subscription.create({
     data: {
       attendees: {
@@ -88,7 +76,6 @@ export async function createSubscriptionAction(
       payment: {
         create: {
           amount: inputs.length * 11000,
-          orderNumber: createId(),
           paymentStatus: 'PENDENTE',
         },
       },

@@ -19,6 +19,8 @@ interface TicketsEmailProps {
   attendees: Array<
     z.infer<typeof attendeeSchema> & {
       id: string
+      confirmedPresence: boolean
+      subscriptionId: string
     }
   >
 }
@@ -32,6 +34,8 @@ export default function TicketsEmail({
       email: 'email@teste.com',
       fieldId: 'campoTeste',
       shirtSize: 'T',
+      confirmedPresence: true,
+      subscriptionId: 'testeId',
     },
   ],
 }: TicketsEmailProps) {

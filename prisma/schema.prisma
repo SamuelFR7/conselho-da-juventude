@@ -50,13 +50,9 @@ model Subscription {
 
 model Payment {
   id                String        @id @default(cuid())
-  orderNumber       String        @unique
   paymentStatus     String
   amount            Int
-  paymentMethodType Int?
-  customerEmail     String?
-  customerIdentity  String?
-  customerName      String?
+  paymentMethodType String?
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt()
   Subscription      Subscription?
