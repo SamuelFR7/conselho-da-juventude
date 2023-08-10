@@ -11,6 +11,7 @@ export default authMiddleware({
     '/sign-up(.*)',
     '/sso-callback(.*)',
     '/api/checkout/webhook(.*)',
+    '/api/webhooks/stripe(.*)',
     '/ingresso(.*)',
   ],
   async afterAuth(auth, req) {

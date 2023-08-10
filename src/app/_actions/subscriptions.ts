@@ -3,13 +3,13 @@
 import { revalidatePath } from 'next/cache'
 import { db } from '@/db'
 import { env } from '@/env.mjs'
-import { type CieloCheckoutResponse } from '@/types'
-import { auth } from '@clerk/nextjs'
+import { auth, clerkClient } from '@clerk/nextjs'
 import { createId } from '@paralleldrive/cuid2'
-import axios from 'axios'
 import { type z } from 'zod'
 
 import { resend } from '@/lib/resend'
+import { stripe } from '@/lib/stripe'
+import { absoluteUrl } from '@/lib/utils'
 import { type attendeeSchema } from '@/lib/validations/attendees'
 import {
   createManualSubscriptionSchema,
@@ -69,33 +69,17 @@ export async function createSubscriptionAction(
     throw new Error('Unauthorized')
   }
 
-  const { data } = await axios.post<CieloCheckoutResponse>(
-    'https://cieloecommerce.cielo.com.br/api/public/v1/orders/',
-    {
-      SoftDescriptor: 'Cadesgo',
-      Cart: {
-        Items: [
-          {
-            Name: 'Ingresso Conselho da Juventude - 2023',
-            UnitPrice: 11000,
-            Quantity: inputs.length,
-            Type: 'Digital',
-          },
-        ],
-      },
-      Shipping: {
-        Type: 'WithoutShipping',
-      },
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        MerchantId: '41ab610a-e320-4d81-bb3b-0368023cd97b',
-      },
-    }
-  )
+  const user = await clerkClient.users.getUser(userId)
 
-  await db.subscription.create({
+  const email =
+    user?.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)
+      ?.emailAddress ?? null
+
+  if (!email) {
+    throw new Error('User has no email')
+  }
+
+  const subscription = await db.subscription.create({
     data: {
       attendees: {
         create: inputs,
@@ -104,14 +88,29 @@ export async function createSubscriptionAction(
       payment: {
         create: {
           amount: inputs.length * 11000,
-          orderNumber: data.orderNumber,
+          orderNumber: createId(),
           paymentStatus: 'PENDENTE',
         },
       },
     },
   })
 
-  return data
+  const stripeSession = await stripe.checkout.sessions.create({
+    success_url: absoluteUrl('/conta/minhas-inscricoes'),
+    cancel_url: absoluteUrl('/conta/minhas-inscricoes'),
+    mode: 'payment',
+    line_items: [
+      {
+        price: env.STRIPE_TICKET_PRICE_ID,
+        quantity: inputs.length,
+      },
+    ],
+    metadata: {
+      payment_id: subscription.paymentId,
+    },
+  })
+
+  return stripeSession.url
 }
 
 export async function getMySubscriptions() {

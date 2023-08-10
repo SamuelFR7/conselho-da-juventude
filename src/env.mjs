@@ -12,6 +12,9 @@ export const env = createEnv({
     CLERK_SECRET_KEY: z.string(),
     RESEND_API_KEY: z.string(),
     EMAIL_FROM_ADDRESS: z.string().email(),
+    STRIPE_API_KEY: z.string(),
+    STRIPE_WEBHOOK_SECRET: z.string(),
+    STRIPE_TICKET_PRICE_ID: z.string(),
   },
 
   /**
@@ -37,6 +40,9 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     EMAIL_FROM_ADDRESS: process.env.EMAIL_FROM_ADDRESS,
+    STRIPE_API_KEY: process.env.STRIPE_API_KEY,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    STRIPE_TICKET_PRICE_ID: process.env.STRIPE_TICKET_PRICE_ID,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
 })

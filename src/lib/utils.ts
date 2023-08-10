@@ -1,3 +1,4 @@
+import { env } from '@/env.mjs'
 import { isClerkAPIResponseError } from '@clerk/nextjs'
 import { clsx, type ClassValue } from 'clsx'
 import { toast } from 'sonner'
@@ -9,6 +10,10 @@ export function formatPrice(price: number | string) {
     style: 'currency',
     currency: 'BRL',
   }).format(Number(price))
+}
+
+export function absoluteUrl(path: string) {
+  return `${env.NEXT_PUBLIC_APP_URL}${path}`
 }
 
 export function cn(...inputs: ClassValue[]) {
