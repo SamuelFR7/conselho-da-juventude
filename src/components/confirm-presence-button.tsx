@@ -46,7 +46,7 @@ export function ConfirmPresenceButton({
       disabled={
         isPending ||
         attendee.confirmedPresence ||
-        attendee.Subscription.payment.paymentStatus !== 'PAGO'
+        attendee.Subscription.payment.paymentStatus !== 'paid'
       }
       onClick={confirmPresenceSubmit}
     >

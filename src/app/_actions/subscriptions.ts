@@ -38,7 +38,7 @@ export async function createManualSubscriptionsAction(
       },
       payment: {
         create: {
-          paymentStatus: 'PAGO',
+          paymentStatus: 'paid',
           amount: data.attendees.length * 11000,
           paymentMethodType: 'pix',
         },

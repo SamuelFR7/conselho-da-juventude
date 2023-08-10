@@ -1,9 +1,12 @@
 import { headers } from 'next/headers'
 import { db } from '@/db'
 import { env } from '@/env.mjs'
+import { clerkClient } from '@clerk/nextjs'
 import type Stripe from 'stripe'
 
+import { resend } from '@/lib/resend'
 import { stripe } from '@/lib/stripe'
+import TicketsEmail from '@/components/emails/tickets-email'
 
 export async function POST(req: Request) {
   const body = await req.text()
@@ -35,7 +38,14 @@ export async function POST(req: Request) {
       }
 
       if (session.payment_status === 'paid') {
-        await db.payment.update({
+        const payment = await db.payment.update({
+          select: {
+            Subscription: {
+              include: {
+                attendees: true,
+              },
+            },
+          },
           where: {
             id: session.metadata.payment_id,
           },
@@ -44,7 +54,31 @@ export async function POST(req: Request) {
             paymentStatus: session.payment_status,
           },
         })
+
+        if (!payment.Subscription) break
+
+        const user = await clerkClient.users.getUser(
+          payment.Subscription.userId
+        )
+
+        const email =
+          user?.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)
+            ?.emailAddress ?? null
+
+        if (!email) {
+          break
+        }
+
+        await resend.emails.send({
+          from: env.EMAIL_FROM_ADDRESS,
+          subject: 'Ingressos do Evento - Conselho da Juventude 2023',
+          to: email,
+          react: TicketsEmail({
+            attendees: payment.Subscription.attendees,
+          }),
+        })
       }
+
       break
     }
     case 'checkout.session.async_payment_succeeded': {
@@ -54,7 +88,14 @@ export async function POST(req: Request) {
         throw new Error('Payment does not exists')
       }
 
-      await db.payment.update({
+      const payment = await db.payment.update({
+        include: {
+          Subscription: {
+            include: {
+              attendees: true,
+            },
+          },
+        },
         where: {
           id: session.metadata.payment_id,
         },
@@ -62,6 +103,27 @@ export async function POST(req: Request) {
           paymentMethodType: session.payment_method_types[0],
           paymentStatus: session.payment_status,
         },
+      })
+
+      if (!payment.Subscription) break
+
+      const user = await clerkClient.users.getUser(payment.Subscription.userId)
+
+      const email =
+        user?.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)
+          ?.emailAddress ?? null
+
+      if (!email) {
+        break
+      }
+
+      await resend.emails.send({
+        from: env.EMAIL_FROM_ADDRESS,
+        subject: 'Ingressos do Evento - Conselho da Juventude 2023',
+        to: email,
+        react: TicketsEmail({
+          attendees: payment.Subscription.attendees,
+        }),
       })
 
       break

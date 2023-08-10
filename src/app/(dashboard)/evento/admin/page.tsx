@@ -1,6 +1,11 @@
 import Link from 'next/link'
 
-import { cn, toTitleCase } from '@/lib/utils'
+import {
+  cn,
+  handlePaymentStatus,
+  paymentClassname,
+  toTitleCase,
+} from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -104,14 +109,14 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               <TableCell>{attendee.email}</TableCell>
               <TableCell
                 className={cn(
-                  attendee.Subscription.payment.paymentStatus === 'PENDENTE'
-                    ? 'text-yellow-500'
-                    : attendee.Subscription.payment.paymentStatus === 'PAGO'
-                    ? 'text-green-500'
-                    : ''
+                  paymentClassname(attendee.Subscription.payment.paymentStatus)
                 )}
               >
-                {toTitleCase(attendee.Subscription.payment.paymentStatus)}
+                {toTitleCase(
+                  handlePaymentStatus(
+                    attendee.Subscription.payment.paymentStatus
+                  )
+                )}
               </TableCell>
               <TableCell
                 className={cn(

@@ -48,3 +48,25 @@ export function catchError(err: unknown) {
     return toast('Algo deu errado tente novamente mais tarde')
   }
 }
+
+export function handlePaymentStatus(status: string) {
+  switch (status) {
+    case 'paid':
+      return 'CONFIRMADO'
+    case 'unpaid':
+      return 'NEGADO'
+    default:
+      return 'PENDENTE'
+  }
+}
+
+export function paymentClassname(status: string) {
+  switch (status) {
+    case 'paid':
+      return 'text-green-500'
+    case 'unpaid':
+      return 'text-red-500'
+    default:
+      return 'text-yellow-500'
+  }
+}
