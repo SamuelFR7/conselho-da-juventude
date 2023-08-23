@@ -77,7 +77,9 @@ export function CreateSubscriptionsForm({
       try {
         const response = await createSubscriptionAction(data.attendees)
 
-        router.push(response.settings.checkoutUrl)
+        if (typeof response === 'string') {
+          router.push(response)
+        }
       } catch (error) {
         catchError(error)
       }

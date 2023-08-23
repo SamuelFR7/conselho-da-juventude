@@ -11,6 +11,9 @@ env:
   CLERK_SECRET_KEY: 'fake'
   RESEND_API_KEY: 'fake'
   EMAIL_FROM_ADDRESS: 'fake@email.com'
+  STRIPE_API_KEY: 'fake'
+  STRIPE_WEBHOOK_SECRET: 'fake'
+  STRIPE_TICKET_PRICE_ID: 'fake'
 
 jobs:
   typecheck-lint:

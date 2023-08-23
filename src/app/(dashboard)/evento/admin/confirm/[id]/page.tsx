@@ -1,4 +1,9 @@
-import { cn, toTitleCase } from '@/lib/utils'
+import {
+  cn,
+  handlePaymentStatus,
+  paymentClassname,
+  toTitleCase,
+} from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { ConfirmPresenceButton } from '@/components/confirm-presence-button'
@@ -44,14 +49,14 @@ export default async function AdminConfirmPage({
               <span
                 className={cn(
                   'font-normal',
-                  attendee.Subscription.payment.paymentStatus === 'PENDENTE'
-                    ? 'text-yellow-500'
-                    : attendee.Subscription.payment.paymentStatus === 'PAGO'
-                    ? 'text-green-500'
-                    : ''
+                  paymentClassname(attendee.Subscription.payment.paymentStatus)
                 )}
               >
-                {toTitleCase(attendee.Subscription.payment.paymentStatus)}
+                {toTitleCase(
+                  handlePaymentStatus(
+                    attendee.Subscription.payment.paymentStatus
+                  )
+                )}
               </span>
             </h2>
             <h2 className="font-semibold">

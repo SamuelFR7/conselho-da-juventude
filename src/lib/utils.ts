@@ -1,3 +1,4 @@
+import { env } from '@/env.mjs'
 import { isClerkAPIResponseError } from '@clerk/nextjs'
 import { clsx, type ClassValue } from 'clsx'
 import { toast } from 'sonner'
@@ -9,6 +10,10 @@ export function formatPrice(price: number | string) {
     style: 'currency',
     currency: 'BRL',
   }).format(Number(price))
+}
+
+export function absoluteUrl(path: string) {
+  return `${env.NEXT_PUBLIC_APP_URL}${path}`
 }
 
 export function cn(...inputs: ClassValue[]) {
@@ -41,5 +46,27 @@ export function catchError(err: unknown) {
     return toast(err.message)
   } else {
     return toast('Algo deu errado tente novamente mais tarde')
+  }
+}
+
+export function handlePaymentStatus(status: string) {
+  switch (status) {
+    case 'paid':
+      return 'CONFIRMADO'
+    case 'unpaid':
+      return 'NEGADO'
+    default:
+      return 'PENDENTE'
+  }
+}
+
+export function paymentClassname(status: string) {
+  switch (status) {
+    case 'paid':
+      return 'text-green-500'
+    case 'unpaid':
+      return 'text-red-500'
+    default:
+      return 'text-yellow-500'
   }
 }

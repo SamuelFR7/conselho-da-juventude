@@ -1,7 +1,7 @@
 import { env } from '@/env.mjs'
 import QRCode from 'react-qr-code'
 
-import { toTitleCase } from '@/lib/utils'
+import { handlePaymentStatus, toTitleCase } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { PrintPageButton } from '@/components/print-page-button'
@@ -58,7 +58,11 @@ export default async function IngressoIdPage({ params }: IngressoIdPageProps) {
             <h2 className="font-semibold">
               Status do Pagamento:{' '}
               <span className="font-normal">
-                {toTitleCase(attendee.Subscription.payment.paymentStatus)}
+                {toTitleCase(
+                  handlePaymentStatus(
+                    attendee.Subscription.payment.paymentStatus
+                  )
+                )}
               </span>
             </h2>
           </div>

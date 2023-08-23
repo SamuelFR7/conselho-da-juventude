@@ -52,7 +52,7 @@ export async function confirmAttendeePresenceAction(id: string) {
     throw new Error('Attendee not found')
   }
 
-  if (attendeeToConfirm.Subscription.payment.paymentStatus !== 'PAGO') {
+  if (attendeeToConfirm.Subscription.payment.paymentStatus !== 'paid') {
     throw new Error('Não é possível confirmar uma inscrição não paga')
   }
 
@@ -95,7 +95,7 @@ export async function getPayedAndConfirmedAttendeesAction() {
       Subscription: {
         payment: {
           paymentStatus: {
-            equals: 'PAGO',
+            equals: 'paid',
           },
         },
       },
@@ -114,7 +114,7 @@ export async function getPayedAttendeesAction() {
       Subscription: {
         payment: {
           paymentStatus: {
-            equals: 'PAGO',
+            equals: 'paid',
           },
         },
       },

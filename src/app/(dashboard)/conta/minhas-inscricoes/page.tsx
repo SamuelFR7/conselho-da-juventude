@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn, handlePaymentStatus, paymentClassname } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Shell } from '@/components/shells/shell'
 import { TitleHeader } from '@/components/title-header'
@@ -65,15 +65,12 @@ export default async function MySubscriptions() {
                       <td
                         className={cn(
                           'text-right font-medium',
-                          subscription.payment.paymentStatus === 'PAGO'
-                            ? 'text-green-500'
-                            : '',
-                          subscription.payment.paymentStatus === 'NEGADO'
-                            ? 'text-red-500'
-                            : ''
+                          paymentClassname(subscription.payment.paymentStatus)
                         )}
                       >
-                        {subscription.payment.paymentStatus}
+                        {handlePaymentStatus(
+                          subscription.payment.paymentStatus
+                        )}
                       </td>
                     </tr>
                   </tbody>
