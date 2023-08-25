@@ -15,6 +15,7 @@ import {
   type formManualSubscriptionSchema,
 } from '@/lib/validations/subscriptions'
 import TicketsEmail from '@/components/emails/tickets-email'
+import { clerkClient } from '@clerk/nextjs'
 
 export async function createManualSubscriptionsAction(
   input: z.infer<typeof formManualSubscriptionSchema>
@@ -118,4 +119,100 @@ export async function getMySubscriptions() {
   })
 
   return subscriptions
+}
+
+export async function deleteSubscriptionAction(id: string) {
+  const { userId } = auth()
+
+
+  if (!userId) {
+    throw new Error('Unauthorized')
+  }
+
+  const user = await clerkClient.users.getUser(userId) 
+
+  if (!user) {
+    throw new Error('Algo deu errado, tente novamente mais tarde')
+  }
+
+  if (user.privateMetadata.role !== 'admin') {
+    throw new Error('Unauthorized')
+  }
+
+  const subscriptionToDelete = await db.attendee.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      subscriptionId: true
+    }
+  })
+
+  if (!subscriptionToDelete) {
+    throw new Error('Algo deu errado, tente novamente mais tarde')
+  }
+
+  await db.subscription.delete({
+    where: {
+      id: subscriptionToDelete.subscriptionId
+    }
+  })
+
+  revalidatePath('/evento/admin')
+}
+
+export async function confirmSubscriptionPaymentAction(attendeeId: string) {
+   const { userId } = auth()
+
+
+  if (!userId) {
+    throw new Error('Unauthorized')
+  }
+
+  const user = await clerkClient.users.getUser(userId) 
+
+  if (!user) {
+    throw new Error('Algo deu errado, tente novamente mais tarde')
+  }
+
+  if (user.privateMetadata.role !== 'admin') {
+    throw new Error('Unauthorized')
+  }
+ 
+  const attendeeToConfirmPayment = await db.attendee.findUnique({
+    where: {
+      id: attendeeId
+    },
+    select: {
+      subscriptionId: true
+    }
+  })
+
+  if (!attendeeToConfirmPayment) {
+    throw new Error('Algo deu errado, tente novamente mais tarde')
+  }
+
+  const subscriptionToConfirmPayment = await db.subscription.findUnique({
+    where: {
+      id: attendeeToConfirmPayment.subscriptionId
+    },
+    select: {
+      paymentId: true
+    }
+  })
+
+  if (!subscriptionToConfirmPayment) {
+    throw new Error('Algo deu errado, tente novamente mais tarde')
+  }
+
+  await db.payment.update({
+    where: {
+      id: subscriptionToConfirmPayment.paymentId
+    },
+    data: {
+      paymentStatus: 'paid'
+    }
+  })
+
+  revalidatePath('/evento/admin')
 }
