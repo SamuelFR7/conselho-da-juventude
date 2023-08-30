@@ -33,7 +33,6 @@ import {
   getToPayAttendeesAction,
 } from '@/app/_actions/attendees'
 import DeleteSubscriptionDialog from '@/components/dialogs/delete-subscription-dialog'
-import ConfirmSubscriptionPaymentDialog from '@/components/dialogs/confirm-subscription-payment-dialog'
 
 interface AdminPageProps {
   searchParams: {
@@ -103,7 +102,6 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <TableHead>Status de Pagamento</TableHead>
             <TableHead>Confirmada</TableHead>
             <TableHead className='text-center'>Gerenciar</TableHead>
-            <TableHead className='text-center'>Confirmar Pagamento</TableHead>
             <TableHead className='text-center'>Deletar</TableHead>
           </TableRow>
         </TableHeader>
@@ -136,11 +134,6 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                     <Icons.settings />
                   </Button>
                 </Link>
-              </TableCell>
-              <TableCell className='text-center'>
-                {attendee.Subscription.payment.paymentStatus !== 'paid' && (
-                  <ConfirmSubscriptionPaymentDialog attendeeId={attendee.id} />
-                )}
               </TableCell>
               <TableCell className='text-center'>
               {dateDifferenceFromToday(attendee.Subscription.createdAt) > 4 && attendee.Subscription.payment.paymentStatus !== 'paid' && ( 
