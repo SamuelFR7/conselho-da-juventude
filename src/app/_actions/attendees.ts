@@ -72,6 +72,7 @@ export async function getAllAttendeesAction(page: number) {
     include: {
       Subscription: {
         select: {
+          createdAt: true,
           payment: {
             select: {
               paymentStatus: true,

@@ -1,6 +1,8 @@
 import { env } from '@/env.mjs'
 import { isClerkAPIResponseError } from '@clerk/nextjs'
 import { clsx, type ClassValue } from 'clsx'
+import dayjs from 'dayjs'
+import { Dawning_of_a_New_Day } from 'next/font/google'
 import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
@@ -69,4 +71,10 @@ export function paymentClassname(status: string) {
     default:
       return 'text-yellow-500'
   }
+}
+
+export function dateDifferenceFromToday(date: Date): number {
+  const dateToCompare = dayjs(new Date())
+  console.log(dateToCompare.diff(date, 'day'))
+  return dateToCompare.diff(date, 'day')
 }

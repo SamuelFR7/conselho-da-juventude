@@ -9,6 +9,8 @@ import {
   ShoppingCart,
   User,
   UserPlus,
+  Trash,
+  Check,
   type LucideProps,
 } from 'lucide-react'
 
@@ -22,6 +24,8 @@ export const Icons = {
   view: Eye,
   admin: Lock,
   settings: Settings,
+  delete: Trash,
+  confirm: Check,
   manualSub: UserPlus,
   google: ({ ...props }: LucideProps) => (
     <svg
