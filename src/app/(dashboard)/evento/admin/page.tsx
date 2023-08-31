@@ -99,6 +99,8 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <TableRow>
             <TableHead>Nome</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead className='text-center'>Tamanho da Camiseta</TableHead>
+            <TableHead>Campo</TableHead>
             <TableHead>Status de Pagamento</TableHead>
             <TableHead>Confirmada</TableHead>
             <TableHead className='text-center'>Gerenciar</TableHead>
@@ -110,6 +112,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <TableRow key={attendee.id}>
               <TableCell>{toTitleCase(attendee.name)}</TableCell>
               <TableCell>{attendee.email}</TableCell>
+              <TableCell className='text-center'>
+                {attendee.shirtSize}
+              </TableCell>
+              <TableCell>{attendee.field.name}</TableCell>
               <TableCell
                 className={cn(
                   paymentClassname(attendee.Subscription.payment.paymentStatus)
