@@ -80,6 +80,7 @@ export async function getAllAttendeesAction(page: number) {
           },
         },
       },
+      field: true
     },
     skip: (page - 1) * 10,
     take: 10,
