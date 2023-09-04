@@ -2,6 +2,9 @@
 
 import { revalidatePath } from 'next/cache'
 import { db } from '@/db'
+import { type z } from 'zod'
+
+import { type changeAttendeeNameSchema } from '@/lib/validations/attendees'
 
 export async function getAttendeeByIdAction(id: string) {
   const attendee = await db.attendee.findUnique({
@@ -80,7 +83,7 @@ export async function getAllAttendeesAction(page: number) {
           },
         },
       },
-      field: true
+      field: true,
     },
     skip: (page - 1) * 10,
     take: 10,
@@ -143,4 +146,31 @@ export async function getToPayAttendeesAction() {
   })
 
   return attendees
+}
+
+export async function editAttendeeNameAction(
+  input: z.infer<typeof changeAttendeeNameSchema> & {
+    id: string
+  }
+) {
+  const attendeeExists = await db.attendee.findUnique({
+    where: {
+      id: input.id,
+    },
+  })
+
+  if (!attendeeExists) {
+    throw new Error('Attendee not found')
+  }
+
+  await db.attendee.update({
+    where: {
+      id: input.id,
+    },
+    data: {
+      name: input.name,
+    },
+  })
+
+  revalidatePath('/evento/admin/')
 }

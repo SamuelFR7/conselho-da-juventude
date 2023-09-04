@@ -27,3 +27,10 @@ export const attendeeSchema = z.object({
 export const formAttendeesSchema = z.object({
   attendees: z.array(attendeeSchema),
 })
+
+export const changeAttendeeNameSchema = z.object({
+  name: z
+    .string({ required_error: 'Esse campo é obrigatório' })
+    .nonempty({ message: 'Esse campo é obrigatório' })
+    .toUpperCase(),
+})
