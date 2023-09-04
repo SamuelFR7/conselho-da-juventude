@@ -23,6 +23,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import DeleteSubscriptionDialog from '@/components/dialogs/delete-subscription-dialog'
+import { EditAttendeeNameDialog } from '@/components/dialogs/edit-attendee-name-dialog'
 import { Icons } from '@/components/icons'
 import { Shell } from '@/components/shells/shell'
 import { TablePagination } from '@/components/table-pagination'
@@ -32,7 +34,6 @@ import {
   getPayedAttendeesAction,
   getToPayAttendeesAction,
 } from '@/app/_actions/attendees'
-import DeleteSubscriptionDialog from '@/components/dialogs/delete-subscription-dialog'
 
 interface AdminPageProps {
   searchParams: {
@@ -99,12 +100,13 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <TableRow>
             <TableHead>Nome</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead className='text-center'>Tamanho da Camiseta</TableHead>
+            <TableHead className="text-center">Camiseta</TableHead>
             <TableHead>Campo</TableHead>
             <TableHead>Status de Pagamento</TableHead>
             <TableHead>Confirmada</TableHead>
-            <TableHead className='text-center'>Gerenciar</TableHead>
-            <TableHead className='text-center'>Deletar</TableHead>
+            <TableHead className="text-center">Editar</TableHead>
+            <TableHead className="text-center">Gerenciar</TableHead>
+            <TableHead className="text-center">Deletar</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -112,7 +114,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <TableRow key={attendee.id}>
               <TableCell>{toTitleCase(attendee.name)}</TableCell>
               <TableCell>{attendee.email}</TableCell>
-              <TableCell className='text-center'>
+              <TableCell className="text-center">
                 {attendee.shirtSize}
               </TableCell>
               <TableCell>{attendee.field.name}</TableCell>
@@ -134,17 +136,21 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               >
                 {attendee.confirmedPresence ? 'SIM' : 'NÃO'}
               </TableCell>
-              <TableCell className='text-center'>
-                <Link href={`/evento/admin/confirm/${attendee.id}`}>
-                  <Button size="icon" variant="ghost">
-                    <Icons.settings />
-                  </Button>
-                </Link>
+              <TableCell className="text-center">
+                <EditAttendeeNameDialog attendee={attendee} />
               </TableCell>
-              <TableCell className='text-center'>
-              {dateDifferenceFromToday(attendee.Subscription.createdAt) > 4 && attendee.Subscription.payment.paymentStatus !== 'paid' && ( 
-                <DeleteSubscriptionDialog id={attendee.id} />
-              )}
+              <TableCell className="text-center">
+                <Button size="icon" variant="outline" asChild>
+                  <Link href={`/evento/admin/confirm/${attendee.id}`}>
+                    <Icons.settings />
+                  </Link>
+                </Button>
+              </TableCell>
+              <TableCell className="text-center">
+                {dateDifferenceFromToday(attendee.Subscription.createdAt) > 4 &&
+                  attendee.Subscription.payment.paymentStatus !== 'paid' && (
+                    <DeleteSubscriptionDialog id={attendee.id} />
+                  )}
               </TableCell>
             </TableRow>
           ))}

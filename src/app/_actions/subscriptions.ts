@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { db } from '@/db'
 import { env } from '@/env.mjs'
-import { auth } from '@clerk/nextjs'
+import { auth, clerkClient } from '@clerk/nextjs'
 import { type z } from 'zod'
 
 import { resend } from '@/lib/resend'
@@ -15,7 +15,6 @@ import {
   type formManualSubscriptionSchema,
 } from '@/lib/validations/subscriptions'
 import TicketsEmail from '@/components/emails/tickets-email'
-import { clerkClient } from '@clerk/nextjs'
 
 export async function createManualSubscriptionsAction(
   input: z.infer<typeof formManualSubscriptionSchema>
@@ -124,12 +123,11 @@ export async function getMySubscriptions() {
 export async function deleteSubscriptionAction(id: string) {
   const { userId } = auth()
 
-
   if (!userId) {
     throw new Error('Unauthorized')
   }
 
-  const user = await clerkClient.users.getUser(userId) 
+  const user = await clerkClient.users.getUser(userId)
 
   if (!user) {
     throw new Error('Algo deu errado, tente novamente mais tarde')
@@ -144,8 +142,8 @@ export async function deleteSubscriptionAction(id: string) {
       id,
     },
     select: {
-      subscriptionId: true
-    }
+      subscriptionId: true,
+    },
   })
 
   if (!subscriptionToDelete) {
@@ -154,10 +152,9 @@ export async function deleteSubscriptionAction(id: string) {
 
   await db.subscription.delete({
     where: {
-      id: subscriptionToDelete.subscriptionId
-    }
+      id: subscriptionToDelete.subscriptionId,
+    },
   })
 
   revalidatePath('/evento/admin')
 }
-

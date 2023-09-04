@@ -1,4 +1,5 @@
 import {
+  Check,
   Eye,
   EyeOff,
   Loader2,
@@ -7,10 +8,9 @@ import {
   Package,
   Settings,
   ShoppingCart,
+  Trash,
   User,
   UserPlus,
-  Trash,
-  Check,
   type LucideProps,
 } from 'lucide-react'
 
