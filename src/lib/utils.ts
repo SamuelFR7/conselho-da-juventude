@@ -77,3 +77,7 @@ export function dateDifferenceFromToday(date: Date): number {
   console.log(dateToCompare.diff(date, 'day'))
   return dateToCompare.diff(date, 'day')
 }
+
+export function subscriptionDeadlinePassed(): boolean {
+  return dayjs().isAfter('2023-09-17', 'day')
+}

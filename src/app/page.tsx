@@ -1,15 +1,21 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { SignedOut } from '@clerk/nextjs'
 
+import { subscriptionDeadlinePassed } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 
 export default function Home() {
   return (
     <div className="bg-zinc-50">
-      <header className="fixed left-0 top-0 flex w-full items-center justify-between bg-white px-8 shadow-lg">
+      <header className="fixed left-0 top-0 flex w-full items-center justify-between bg-white px-8 py-2 shadow-lg">
         <div className="flex items-center gap-2">
           <Image
             src="/images/logo.png"
@@ -21,31 +27,16 @@ export default function Home() {
             Conselho da Juventude
           </h2>
         </div>
-        <nav>
-          <ul className="flex gap-8 py-4">
-            <li>
-              <Link className="font-medium hover:underline" href="/">
-                Início
-              </Link>
-            </li>
-            <li>
-              <Link className="font-medium hover:underline" href="/evento/">
-                Comprar
-              </Link>
-            </li>
-          </ul>
-        </nav>
         <div className="hidden md:block">
-          <SignedOut>
-            <Link href="/sign-in">
-              <Button className="text-black" variant="link">
-                Log in
-              </Button>
+          {subscriptionDeadlinePassed() ? (
+            <Button asChild>
+              <Link href="/conta/minhas-inscricoes">Minhas inscricões</Link>
+            </Button>
+          ) : (
+            <Link href="/evento/">
+              <Button>Comprar Ingressos</Button>
             </Link>
-          </SignedOut>
-          <Link href="/evento/">
-            <Button>Comprar Ingressos</Button>
-          </Link>
+          )}
         </div>
       </header>
       <Image
@@ -58,27 +49,48 @@ export default function Home() {
       <section className="px-2 py-16 md:px-0">
         <Card className="mx-auto max-w-[600px] bg-zinc-50 px-4">
           <CardHeader>
-            <CardTitle className="text-center text-4xl font-extrabold">
-              INSCRIÇÃO PARA O EVENTO
-            </CardTitle>
+            {subscriptionDeadlinePassed() ? (
+              <>
+                <CardTitle className="text-center text-4xl font-extrabold text-red-500">
+                  PRAZO DE INSCRIÇÃO ENCERRADO
+                </CardTitle>
+                <CardDescription className="text-center text-xl">
+                  Você ainda pode visualizar suas inscrições já realizadas
+                </CardDescription>
+              </>
+            ) : (
+              <CardTitle className="text-center text-4xl font-extrabold">
+                INSCRIÇÃO PARA O EVENTO
+              </CardTitle>
+            )}
           </CardHeader>
           <Separator />
           <CardContent className="mt-6 flex w-full flex-col items-center gap-4">
-            <div className="flex flex-col items-center">
-              <h2 className="text-2xl font-bold">DATA DO EVENTO</h2>
-              <span className="text-lg font-medium">23/09 e 24/09</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <h2 className="text-2xl font-bold">HORÁRIOS</h2>
-              <div className="flex flex-col">
-                <span className="font-medium">23/09 - 08H AS 22H</span>
-                <span className=" font-medium">24/09 - 08H AS 12H</span>
-              </div>
-            </div>
-            <h2 className="text-5xl font-bold">R$ 110,00</h2>
-            <Link href="/evento/" className="w-full">
-              <Button className="w-full">COMPRAR INGRESSO</Button>
-            </Link>
+            {!subscriptionDeadlinePassed() && (
+              <>
+                <div className="flex flex-col items-center">
+                  <h2 className="text-2xl font-bold">DATA DO EVENTO</h2>
+                  <span className="text-lg font-medium">23/09 e 24/09</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <h2 className="text-2xl font-bold">HORÁRIOS</h2>
+                  <div className="flex flex-col">
+                    <span className="font-medium">23/09 - 08H AS 22H</span>
+                    <span className=" font-medium">24/09 - 08H AS 12H</span>
+                  </div>
+                </div>
+                <h2 className="text-5xl font-bold">R$ 110,00</h2>
+              </>
+            )}
+            {subscriptionDeadlinePassed() ? (
+              <Button asChild className="w-full">
+                <Link href="/conta/minhas-inscricoes">Ver suas inscrições</Link>
+              </Button>
+            ) : (
+              <Link href="/evento/" className="w-full">
+                <Button className="w-full">COMPRAR INGRESSO</Button>
+              </Link>
+            )}
           </CardContent>
         </Card>
       </section>
