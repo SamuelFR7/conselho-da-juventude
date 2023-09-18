@@ -2,6 +2,8 @@ import { env } from '@/env.mjs'
 import { isClerkAPIResponseError } from '@clerk/nextjs'
 import { clsx, type ClassValue } from 'clsx'
 import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
 import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
@@ -79,5 +81,8 @@ export function dateDifferenceFromToday(date: Date): number {
 }
 
 export function subscriptionDeadlinePassed(): boolean {
-  return dayjs().isAfter('2023-09-18', 'day')
+  dayjs.extend(utc)
+  dayjs.extend(timezone)
+  const deadline = dayjs('2023-09-18')
+  return dayjs().isAfter(deadline, 'hour')
 }
