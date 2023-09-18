@@ -83,6 +83,6 @@ export function dateDifferenceFromToday(date: Date): number {
 export function subscriptionDeadlinePassed(): boolean {
   dayjs.extend(utc)
   dayjs.extend(timezone)
-  const deadline = dayjs('2023-09-18')
+  const deadline = dayjs('2023-09-18').tz('America/Sao_Paulo')
   return dayjs().isAfter(deadline, 'hour')
 }
