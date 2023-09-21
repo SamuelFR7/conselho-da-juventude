@@ -13,17 +13,19 @@ import { Button } from '@/components/ui/button'
 interface TablePaginationProps {
   currentPage: number
   dataCount: number
+  search?: string
 }
 
 export function TablePagination({
   currentPage,
   dataCount,
+  search,
 }: TablePaginationProps) {
   const router = useRouter()
   const pathname = usePathname()
 
   function setPage(page: number) {
-    router.push(`${pathname}?page=${page}`)
+    router.push(`${pathname}?page=${page}&search=${search}`)
   }
 
   return (
