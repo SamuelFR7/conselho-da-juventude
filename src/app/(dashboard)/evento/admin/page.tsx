@@ -26,6 +26,7 @@ import {
 import DeleteSubscriptionDialog from '@/components/dialogs/delete-subscription-dialog'
 import { EditAttendeeNameDialog } from '@/components/dialogs/edit-attendee-name-dialog'
 import { Icons } from '@/components/icons'
+import { SearchByName } from '@/components/search-by-name'
 import { Shell } from '@/components/shells/shell'
 import { TablePagination } from '@/components/table-pagination'
 import {
@@ -38,12 +39,14 @@ import {
 interface AdminPageProps {
   searchParams: {
     page?: string
+    search?: string
   }
 }
 
 export default async function AdminPage({ searchParams }: AdminPageProps) {
   const { attendees: allAttendees, count } = await getAllAttendeesAction(
-    searchParams.page ? parseInt(searchParams.page) : 1
+    searchParams.page ? parseInt(searchParams.page) : 1,
+    searchParams.search
   )
   const payedAndConfirmedAttendees = await getPayedAndConfirmedAttendeesAction()
   const payedAttendees = await getPayedAttendeesAction()
@@ -95,6 +98,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           </CardContent>
         </Card>
       </div>
+      <SearchByName />
       <Table>
         <TableHeader>
           <TableRow>
@@ -157,7 +161,14 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </TableBody>
       </Table>
       <TablePagination
-        currentPage={searchParams.page ? parseInt(searchParams.page) : 1}
+        currentPage={
+          searchParams.page
+            ? parseInt(searchParams.page) > 0
+              ? parseInt(searchParams.page)
+              : 1
+            : 1
+        }
+        search={searchParams.search}
         dataCount={count}
       />
     </Shell>

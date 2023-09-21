@@ -70,7 +70,10 @@ export async function confirmAttendeePresenceAction(id: string) {
   revalidatePath('/evento/admin/')
 }
 
-export async function getAllAttendeesAction(page: number) {
+export async function getAllAttendeesAction(
+  page: number,
+  search?: string | null
+) {
   const attendees = await db.attendee.findMany({
     include: {
       Subscription: {
@@ -87,6 +90,11 @@ export async function getAllAttendeesAction(page: number) {
     },
     skip: (page - 1) * 10,
     take: 10,
+    where: {
+      name: {
+        contains: typeof search === 'string' ? search : undefined,
+      },
+    },
   })
 
   const count = await db.attendee.count()
