@@ -106,10 +106,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             <TableHead>Email</TableHead>
             <TableHead className="text-center">Camiseta</TableHead>
             <TableHead>Campo</TableHead>
+            <TableHead>Data de Pagamento</TableHead>
             <TableHead>Status de Pagamento</TableHead>
             <TableHead>Confirmada</TableHead>
             <TableHead className="text-center">Editar</TableHead>
-            <TableHead className="text-center">Gerenciar</TableHead>
             <TableHead className="text-center">Deletar</TableHead>
           </TableRow>
         </TableHeader>
@@ -122,6 +122,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 {attendee.shirtSize}
               </TableCell>
               <TableCell>{attendee.field.name}</TableCell>
+              <TableCell>
+                {new Intl.DateTimeFormat('pt-BR', {
+                  dateStyle: 'long',
+                  timeZone: 'America/Sao_Paulo',
+                }).format(attendee.Subscription.payment.updatedAt)}
+              </TableCell>
               <TableCell
                 className={cn(
                   paymentClassname(attendee.Subscription.payment.paymentStatus)
@@ -142,13 +148,6 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
               </TableCell>
               <TableCell className="text-center">
                 <EditAttendeeNameDialog attendee={attendee} />
-              </TableCell>
-              <TableCell className="text-center">
-                <Button size="icon" variant="outline" asChild>
-                  <Link href={`/evento/admin/confirm/${attendee.id}`}>
-                    <Icons.settings />
-                  </Link>
-                </Button>
               </TableCell>
               <TableCell className="text-center">
                 {dateDifferenceFromToday(attendee.Subscription.createdAt) > 4 &&

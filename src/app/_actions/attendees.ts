@@ -82,6 +82,7 @@ export async function getAllAttendeesAction(
           payment: {
             select: {
               paymentStatus: true,
+              updatedAt: true,
             },
           },
         },
