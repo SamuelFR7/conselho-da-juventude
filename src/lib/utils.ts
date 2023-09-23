@@ -79,6 +79,6 @@ export function dateDifferenceFromToday(date: Date): number {
 }
 
 export function subscriptionDeadlinePassed(): boolean {
-  const deadline = dayjs('2023-09-18')
+  const deadline = dayjs('2023-09-24')
   return dayjs().isAfter(deadline, 'day')
 }
