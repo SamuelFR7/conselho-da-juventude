@@ -30,7 +30,7 @@ export default function Home() {
         <div className="hidden md:block">
           {subscriptionDeadlinePassed() ? (
             <Button asChild>
-              <Link href="/conta/minhas-inscricoes">Minhas inscricões</Link>
+              <Link href="/conta/minhas-inscricoes">Minhas inscrições</Link>
             </Button>
           ) : (
             <Link href="/evento/">
