@@ -61,6 +61,7 @@ Go to http://localhost:3000/ to see the result.
 
 # :page_facing_up: License
 
+This project is under the [MIT license](./LICENSE).
 Made by [Samuel Rezende](https://www.linkedin.com/in/samuel-ferreira-rezende-7bbbba206/).
 
 Thank You! 🚀
